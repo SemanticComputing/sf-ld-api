@@ -1,0 +1,6 @@
+{
+	"bodyLimit": "100kb",
+	"corsHeaders": ["Link"],
+  "endpoint": "http://data.finlex.fi/sparql",
+	"port": 8080
+}
