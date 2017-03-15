@@ -5,7 +5,8 @@
   "main": "dist",
   "scripts": {
     "dev": "nodemon -w src -e js,jsx --exec \"babel-node src --presets es2015,react,stage-0\"",
-    "build": "babel src -s -D -d dist --presets es2015,react,stage-0",
+    "build-server": "babel src -s -D -d dist --ignore \"src/app/client.jsx\" --presets es2015,react,stage-0",
+    "build-client": "mkdir -p dist/public && babel src/app/client.jsx -o dist/public/bundle.js --presets es2015,react,stage-0",
     "start": "node dist",
     "prestart": "npm run -s build",
     "test": "eslint src"

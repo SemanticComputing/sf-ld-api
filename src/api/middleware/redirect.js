@@ -3,7 +3,7 @@ import accept from './accept'
 
 export default (req, res, next) => {
 
-  if (req.originalUrl.match(/(.jsonld|.html)$/)) {
+  if (req.originalUrl.match(/(.css|.js|.jsonld|.html)$/)) {
     return next()
   } else {
     switch(accept(req.get('Accept'))) {

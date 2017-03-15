@@ -48,14 +48,14 @@ export default function toRes(req, res) {
       <html>
         <head>
           <meta charset="utf-8">
-          <title>Redux Demo</title>
+          <title>Semanttinen Finlex</title>
           <script>
             window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
           </script>
         </head>
         <body>
           <div id="react-view">${componentHtml}</div>
-          <script type="application/javascript" src="/bundle.js"></script>
+          <script type="application/javascript" src="/public/bundle.js"></script>
         </body>
       </html>
       `;

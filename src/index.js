@@ -18,10 +18,10 @@ app.use(cors({exposedHeaders: config.corsHeaders}))
 app.use(bodyParser.json({limit: config.bodyLimit}))
 
 // internal middleware
-app.use(redirect)
+app.use('/', redirect)
 
 // static files
-app.use('/public', express.static('../dist/public'))
+app.use('/public', express.static(__dirname+'/../dist/public'))
 
 // api router
 app.use('/', route)
