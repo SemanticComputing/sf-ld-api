@@ -3,8 +3,8 @@ import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
-import redirect from './middleware/redirect'
-import route from './route'
+import redirect from './api/middleware/redirect'
+import route from './api/route'
 import config from './config.json'
 
 let app = express()
@@ -19,6 +19,9 @@ app.use(bodyParser.json({limit: config.bodyLimit}))
 
 // internal middleware
 app.use(redirect)
+
+// static files
+app.use('/public', express.static('../dist/public'))
 
 // api router
 app.use('/', route)

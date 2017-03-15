@@ -1,7 +1,7 @@
 import request from 'superagent'
 import Promise from 'bluebird'
-import { config } from '../config.json'
-import { prefix } from './prefix'
+import config from '../../config.json'
+import prefix from './prefix'
 
 export default class {
 
@@ -15,6 +15,7 @@ export default class {
 
   // make sparql select query
   select(query) {
+    console.log(query)
     return new Promise((resolve, reject) => {
       request.post(this.endpoint)
         .send({query: prefix+query})
@@ -23,7 +24,7 @@ export default class {
         .end((err, res) => {
           if (err || !res.ok) return reject(err)
           // results as json
-          return resolve(res)
+          return resolve(JSON.parse(res.text))
         })
     })
   }
