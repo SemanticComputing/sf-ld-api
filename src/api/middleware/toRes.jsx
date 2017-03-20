@@ -13,22 +13,22 @@ export default function toRes(req, res) {
 
   if (res.locals.err) {
     res.status(500)
-    if (req.originalUrl.match(/(.html)$/))
+    if (req.originalUrl.match(/(.html)((\?){1}|$)/))
       return res.send('<!DOCTYPE html><html><body>SERVER ERROR</body></html>')
-    else if (req.originalUrl.match(/(.jsonld)$/))
+    else if (req.originalUrl.match(/(.jsonld)((\?){1}|$)/))
       return res.send({error: "Server error"})
   }
 
   else if (!res.locals.data) {
     res.status(400)
-    if (req.originalUrl.match(/(.html)$/))
+    if (req.originalUrl.match(/(.html)((\?){1}|$)/))
       return res.send('<!DOCTYPE html><html><body>NOT FOUND</body></html>')
-   else if (req.originalUrl.match(/(.jsonld)$/))
+   else if (req.originalUrl.match(/(.jsonld)((\?){1}|$)/))
       return res.send({error: "Not found"})
   }
 
   res.status(200)
-  if (req.originalUrl.match(/(.html)$/)) {
+  if (req.originalUrl.match(/(.html)((\?){1}|$)/)) {
     const history  = createMemoryHistory(req.url);
     const reducer  = combineReducers(reducers);
     const store    = createStore(reducer, {statutes: res.locals.data});
@@ -63,7 +63,7 @@ export default function toRes(req, res) {
     res.end(html);
 
   }
-  else if (req.originalUrl.match(/(.jsonld)$/))
+  else if (req.originalUrl.match(/(.jsonld)((\?){1}|$)/))
     return res.send(res.locals.data)
 
 }

@@ -2,12 +2,16 @@ class Eli {
 
   getLangResource(lang) {
     const ns = 'http://publications.europa.eu/resource/authority/language/'
+    console.log(lang);
     switch(lang) {
-      case 'fi'|'fin': {
-        return '<'+ns+'FIN>'
-      }
-      case 'sv'|'swe': {
+      case 'sv':
+      case 'swe': {
         return '<'+ns+'SWE>'
+      }
+      case 'fi':
+      case 'fin':
+      default: {
+        return '<'+ns+'FIN>'
       }
     }
 

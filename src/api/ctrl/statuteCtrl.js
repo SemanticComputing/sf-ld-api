@@ -4,9 +4,8 @@ import StatuteQuery from '../query/StatuteQuery'
 class StatuteCtrl {
 
   find(req, res, next) {
-    console.log('statute?')
     new Sparql()
-      .select(new StatuteQuery().findMany())
+      .select(new StatuteQuery(Object.assign(req.params, req.query)).find())
       .then((data) => {
         res.locals.data = data
         return next()

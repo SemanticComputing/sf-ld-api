@@ -1,15 +1,16 @@
 import React                    from 'react';
 import { render }               from 'react-dom';
-import { createBrowserHistory } from 'history'
+import { createHistory }        from 'history'
 import { Provider }             from 'react-redux';
-import * as reducers            from 'reducers';
-import App                      from 'App';
+import * as reducers            from './reducers';
+import App                      from './App.jsx';
 import { createStore,
-         combineReducers }     from 'redux';
+         combineReducers }      from 'redux';
 
-const history  = createBrowserHistory();
+const history  = createHistory();
 const reducer  = combineReducers(reducers);
-const store    = createStore(reducer, {statutes: res.locals.data});
+const initialState = window.__INITIAL_STATE__
+const store    = createStore(reducer, initialState);
 
 const initialView = (
   <Provider store={store}>
@@ -17,6 +18,5 @@ const initialView = (
   </Provider>
 );
 
-const componentHtml = renderToString(initialView);
+render(initialView, document.getElementById('react-view'));
 
-const initialState = window.__INITIAL_STATE__
