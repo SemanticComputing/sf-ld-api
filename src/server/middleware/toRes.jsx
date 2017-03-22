@@ -1,11 +1,11 @@
-import accept                    from '../middleware/accept'
 import express                   from 'express';
 import React                     from 'react';
 import { renderToString }        from 'react-dom/server'
 import { createMemoryHistory }   from 'history';
-import App                       from '../../app/App';
+import App                       from '../../shared/App';
 import { Provider }              from 'react-redux';
-import * as reducers             from '../../app/reducers';
+import * as reducers             from '../../shared/reducers';
+import accept                    from './accept';
 import { createStore,
          combineReducers }       from 'redux';
 

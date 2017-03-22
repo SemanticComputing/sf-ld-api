@@ -2,8 +2,8 @@ import React                    from 'react';
 import { render }               from 'react-dom';
 import { createHistory }        from 'history'
 import { Provider }             from 'react-redux';
-import * as reducers            from './reducers';
-import App                      from './App.jsx';
+import * as reducers            from '../shared/reducers';
+import App                      from '../shared/App.jsx';
 import { createStore,
          combineReducers }      from 'redux';
 

@@ -1,40 +1,74 @@
-import _ from 'lodash'
+import _ from 'lodash';
+import prefix from './prefix';
 
-class JsonLd {
+export default class JsonLd {
+
+  constructor(params = {}) {
+    this.lang = (params.lang) ? params.lang : 'fi';
+    this.format = (params.format=='text'||!params.format) ? 'text' : params.format;
+    this.context = {
+      'isRealizedBy': { '@id': 'eli:is_realized_by', '@type':'@id'},
+      'isEmbodiedBy': { '@id': 'eli:is_embodied_by', '@type':'@id'},
+      'idLocal': 'eli:id_local',
+      'title_fi': {'@id': 'eli:title', '@language': 'fi'},
+      'title_sv': {'@id': 'sfl:title', '@language': 'sv'},
+      'content_fi': {'@id': 'sfl:'+this.format, '@language': 'fi'},
+      'content_sv': {'@id': 'sfl:'+this.format, '@language': 'sv'}
+    };
+  }
+
+  convertStatuteListBindings(results, pretty=true) {
+    let context = Object.assign({}, this.context);
+    let statutes = {};
+    // Add property utility function
+    let addProp = (subj, prop, value) => {
+      if (!subj[prop]) subj[prop]= [];
+      if (!_.includes(subj[prop], value)) subj[prop].push(value);
+    }
+    // Collect values
+    _.each(results.results.bindings, (binding) => {
+      if (!statutes[binding.statute.value]) statutes[binding.statute.value] = {'@id':prefix.shorten(binding.statute.value), '@type':prefix.shorten(binding.statuteType.value)};
+      const statute = statutes[binding.statute.value];
+      addProp(statute, 'idLocal', binding.idLocal.value);
+      const statuteVersion = {'@id':prefix.shorten(binding.statuteVersion.value), '@type':prefix.shorten(binding.statuteVersionType.value)};      
+      addProp(statute, 'hasVersion', statuteVersion);
+      if (binding.hasVersion.value != binding.statuteVersion.value) addProp(statute, 'hasVersion', binding.hasVersion.value);
+      const expression = {'@id':prefix.shorten(binding.expression.value), '@type':prefix.shorten(binding.expressionType.value)};
+      addProp(statuteVersion, 'isRealizedBy', expression);
+      addProp(expression, 'title_'+this.lang, binding.title.value);
+    })
+    // Sort response by statute year and id
+    const response = {
+      '@graph': _.sortBy(_.map(statutes), (statute) => {
+        return parseInt(statute.idLocal[0].match(/\d{4}$/)+((statuteId) => {while(statuteId.length < 4) statuteId = '0'+statuteId; return statuteId;})(statute.idLocal[0].match(/^(\d+)/)[0]))
+      }),
+      '@context': context
+    };
+    return (pretty) ? JSON.stringify(response, null, 2) : response;
+//    return results;
+  }
 
   convertStatuteBindings(results, pretty = true) {
-    var prefixes = {
-      'http://www.w3.org/2001/XMLSchema#' : 'xsd',
-    };
-    prefixes['http://data.finlex.fi/schema/sfl/']='sfl';
-    prefixes['http://data.europa.eu/eli/ontology#']='eli';
-    var shorten = function(uri) {
-      for (var ns in prefixes) {
-        if (uri.indexOf(ns)==0)
-          return prefixes[ns]+':'+uri.substr(ns.length)
-      }
-      return uri
-    };
-    var context = {
+    let context = {
       "isRealizedBy": { "@id": "eli:is_realized_by", "@type":"@id"},
       "isEmbodiedBy": { "@id": "eli:is_embodied_by", "@type":"@id"},
       "idLocal": "eli:id_local"
     };
-    var itemMap = {};
-    var workLevel = {};
+    let itemMap = {};
+    let workLevel = {};
     results.results.bindings.forEach(function(binding){
       var currentSubject;
       if (!binding.s.value.match(/\/ajantasa|\/alkup/)) {
-        if (!workLevel['@id']) workLevel['@id'] = shorten(binding.s.value);
+        if (!workLevel['@id']) workLevel['@id'] = prefix.shorten(binding.s.value);
         var currentSubject = workLevel;
       }
       else {
-        if (!itemMap[binding.s.value]) itemMap[binding.s.value]={'@id':shorten(binding.s.value)};
+        if (!itemMap[binding.s.value]) itemMap[binding.s.value]={'@id':prefix.shorten(binding.s.value)};
         var currentSubject = itemMap[binding.s.value];
       }
       if (binding.p) {
         var prop = binding.p.value.replace(/.*[\/#]/,'').replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); }) + (binding.o['xml:lang'] ? '_'+binding.o['xml:lang'] : '');
-        var pprop = shorten(binding.p.value);
+        var pprop = prefix.shorten(binding.p.value);
         if (prop=='type') prop='@type';
         if (!currentSubject[prop]) currentSubject[prop] = [];
         currentSubject[prop].push(binding.o.value);
@@ -44,21 +78,21 @@ class JsonLd {
           else if (binding.o['xml:lang'])
             context[prop+'_'+binding.o['xml:lang']]= { "@id": pprop, "@language": binding.o['xml:lang'] };
           else if (binding.o['datatype'])
-            context[prop]= { "@id": pprop, "@type": shorten(binding.o['datatype']) };
+            context[prop]= { "@id": pprop, "@type": prefix.shorten(binding.o['datatype']) };
         }
       }
       if (binding.title) {
         currentSubject['isRealizedBy'] = [binding.expression.value];
         context['title_'+binding.title['xml:lang']]= { "@id": 'eli:title', "@language": binding.title['xml:lang'] };
-        if (!itemMap[binding.expression.value]) itemMap[binding.expression.value]={'@id':shorten(binding.expression.value)};
+        if (!itemMap[binding.expression.value]) itemMap[binding.expression.value]={'@id':prefix.shorten(binding.expression.value)};
         itemMap[binding.expression.value]['title_'+binding.title['xml:lang']]=[binding.title.value];
       }
       if (binding.content) {
         currentSubject['isRealizedBy'] = [binding.expression.value];
         context['content_'+binding.content['xml:lang']]= { "@id": 'eli:title', "@language": binding.content['xml:lang'] };
-        if (!itemMap[binding.expression.value]) itemMap[binding.expression.value]={'@id':shorten(binding.expression.value)};
+        if (!itemMap[binding.expression.value]) itemMap[binding.expression.value]={'@id':prefix.shorten(binding.expression.value)};
         itemMap[binding.expression.value]['isEmbodiedBy']=[binding.format.value];
-        itemMap[binding.format.value]={'@id':shorten(binding.format.value)};
+        itemMap[binding.format.value]={'@id':prefix.shorten(binding.format.value)};
         itemMap[binding.format.value]['content_'+binding.content['xml:lang']]=[binding.content.value];
       }
     })
@@ -86,14 +120,14 @@ class JsonLd {
         object[property] = object[property].map(function(value) {
           if (context[property]["@type"]!="@id") return value;
           if (property!='nextItem' && itemMap[value]) return itemMap[value];
-          return shorten(value);
+          return prefix.shorten(value);
         })
         if (object[property].length==1) object[property]=object[property][0];
       }
     }
     delete context['@type'];
-    for (var ns in prefixes)
-      context[prefixes[ns]]=ns;
+    for (var ns in prefix.prefixes)
+      context[prefix.prefixes[ns]]=ns;
     console.log(workLevel)
     workLevel.hasVersion = itemMap[results.results.bindings[0].s.value];
     var response = workLevel;
@@ -102,8 +136,5 @@ class JsonLd {
     return response;
   }
 
+
 }
-
-const jsonLd = new JsonLd();
-
-export default jsonLd;

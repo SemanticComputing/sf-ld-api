@@ -18,7 +18,7 @@ export default class {
     console.log(query)
     return new Promise((resolve, reject) => {
       request.post(this.endpoint)
-        .send({query: prefix+query})
+        .send({query: prefix.prefixesSparql+query})
         // default headers
         .set(this.headers)
         .end((err, res) => {

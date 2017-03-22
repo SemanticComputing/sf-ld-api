@@ -5,9 +5,9 @@ import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import path from 'path'
 import favicon from 'serve-favicon'
-import redirect from './api/middleware/redirect'
-import route from './api/route'
-import config from './config.json'
+import redirect from './middleware/redirect'
+import route from './route'
+import config from '../config.json'
 
 let app = express()
 app.server = http.createServer(app)
@@ -16,7 +16,7 @@ app.server = http.createServer(app)
 app.use(morgan('dev'))
 
 // 3rd party middleware
-app.use(favicon(path.join(__dirname, 'app/images', 'favicon.ico')))
+app.use(favicon(path.join(__dirname, '../shared/images', 'favicon.ico')))
 app.use(cors({exposedHeaders: config.corsHeaders}))
 app.use(bodyParser.json({limit: config.bodyLimit}))
 
