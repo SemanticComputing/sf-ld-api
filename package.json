@@ -5,9 +5,9 @@
   "main": "dist",
   "scripts": {
     "build-server": "babel src/server -s -D -d dist --ignore \"src/client/index.jsx\" --presets es2015,react,stage-0",
+    "watch-server": "nodemon -w src -e js,jsx --exec \"babel-node src/server --presets es2015,react --plugins transform-decorators-legacy\"",
     "build-client": "mkdir -p dist/public && browserify src/client/index.jsx -o dist/public/bundle.js -t [ babelify --presets [ es2015 react stage-0 ] --plugins [transform-decorators-legacy] ]",
     "watch-client": "watch 'npm run build-client' src/",
-    "watch-server": "nodemon -w src -e js,jsx --exec \"babel-node src/server --presets es2015,react --plugins transform-decorators-legacy\"",
     "dev": "npm run watch-client & npm run watch-server & wait",
     "start": "node dist",
     "prestart": "npm run -s build",

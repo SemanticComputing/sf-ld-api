@@ -9,6 +9,7 @@ export default class JsonLd {
     this.context = {
       'isRealizedBy': { '@id': 'eli:is_realized_by', '@type':'@id'},
       'isEmbodiedBy': { '@id': 'eli:is_embodied_by', '@type':'@id'},
+      'hasVersion': { '@id': 'sfl:hasVersion', '@type':'@id'},
       'idLocal': 'eli:id_local',
       'title_fi': {'@id': 'eli:title', '@language': 'fi'},
       'title_sv': {'@id': 'sfl:title', '@language': 'sv'},
@@ -42,7 +43,7 @@ export default class JsonLd {
       '@graph': _.sortBy(_.map(statutes), (statute) => {
         return parseInt(statute.idLocal[0].match(/\d{4}$/)+((statuteId) => {while(statuteId.length < 4) statuteId = '0'+statuteId; return statuteId;})(statute.idLocal[0].match(/^(\d+)/)[0]))
       }),
-      '@context': context
+      '@context': Object.assign(_.invert(prefix.prefixes), context)
     };
     return (pretty) ? JSON.stringify(response, null, 2) : response;
 //    return results;
