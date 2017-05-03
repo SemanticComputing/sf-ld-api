@@ -31,7 +31,7 @@ export default class JsonLd {
       if (!statutes[binding.statute.value]) statutes[binding.statute.value] = {'@id':prefix.shorten(binding.statute.value), '@type':prefix.shorten(binding.statuteType.value)};
       const statute = statutes[binding.statute.value];
       addProp(statute, 'idLocal', binding.idLocal.value);
-      const statuteVersion = {'@id':prefix.shorten(binding.statuteVersion.value), '@type':prefix.shorten(binding.statuteVersionType.value)};      
+      const statuteVersion = {'@id':prefix.shorten(binding.statuteVersion.value), '@type':prefix.shorten(binding.statuteVersionType.value)};
       addProp(statute, 'hasVersion', statuteVersion);
       if (binding.hasVersion.value != binding.statuteVersion.value) addProp(statute, 'hasVersion', binding.hasVersion.value);
       const expression = {'@id':prefix.shorten(binding.expression.value), '@type':prefix.shorten(binding.expressionType.value)};
@@ -129,7 +129,7 @@ export default class JsonLd {
     delete context['@type'];
     for (var ns in prefix.prefixes)
       context[prefix.prefixes[ns]]=ns;
-    console.log(workLevel)
+    //console.log(workLevel)
     workLevel.hasVersion = itemMap[results.results.bindings[0].s.value];
     var response = workLevel;
     response['@context']=context;

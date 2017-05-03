@@ -5,4 +5,3 @@ let resource = Router()
   .use('/eli', eli)
 
 export default resource
-

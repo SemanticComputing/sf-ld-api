@@ -8,10 +8,11 @@ export default class StatuteQuery {
     console.log(params)
     this.vars = '*';
     this.versionDateFilter = params.pointInTime ?
-      'FILTER (\"'+moment(params.versiondate, 'YYYYMMDD').format('YYYY-MM-DD')+'\"^^xsd:date >= ?vd)' : '';
-    this.limit = params.limit ? 'LIMIT '+params.limit : '';
-    this.statute = (params.year) ? '?statute a sfl:Statute . ?statute eli:id_local ?idLocal . FILTER regex(?idLocal, \"'+params.year+'$\", \"i\")' : '';
+      'FILTER (\"'+moment(params.pointInTime, 'YYYYMMDD').format('YYYY-MM-DD')+'\"^^xsd:date >= ?vd)' : '';
+    this.limit = params.limit ? 'LIMIT '+params.limit : 'LIMIT 10';
+    this.statute = (params.year) ? '?statute a sfl:Statute . ?statute eli:id_local ?idLocal . FILTER regex(?idLocal, \"'+params.year+'$\", \"i\")' : '?statute a sfl:Statute .';
     this.statute = (params.statuteId) ? 'VALUES ?statute { sfsd:'+params.year+'\\/'+params.statuteId+' }' : this.statute;
+    this.statute = (params.statuteId && params.sectionOfALaw) ? 'VALUES ?statute { sfsd:'+params.year+'\\/'+params.statuteId+params.sectionOfALaw.replace(/\//gi, '\\/')+' }' : this.statute;
     this.statuteBind = (params.statuteId) ? 'BIND(sfsd:'+params.year+'\\/'+params.statuteId+' AS ?s)' : '';
     this.eliLangFilter = params.lang ? '?expression eli:language '+eli.getLangResource(params.lang)+'.' : '?expression eli:language '+eli.getLangResource('fi')+'.';
     this.formatFilter = '?format eli:format '+((params.format) ? eli.getFormatResource(params.format) : eli.getFormatResource('text'))+'.';
@@ -106,22 +107,3 @@ export default class StatuteQuery {
   }
 
 }
-
-  /* slower way...
-  SELECT DISTINCT ?statute ?statuteVersion ?title WHERE {
-    ?statute a sfl:Statute ;
-      sfl:hasVersion ?statuteVersion .
-    OPTIONAL {
-      ?statuteVersion eli:version_date ?date .
-    }
-    FILTER NOT EXISTS {
-      ?statute sfl:hasVersion ?statuteVersion2 .
-      FILTER (?statuteVersion2 != ?statuteVersion)
-      ?statuteVersion2 eli:version_date ?date2 .
-      FILTER (?date2 > ?date || !BOUND(?date))
-    }
-    ?statuteVersion eli:is_realized_by ?statuteExpression .
-    ?statuteExpression eli:language <http://publications.europa.eu/resource/authority/language/FIN> ;
-      eli:title ?title .
-    } GROUP BY ?statute ?statuteVersion ?title LIMIT 2
-*/

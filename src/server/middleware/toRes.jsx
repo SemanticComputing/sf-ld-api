@@ -11,8 +11,10 @@ import { createStore,
 
 export default function toRes(req, res) {
 
+  console.log('to res')
+  console.log(res.locals.err)
+
   if (res.locals.err) {
-    console.log(res.locals.err);
     res.status(500)
     if (req.originalUrl.match(/(.html)((\?){1}|$)/))
       return res.send('<!DOCTYPE html><html><body>SERVER ERROR</body></html>')

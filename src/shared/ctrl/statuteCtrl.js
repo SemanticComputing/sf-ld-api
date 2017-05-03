@@ -1,33 +1,33 @@
 import JsonLd from '../lib/JsonLd';
 import Sparql from '../lib/Sparql';
 import StatuteQuery from '../query/StatuteQuery';
+import Promise from 'bluebird';
 
 class StatuteCtrl {
 
-  find(req, res, next) {
+  find(params) {
+    return new Promise((resolve, reject) => {
+      const query = (params.statuteId) ?
+        new StatuteQuery(params).findOne() :
+        new StatuteQuery(params).findMany();
 
-    const params = Object.assign(req.params, req.query);
-    const query = (params.statuteId) ?
-      new StatuteQuery(params).findOne() :
-      new StatuteQuery(params).findMany();
+      new Sparql()
+        .select(query)
+        .then((data) => {
+          if (data.results.bindings.length==0)
+            return reject();
 
-    new Sparql()
-      .select(query)
-      .then((data) => {
-        if (data.results.bindings.length==0)
-          return next();
+          const jsonLd = new JsonLd(params);
+          const dataFormatted = (params.statuteId) ?
+            jsonLd.convertStatuteBindings(data) :
+            jsonLd.convertStatuteListBindings(data);
 
-        const jsonLd = new JsonLd(params);
-        res.locals.data = (params.statuteId) ?
-          jsonLd.convertStatuteBindings(data) :
-          jsonLd.convertStatuteListBindings(data);
-
-        return next()
-      })
-      .catch((err) => {
-        res.locals.err = err;
-        return next();
-      })
+          return resolve(dataFormatted)
+        })
+        .catch((err) => {
+          return reject(err);
+        })
+    });
   }
 
 }

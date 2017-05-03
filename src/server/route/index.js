@@ -6,4 +6,3 @@ let router = Router()
   .use('/', resource, toRes)
 
 export default router
-

@@ -8,6 +8,7 @@ class Prefix {
     this.prefixes = {
       'http://www.w3.org/2001/XMLSchema#' : 'xsd',
       'http://data.finlex.fi/schema/sfl/' : 'sfl',
+      'http://data.finlex.fi/eli/sd/' : 'sfsd',
       'http://data.europa.eu/eli/ontology#' : 'eli',
     };
   }
