@@ -24,7 +24,10 @@ export default class JsonLd {
     // Add property utility function
     let addProp = (subj, prop, value) => {
       if (!subj[prop]) subj[prop]= [];
-      if (!_.includes(subj[prop], value)) subj[prop].push(value);
+      // Object value
+      if (value['@id'] && !_.some(subj[prop], {'@id': value['@id']})) subj[prop].push(value);
+      // String value
+      if (!value['@id'] && !_.includes(subj[prop], value)) subj[prop].push(value);
     }
     // Collect values
     _.each(results.results.bindings, (binding) => {
@@ -57,7 +60,7 @@ export default class JsonLd {
     };
     let itemMap = {};
     let workLevel = {};
-    results.results.bindings.forEach(function(binding){
+    results.results.bindings.forEach(function(binding) {
       var currentSubject;
       if (!binding.s.value.match(/\/ajantasa|\/alkup/)) {
         if (!workLevel['@id']) workLevel['@id'] = prefix.shorten(binding.s.value);
@@ -129,8 +132,8 @@ export default class JsonLd {
     delete context['@type'];
     for (var ns in prefix.prefixes)
       context[prefix.prefixes[ns]]=ns;
-    //console.log(workLevel)
-    workLevel.hasVersion = itemMap[results.results.bindings[0].s.value];
+    const idx = workLevel.hasVersion.indexOf(results.results.bindings[0].s.value);
+    workLevel.hasVersion[idx] = itemMap[results.results.bindings[0].s.value];
     var response = workLevel;
     response['@context']=context;
     response = (pretty) ? JSON.stringify(response, null, 2) : response;

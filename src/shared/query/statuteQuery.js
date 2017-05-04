@@ -14,13 +14,22 @@ export default class StatuteQuery {
     this.statute = (params.statuteId) ? 'VALUES ?statute { sfsd:'+params.year+'\\/'+params.statuteId+' }' : this.statute;
     this.statute = (params.statuteId && params.sectionOfALaw) ? 'VALUES ?statute { sfsd:'+params.year+'\\/'+params.statuteId+params.sectionOfALaw.replace(/\//gi, '\\/')+' }' : this.statute;
     this.statuteBind = (params.statuteId) ? 'BIND(sfsd:'+params.year+'\\/'+params.statuteId+' AS ?s)' : '';
+    this.statuteBind = (params.statuteId && params.sectionOfALaw) ? 'BIND(sfsd:'+params.year+'\\/'+params.statuteId+params.sectionOfALaw.replace(/\//gi, '\\/')+' AS ?s)' : this.statuteBind;
     this.eliLangFilter = params.lang ? '?expression eli:language '+eli.getLangResource(params.lang)+'.' : '?expression eli:language '+eli.getLangResource('fi')+'.';
     this.formatFilter = '?format eli:format '+((params.format) ? eli.getFormatResource(params.format) : eli.getFormatResource('text'))+'.';
     this.content = '?format '+((params.format) ? sfl.getPropertyByFormat(params.format) : sfl.getPropertyByFormat('text'))+' ?content .';
     this.tree = (params.hasOwnProperty('tree')) ? '?statuteVersion eli:has_part* ?s .' : 'BIND(?statuteVersion AS ?s)';
     this.treeFilter = (params.hasOwnProperty('tree')) ? 'FILTER NOT EXISTS { ?s eli:has_part _:b . }' : '';
-    this.selectVersion = `{
-        SELECT ?statute (MAX(COALESCE(?vd, "")) AS ?versionDate) WHERE {
+    this.selectVersion = (params.version == 'alkup') ?
+      // Find original versions
+      `
+        ${this.statute}
+        ?statute sfl:hasVersion ?statuteVersion .
+        ?statuteVersion eli:version sfl:Original .
+      ` :
+      // Find by version date
+      `{
+        SELECT DISTINCT ?statute (MAX(COALESCE(?vd, "")) AS ?versionDate) WHERE {
           ${this.statute}
           ?statute sfl:hasVersion ?statuteVersion .
           OPTIONAL {
@@ -34,13 +43,13 @@ export default class StatuteQuery {
         ?statute sfl:hasVersion ?statuteVersion .
         ?statuteVersion eli:version_date ?versionDate .
       }
-      # No matching consolidated version
+      # No matching consolidated version, find original
       OPTIONAL {
         ?statute sfl:hasVersion ?statuteVersion .
         FILTER(?versionDate = "") .
         ?statuteVersion eli:version sfl:Original .
       }
-      FILTER(BOUND(?statuteVersion))`
+      FILTER(BOUND(?statuteVersion))`;
   }
 
   findMany() {
@@ -60,28 +69,7 @@ export default class StatuteQuery {
   findOne() {
     return `SELECT ${this.vars} WHERE {
       {
-        {
-          SELECT ?statute (MAX(COALESCE(?vd, "")) AS ?versionDate) WHERE {
-            ${this.statute}
-            ?statute sfl:hasVersion ?statuteVersion .
-            OPTIONAL {
-              ${this.versionDateFilter}
-              ?statuteVersion eli:version_date ?vd .
-            }
-          } GROUP BY ?statute ${this.limit}
-        }
-        # Matching consolidated version
-        OPTIONAL {
-          ?statute sfl:hasVersion ?statuteVersion .
-          ?statuteVersion eli:version_date ?versionDate .
-        }
-        # No matching consolidated version
-        OPTIONAL {
-          ?statute sfl:hasVersion ?statuteVersion .
-          FILTER(?versionDate = "") .
-          ?statuteVersion eli:version sfl:Original .
-        }
-        FILTER(BOUND(?statuteVersion))
+        ${this.selectVersion}
         ${this.tree}
         ?s eli:is_realized_by ?expression .
         ${this.eliLangFilter}
