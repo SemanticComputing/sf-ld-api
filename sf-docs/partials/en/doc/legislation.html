@@ -1,0 +1,463 @@
+<h1>Legislation</h1>
+
+<h2>Consolidated legislation and Original texts of acts and decrees</h2>
+<p>Semantic Finlex contains the datasets of Consolidated legislation and Original texts of acts and decrees in RDF format. Original texts of acts and decrees contains legal texts as originally published in the Statute Book of Finland. Consolidated legislation contains updated versions of the Original texts of acts and decrees. A statute's text is updated whenever an amendment to it is published in the Statute Book of Finland.</p>
+<hr/>
+
+
+<h2>RDF data model</h2>
+<p>The RDF data model applied to legal datasets is based on the <a href="http://publications.europa.eu/mdr/eli/">ELI standard</a> (European Legislation Identifier) designed, in order to enhance interoperability between the legislation of the EU and its Member States. The ELI standard defines a metadata model (ontology) for statutes and a template for creating Uniform Resource Identifiers (URIs). In the Semantic Finlex project, the ELI ontology was expanded with the Semantic Finlex Legislation (SFL) ontology developed as part of the project.</p>
+<hr/>
+
+<!-- ELI -->
+<h2>ELI ontology</h2>
+<p>The ELI ontology is based on a general <a href="http://www.ifla.org/publications/functional-requirements-for-bibliographic-records">FRBR</a> (Functional Requirements for Bibliographic Records) description model. In FRBR terminology, 'work' refers to a written document at the conceptual level (as a separate written creation), 'expression' refers to a separate implementation of a work (for example, a certain language version) and 'manifestation' refers to the physical manifestation of an expression (a certain publication, such as a PDF). ELI applies the FRBR model by creating its own counterparts for legal datasets as follows:
+<ul>
+  <li><em>eli:LegalResource</em> corresponds to the work level, i.e. a statute at conceptual level</li>
+  <li><em>eli:LegalExpression</em> corresponds to the expression level, i.e. the language version of a statute
+</li>
+  <li><em>eli:Format</em> corresponds to the manifestation level, i.e. the physical manifestation of a language version in a certain content format</li>
+</ul>
+As part of the ELI ontology, metadata fields are defined for each level. These will be presented below.
+</p>
+<hr/>
+
+
+<!-- SFL -->
+<h2>SFL ontology</h2>
+<p>
+SFL ontology (Semantic Finlex Legislation) is an extension to ELI ontology used in the Semantic Finlex service. In addition to different language and content format versions SFL defines classes for different temporal versions of statutes and sections of law. Therefore, SFL divides <em>eli:LegalResource</em> class to four subclasses that are as follows</p>
+<ul>
+  <li><em>sfl:Statute</em> (Statute). Statute at a conceptual level eg. Criminal Code 39/1889</li>
+  <li><em>sfl:StatuteItem</em> (Statute item). Section of law at conceptual level eg. Criminal Code 39/1889 Chapter 1 Section 2</li>
+  <li><em>sfl:StatuteVersion</em> (Statute version). Statute at a specific point in time, eg. Criminal Code 39/1889 as it was on 1.1.2016</li>
+  <li><em>sfl:StatuteItemVersion</em> (Statute item version). Section of law at a specific point in time, eg. Criminal Code 39/1889 Chapter 1 Section 2 as it was on 1.1.2016</li>
+</ul>
+The relationship between a statute and a statute version is expressed with properties <em>sfl:hasVersion</em> and <em>sfl:isVersionOf</em>. The relationship between a statute item and a statute item version is expressed likewise with the same properties.
+<hr/>
+
+
+<h2>Structure of the document</h2>
+<img class="schema" src="/images/data_model/statute_parts.png"/>
+<p>Kuva 4: <i>Structure of the document</i></p>
+<p>The structure of the document is modeled at the time level because the structure of a document may vary between different temporal versions. For example new subsections may be added to sections or a chapter might be relocated from a part of the statute to another part. The hierarchical structure of a statute is presented in figure 4.</p>
+<hr/>
+
+<h2>URIs</h2>
+<p>The instructions on how to build URIs for the documents can be found on a <a href="#/en/uris">separate page</a>.</p>
+<hr/>
+
+<h2>Class properties</h2>
+<h3><em>sfl:Statute</em> (statute)</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Range</th>
+      <th>Cardinality</th>
+      <th>Value type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>sfl:hasVersion</em></td>
+      <td><em>sfl:StatuteVersion</em></td>
+      <td>[0, n]</td>
+      <td>URI</td>
+      <td>statute version</td>
+    </tr>
+    <tr>
+      <td><em>eli:id_local</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>statute id #/YYYY</td>
+    </tr>
+    <tr>
+      <td><em>eli:type_document</em></td>
+      <td><ul>
+        <li><em>sfl:Act</em></li>
+        <li><em>sfl:PresidentialDecree</em></li>
+        <li><em>sfl:GovernmentDecree</em></li>
+        <li><em>sfl:MinisterialDecree</em></li>
+        <li><em>sfl:GovernmentDecision</em></li>
+        <li><em>sfl:OtherDecision</em></li>
+        <li><em>sfl:OtherStatute</em></li>
+      </ul></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>legislative level</td>
+    </tr>
+    <tr>
+      <td><em>sfl:statuteType</em></td>
+      <td><ul>
+        <li><em>sfl:NewStatute</em></li>
+        <li><em>sfl:Amendment</em></li>
+        <li><em>sfl:Repeal</em></li>
+      </ul></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>statute type</td>
+    </tr>
+  </tbody>
+</table>
+<h3><em>sfl:StatuteItem</em> (statute item)</h3>
+<p>Alaluokat: <em>sfl:Part, sfl:Chapter, sfl:Section, sfl:Subsection, sfl:Paragraph, sfl:Subparagraph, sfl:EnactingClause, sfl:Attachment, sfl:Subheading, sfl:Preamble, sfl:FinalParagraph, sfl:EntryIntoForce</em></p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Range</th>
+      <th>Cardinality</th>
+      <th>Value type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sfl:hasVersion</td>
+      <td>sfl:StatuteItemVersion</td>
+      <td>[0, n]</td>
+      <td>URI</td>
+      <td>temporal version of a statute item</td>
+    </tr>
+  </tbody>
+</table>
+<hr/>
+
+
+<h3>sfl:StatuteVersion</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Range</th>
+      <th>Cardinality</th>
+      <th>Value type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>sfl:isVersionOf</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>version of a statute</td>
+    </tr>
+    <tr>
+      <td><em>eli:has_part</em></td>
+      <td><em>sfl:StatuteItemVersion</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>contains statute item</td>
+    </tr>
+    <tr>
+      <td><em>eli:is_realized_by</em></td>
+      <td><em>eli:LegalExpression</em></td>
+      <td>2</td>
+      <td>URI</td>
+      <td>language version</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:passed_by</em></td>
+      <td><em>eli:Agent</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>person/organization that originally passed the law</td>
+    </tr>
+    <tr>
+      <td><em>eli:is_about</em></td>
+      <td><em>skos:Concept</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>a subject for the statute</td>
+    </tr>
+    <tr>
+      <td><em>eli:first_date_entry_in_force</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>date of entry into force</td>
+    </tr>
+    <tr>
+      <td><em>eli:date_document</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>date of signature</td>
+    </tr>
+    <tr>
+      <td><em>eli:date_publication</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>date of publication</td>
+    </tr>
+    <tr>
+      <td><em>eli:version</em></td>
+      <td>
+        <ul>
+          <li><em class="ajantasa">sfl:Consolidated</em> (consolidated, i.e. amended)</li>
+          <li><em class="alkup">sfl:Original</em> (original)</li>
+        </ul>
+      </td>
+      <td>1</td>
+      <td>URI</td>
+      <td>version</td>
+    </tr>
+    <tr>
+      <td><em>eli:version_date</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>version date (date of entry into force of the amendment)</td>
+    </tr>
+    <tr>
+      <td><em>eli:changed_by</em></td>
+      <td><em>sfl:StatuteVersion</em></td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>changed by the statute</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:responsibility_of</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>person/organization responsible for the statute</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:related_to</em></td>
+      <td><em>sfl:GovernmentProposal</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>government proposal</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:based_on</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>based on a statute</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:changes</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>amends statute</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>sfl:repeals</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>repeals statute</td>
+    </tr>
+    <tr>
+      <td><em>sfl:repealedBy</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>repealed by statute</td>
+    </tr>
+    <!--<tr>
+      <td><em>eli:in_force</em></td>
+      <td>
+        <ul>
+          <li><em>eli:InForce-inForce</em></li>
+          <li><em>eli:InForce-notInForce</em></li>
+        </ul>
+      </td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>is / is not in force</td>
+    </tr>-->
+  </tbody>
+</table>
+<ul>
+    <li class="alkup">Original versions</li>
+    <li class="ajantasa">Consolidated (amended) versions</li>
+</ul>
+<h3>sfl:StatuteItemVersion</h3>
+<p>Alaluokat: <em>sfl:PartVersion, sfl:ChapterVersion, sfl:SectionVersion, sfl:SubsectionVersion, sfl:ParagraphVersion, sfl:SubparagraphVersion, sfl:EnactingClauseVersion, sfl:AttachmentVersion, sfl:SubheadingVersion, sfl:PreambleVersion</em></p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Range</th>
+      <th>Cardinality</th>
+      <th>Value type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>sfl:isVersionOf</em></td>
+      <td><em>sfl:StatuteItem</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>is version of a statute item</td>
+    </tr>
+    <tr>
+      <td><em>eli:has_part</em></td>
+      <td><em>sfl:StatuteItemVersion</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>contains a statute item</td>
+    </tr>
+    <tr>
+      <td><em>eli:is_part_of</em></td>
+      <td>
+        <ul>
+          <li><em>sfl:StatuteVersion</em> (statute version)</li>
+          <li><em>sfl:StatuteItemVersion</em> (statute item version)</li>
+        </ul>
+      </td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>is part of a statute / statute item</td>
+    </tr>
+    <tr>
+      <td><em>eli:version</em></td>
+      <td>
+        <ul>
+          <li><em class="ajantasa">sfl:Consolidated</em> (consolidated, i.e. amended)</li>
+          <li><em class="alkup">sfl:Original</em> (original)</li>
+        </ul>
+      </td>
+      <td>1</td>
+      <td>URI</td>
+      <td>version</td>
+    </tr>
+    <tr class="ajantasa">
+      <td><em>eli:version_date</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>date of entry into force of the amendment</td>
+    </tr>
+    <tr class="ajantasa">
+      <td><em>eli:changed_by</em></td>
+      <td><em>sfl:StatuteVersion</em></td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>changed by a statute</td>
+    </tr>
+    <tr>
+      <td><em>eli:cites</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>in text reference to a statute / statute item</td>
+    </tr>
+    <tr>
+      <td><em>sfl:nextItem</em> **</td>
+      <td><em>sfl:SectionVersion</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>section following a subheading</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+  <li><em class="ajantasa">sfl:Consolidated</em> (consolidated, i.e. amended)</li>
+  <li><em class="alkup">sfl:Original</em> (original)</li>
+    <li>** Subheading version (<em>sfl:SubheadingVersion</em>)</li>
+</ul>
+<hr/>
+<h3><em>eli:LegalExpression</em> (language version)</h2>
+<table class="table table-striped">
+  <tr>
+    <th>Identifier</th>
+    <th>Range</th>
+    <th>Cardinality</th>
+    <th>Value type</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><em>eli:realizes</em></td>
+    <td><ul>
+      <li><em>sfl:StatuteVersion</em></li>
+      <li><em>sfl:StatuteItemVersion</em></li>
+    </td>
+    <td>1</td>
+    <td>URI</td>
+    <td>statute/statute item temporal version</td>
+  </tr>
+  <tr>
+    <td><em>eli:is_embodied_by</em></td>
+    <td><em>eli:Format</em></td>
+    <td>1</td>
+    <td>URI</td>
+    <td>content format</td>
+  </tr>
+  <tr>
+    <td><em>eli:language</em></td>
+    <td><em>eli:Language</em></td>
+    <td>1</td>
+    <td>Literal</td>
+    <td>language</td>
+  </tr>
+  <tr>
+    <td><em>eli:title</em></td>
+    <td><em>rdfs:Literal</em></td>
+    <td>1</td>
+    <td>Literal</td>
+    <td>title</td>
+  </tr>
+  <tr>
+    <td><em>eli:title_alternative</em></td>
+    <td><em>rdfs:Literal</em></td>
+    <td>[0,n]</td>
+    <td>Literal</td>
+    <td>alternative title</td>
+  </tr>
+</table>
+<hr/>
+
+<h3><em>eli:Format</em> (content format)</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Range</th>
+      <th>Cardinality</th>
+      <th>Value type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>eli:embodies</em></td>
+      <td><em>eli:LegalExpression</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>language version</td>
+    </tr>
+    <tr>
+      <td><em>eli:format</em></td>
+      <td></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>content format (see <a href="http://www.iana.org/assignments/media-types">here</a>)</td>
+    </tr>
+    <tr>
+      <td><em>sfl:text</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>content in text format</td>
+    </tr>
+    <tr>
+      <td><em>sfl:html</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>HTML</td>
+      <td>content in HTML format</td>
+    </tr>
+  </tbody>
+</table>
+<hr/>

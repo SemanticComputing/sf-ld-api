@@ -1,0 +1,178 @@
+<h1>URI-tunnisteet</h1>
+<p>Linkitetyn datan keskeisimpiä julkaisuperiaatteita on antaa viitattavissa oleville tiedoille yksilöivät HTTP URI-tunnisteet. Kirjoittamalla tunniste selaimeen tai käyttämällä sitä ohjelmallisesti voidaan hakea siihen liittyvää tietoa. Web-selain tarjoaa URI-tunnisteella HTML-sivun ja ohjelmallinen HTTP-kutsu RDF-muotoista dataa sarjallistamismuodossa, jonka voi määrittää kutsun ylätunnisteen (engl. <i>header</i>) Accept-kentässä.</p>
+<p>Tällä sivulla kerrotaan, miten Semanttinen Finlex -palvelum URI-tunnisteita käytetään.</p>
+
+<hr/>
+<h2>Säädös- ja ratkaisuasiakirjat</h2>
+<p>Säädösten URI-tunnisteet perustuvat ELI-standardiin (European Legislation Identifier). Oikeuden ratkaisujen tunnisteissa on käytetty ECLI-standardia (European Case Law Identifier).</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>URI</td>
+      <th>Selitys</td>
+      <th>Esimerkki</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd</td>
+      <td>Lista säädöksistä</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}</td>
+      <td>Lista säädöksistä yksittäiseltä vuodelta</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2000">Esimerkki</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}</td>
+      <td>Yksittäinen säädös</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521">Esimerkki</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}/alkup</td>
+      <td>Säädöksen alkuperäinen versio</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/alkup">Esimerkki</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}/alkup/fin</td>
+      <td>Säädöksen alkuperäinen versio suomeksi</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/alkup/fin">Esimerkki</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}/alkup/fin/html</td>
+      <td>Säädöksen alkuperäinen HTML-versio suomeksi</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/alkup/fin/html">Esimerkki</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}<br/>/ajantasa/{YYYYMMDD}</td>
+      <td>Säädöksen ajantasainen versio hetkellä YYYYMMDD</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/ajantasa/20160101">Esimerkki</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}<br/>/ajantasa/{YYYYMMDD}/fin</td>
+      <td>Säädöksen ajantasainen versio hetkellä YYYYMMDD suomeksi</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/ajantasa/20160101/fin">Esimerkki</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}<br/>/ajantasa/{YYYYMMDD}/fin/html</td>
+      <td>Säädöksen ajantasainen versio hetkellä YYYYMMDD suomeksi HTML-muodossa</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/ajantasa/20160101/fin/html">Esimerkki</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}<br/>/osa/{nro}/luku/{nro}/pykala/{nro}/...</td>
+      <td>Lainkohta</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/osa/1">Esimerkki</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}<br/>/osa/{nro}/luku/{nro}/.../alkup</td>
+      <td>Lainkohdan alkuperäinen versio</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/osa/1/alkup">Esimerkki</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{vuosi}/{säädösnumero}<br/>/osa/{nro}/luku/{nro}/.../ajantasa/YYYYMMDD</td>
+      <td>Lainkohdan versio ajanhetkellä YYYYMMDD</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/osa/1/ajantasa/20160101">Esimerkki</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/oikeus</td>
+      <td>Lista oikeuden ratkaisuista</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/ECLI:FI:{KKO|KHO}:{YYYY}:{ID}</td>
+      <td>Yksittäinen ratkaisu</td>
+      <td><a href="http://data.finlex.fi/oikeus/ECLI:FI:KKO:1996:47">Esimerkki</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/ECLI:FI:{KKO|KHO}:{YYYY}:{ID}/fin</td>
+      <td>Yksittäinen ratkaisu suomeksi</td>
+      <td><a href="http://data.finlex.fi/oikeus/ECLI:FI:KKO:1996:47/fin">Esimerkki</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/ECLI:FI:{KKO|KHO}:{YYYY}:{ID}/fin/html</td>
+      <td>Yksittäinen HTML-muotoinen ratkaisu suomeksi</td>
+      <td><a href="http://data.finlex.fi/oikeus/ECLI:FI:KKO:1996:47/fin/html">Esimerkki</td>
+    </tr>
+  </tbody>
+</table>
+<hr/>
+
+<h2>RDF-graafit</h2>
+<p>Seuraavassa on lueteltu RDF-tietokannasta löytyvien aineistokohtaisten graafien URI-tunnisteet. SPARQL-kyselyssä voidaan määrittää, mihin graafiin (aineistotyyppiin) kysely kohdistetaan. Ilman määritystä kysely kohdistuu oletusgraafiin, joka on kaikkien graafien unioni.</p>
+<h3>Säädökset</h3>
+<p>Lainsäädännölliset aineistot on jaettu kahteen eri RDF-graafiin, jotka ovat:</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>URI</td>
+      <td>Selitys</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/alkup</td>
+      <td>Sisältää säädösten <i>alkuperäiset</i> versiot</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/ajantasa</td>
+      <td>Sisältää säädösten <i>ajantasaistetut</i> versiot (huom. käyttöehdot CC-BY-NC 4.0)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Tuomioistuinten ratkaisut</h3>
+<p>Palvelu sisältää KKO:n ennakkopäätökset ja KHO:n vuosikirjaratkaisut, jotka on sijoitettu omiin graafeihinsa seuraavasti:</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>URI</td>
+      <td>Selitys</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/kho</td>
+      <td>KHO:n ratkaisut</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/kko</td>
+      <td>KKO:n ratkaisut</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Yhteiset resurssit:</h3>
+<p>Eri aineistoille yhteiset resurssit on sijoitettu omaan graafiinsa (http://data.finlex.fi/common).
+Täältä löytyvät mm. Eduskuntaa ja Oikeusministeriötä kuvaavat resurssit.</p>
+<h3>Asiasanastot</h3>
+<p>Eri asiasanastot on sijoitettu omiin vastaaviin graafeihinsa:</p>
+<ul>
+  <li><b>Finlex-sanasto</b>: http://data.finlex.fi/voc/finlex</li>
+  <li><b>KKO:n sanasto</b>: http://data.finlex.fi/voc/kko</li>
+  <li><b>KHO:n sanasto</b>: http://data.finlex.fi/voc/kho</li>
+</ul>
+<h3>RDF-skeemat</h3>
+<p>Semanttisen Finlexin RDF-skeemat lainsäädännölle ja oikeustapauksille löytyvät omista vastaavista graafeistaan:</p>
+<ul>
+  <li><b>SFL (Semantic Finlex Legislation)</b>: http://data.finlex.fi/schema/sfl</li>
+  <li><b>SFCL (Semantic Finlex Case Law)</b>: http://data.finlex.fi/schema/sfcl</li>
+</ul>
+
+<hr/>
+
+<h2>REST API</h2>
+<p></p>
+<p>Katso <a href="/#/fi/rest-api">dokumentaatio</a>.</p>
+
+<h2>SPARQL-palvelupiste</h2>
+<p>http://data.finlex.fi/sparql</p>
+
+<h2>RDF-datajulkaisun VoID-kuvaus</h2>
+  <p>http://data.finlex.fi/void</p>
+<!--<h3>Automaattinen asiasanoitus</h3>
+<p>Koneellisesti kieliteknologisilla työkaluilla luodut aineistojen asiasanoitukset (semanttiset annotoinnit) on koottu omiin graafeihinsa:</p>
+<ul>
+  <li>Ajantasaisten säädösten asiasanoitus: http://ldf.fi/finlex-annotation/sd</li>
+</ul>-->

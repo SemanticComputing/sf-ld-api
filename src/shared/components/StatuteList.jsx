@@ -1,7 +1,7 @@
 import React                  from 'react';
 import { connect }            from 'react-redux';
 
-@connect(state => ({ statutes: state.statutes }))
+@connect(state => ({ data: state.data }))
 
 export default class StatuteList extends React.Component {
 

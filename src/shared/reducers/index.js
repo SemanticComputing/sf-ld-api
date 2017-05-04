@@ -1,1 +1,1 @@
-export { default as statutes } from './statuteListReducer';
+export { default as data } from './dataReducer';

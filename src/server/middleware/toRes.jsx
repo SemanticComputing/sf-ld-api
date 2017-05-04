@@ -11,9 +11,6 @@ import { createStore,
 
 export default function toRes(req, res) {
 
-  console.log('to res')
-  console.log(res.locals.err)
-
   if (res.locals.err) {
     res.status(500)
     if (req.originalUrl.match(/(.html)((\?){1}|$)/))
@@ -34,11 +31,11 @@ export default function toRes(req, res) {
   if (req.originalUrl.match(/(.html)((\?){1}|$)/)) {
     const history  = createMemoryHistory(req.url);
     const reducer  = combineReducers(reducers);
-    const store    = createStore(reducer, {statutes: res.locals.data});
+    const store    = createStore(reducer, {data: res.locals.data});
 
     const InitialView = (
       <Provider store={store}>
-        <App history={history}/>
+        <App data={res.locals.data} history={history}/>
       </Provider>
     );
 

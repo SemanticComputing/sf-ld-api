@@ -1,0 +1,458 @@
+<h1>Lainsäädäntö</h1>
+
+<h2>Ajantasaiset ja alkuperäiset säädökset</h2>
+<p>Semanttinen Finlex sisältää Suomen ajantasaisen lainsäädännön sekä alkuperäissäädösten aineistot RDF-muodossa. Alkuperäissäädökset sisältävät säädöstekstin sellaisena kuin se on alunperin julkaistu Suomen säädöskokoelmassa. Ajantasaisissa säädöksissä säädöksiin kohdistetut muutokset on sisällytetty säädöstekstiin. Säädös ajantasaistetaan joka kerta, kun säädöskokoelmassa julkaistaan säädöstä muuttava muutossäädös.</p>
+<hr/>
+
+
+<h2>RDF-tietomalli</h2>
+<p>Lainsäädäntöaineiston RDF-tietomalli perustuu EU:n ja sen jäsenvaltioiden kansallisen lainsäädännön yhteentoimivuuden, tiedonhaun ja tiedonjakamisen edistämiseksi kehitettyyn <a href="http://publications.europa.eu/mdr/eli/">ELI-standardiin</a> (European Legislation Identifier). ELI-standardi määrittelee lainsäädännöllisille aineistoille yksilölliset URI-tunnisteet (Uniform Resource Identifier) sekä metatietomallin (laskennallisen ontologian). Semanttinen Finlex- palvelussa ELI-standardin ontologiaa on laajennettu Semanttinen Finlex -projektin yhteydessä kehitetyllä SFL-ontologialla (Semantic Finlex Legislation).</p>
+<hr/>
+
+<!-- ELI -->
+<h2>ELI-ontologia</h2>
+<p>ELI:n ontologia perustuu yleiseen bibliografisten tietueiden <a href="http://www.ifla.org/publications/functional-requirements-for-bibliographic-records">FRBR-kuvailumalliin</a> (<i>Functional Requirements for Bibliographic Records</i>). FRBR-terminologiassa "teoksella" (engl. work) tarkoitetaan kirjallista dokumenttia käsitteellisellä tasolla (erillisenä kirjallisena luomuksena), "ekspressio" (engl. expression) on teoksen erillinen toteutus (esim. tietty kieliversio) ja "manifestaatio" (engl. manifestation) ekspression fyysinen ilmentymä (tietty julkaisu, esim. PDF). ELI soveltaa FRBR-mallia luomalla lainsäädännölliselle aineistolle omat vastinparinsa seuraavasti:</p>
+<ul>
+  <li><em>eli:LegalResource</em>-luokka vastaa <i>work</i>-tasoa eli säädöstä käsitteellisellä tasolla</li>
+  <li><em>eli:LegalExpression</em>-luokka vastaa <i>expression</i>-tasoa eli säädöksen kieliversiota</li>
+  <li><em>eli:Format</em>-luokka vastaa <i>manifestation</i>-tasoa eli kieliversion fyysistä ilmentymää tietyssä sisältöformaatissa</li>
+</ul>
+<hr/>
+
+
+<!-- SFL -->
+<h2>SFL-ontologia</h2>
+<p>
+SFL-ontologia (Semantic Finlex Legislation) on Semanttisessa Finlexissä käytössä oleva ELI-ontologian laajennus. Eri kieliversioiden ja sisältömuotojen lisäksi yksittäisestä säädöksestä tai lainkohdasta voi olla olemassa myös useita eri muutossäädöksillä muutettuja versioita. Tämän takia ELI-ontologian <em>eli:LegalResource</em>-luokka on hajoitettu neljään alaluokkaan, jotka ovat
+</p>
+<ul>
+  <li><em>sfl:Statute</em> (Säädös). Säädös abstraktina tunnisteena, esim. Rikoslaki 39/1889</li>
+  <li><em>sfl:StatuteItem</em> (Lainkohta). Lainkohta abstraktina tunnisteena tai Rikoslain 39/1889 1 luku 2 pykälä</li>
+  <li><em>sfl:StatuteVersion</em> (Säädöksen versio). Säädöksen versio tietyllä ajanhetkellä, esim. Rikoslaki 39/1889 sellaisena kuin se oli voimassa 1.1.2016</li>
+  <li><em>sfl:StatuteItemVersion</em> (Lainkohdan versio). Lainkohdan versio tietyllä ajanhetkellä, esim. Rikoslain 39/1889 1 luku 2 pykälä sellaisena kuin se oli voimassa 1.1.2016</li>
+</ul>
+Säädöksen ja säädöksen version välistä suhdetta ilmaistaan ominaisuuksilla <em>sfl:hasVersion</em> ja <em>sfl:isVersionOf</em>. Lainkohdan ja lainkohdan version välinen suhde ilmaistaan vastaavasti.
+<hr/>
+
+
+<h2>Säädösasiakirjan sisäinen rakenne</h2>
+<img class="schema" src="/sf-docs/images/data_model/statute_parts.png"/>
+<p>Kuva 4: <i>Säädösasiakirjan sisäinen rakenne</i></p>
+<p>Säädösasiakirjan sisäinen rakenne mallinnetaan versiotasolla, koska rakenne voi muuttua versioiden välillä. Esimerkiksi pykälään saatetaan lisätä uusia momentteja, tai osan alku voi vaihtaa paikkaansa toisen luvun alusta toisen luvun alkuun. Säädösasiakirjan hierarkkinen rakenne on esitetty kuvassa 4.</p>
+<hr/>
+
+
+<h2>Luokkien ominaisuudet</h2>
+<h3><em>sfl:Statute</em> (säädös)</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Tunniste</th>
+      <th>Arvojoukko</th>
+      <th>Kardinaliteetti</th>
+      <th>Arvon tyyppi</th>
+      <th>Selitys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>sfl:hasVersion</em></td>
+      <td><em>sfl:StatuteVersion</em></td>
+      <td>[0, n]</td>
+      <td>URI</td>
+      <td>säädöksen versio</td>
+    </tr>
+    <tr>
+      <td><em>eli:id_local</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>säädösnumero muodossa #/YYYY</td>
+    </tr>
+    <tr>
+      <td><em>eli:type_document</em></td>
+      <td><ul>
+        <li><em>sfl:Act</em> (laki)</li>
+        <li><em>sfl:PresidentialDecree</em> (tasavallan presidentin asetus)</li>
+        <li><em>sfl:GovernmentDecree</em> (valtioneuvoston asetus)</li>
+        <li><em>sfl:MinisterialDecree</em> (ministeriön asetus)</li>
+        <li><em>sfl:GovernmentDecision</em> (valtioneuvoston päätös)</li>
+        <li><em>sfl:OtherDecision</em> (muu päätös)</li>
+        <li><em>sfl:OtherStatute</em> (muu säädös)</li>
+      </ul></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>säädöstaso</td>
+    </tr>
+    <tr>
+      <td><em>sfl:statuteType</em></td>
+      <td><ul>
+        <li><em>sfl:NewStatute</em> (uusi säädös)</li>
+        <li><em>sfl:Amendment</em> (muutossäädös)</li>
+        <li><em>sfl:Repeal</em> (kumoamissäädös)</li>
+      </ul></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>säädöksen tyyppi</td>
+    </tr>
+  </tbody>
+</table>
+<h3><em>sfl:StatuteItem</em> (lainkohta)</h3>
+<p>Alaluokat: <em>sfl:Part, sfl:Chapter, sfl:Section, sfl:Subsection, sfl:Paragraph, sfl:Subparagraph, sfl:EnactingClause, sfl:Attachment, sfl:Subheading, sfl:Preamble, sfl:FinalParagraph, sfl:EntryIntoForce</em></p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Tunniste</th>
+      <th>Arvojoukko</th>
+      <th>Kardinaliteetti</th>
+      <th>Arvon tyyppi</th>
+      <th>Selitys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>sfl:hasVersion</td>
+      <td>sfl:StatuteItemVersion</td>
+      <td>[0, n]</td>
+      <td>URI</td>
+      <td>säädöksen kohdan ajallinen versio</td>
+    </tr>
+  </tbody>
+</table>
+<hr/>
+
+
+<h3>sfl:StatuteVersion</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Tunniste</th>
+      <th>Arvojoukko</th>
+      <th>Kardinaliteetti</th>
+      <th>Arvon tyyppi</th>
+      <th>Selitys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>sfl:isVersionOf</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>versio säädöksestä</td>
+    </tr>
+    <tr>
+      <td><em>eli:has_part</em></td>
+      <td><em>sfl:StatuteItemVersion</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>sisältää lainkohdan</td>
+    </tr>
+    <tr>
+      <td><em>eli:is_realized_by</em></td>
+      <td><em>eli:LegalExpression</em></td>
+      <td>2</td>
+      <td>URI</td>
+      <td>kieliversio</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:passed_by</em></td>
+      <td><em>eli:Agent</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>säädöksen hyväksynyt elin</td>
+    </tr>
+    <tr>
+      <td><em>eli:is_about</em></td>
+      <td><em>skos:Concept</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>asiasanat</td>
+    </tr>
+    <tr>
+      <td><em>eli:first_date_entry_in_force</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>säädoksen voimaantulopäivä</td>
+    </tr>
+    <tr>
+      <td><em>eli:date_document</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>säädöksen allekirjoituspäivä</td>
+    </tr>
+    <tr>
+      <td><em>eli:date_publication</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>säädöksen julkaisupäivä</td>
+    </tr>
+    <tr>
+      <td><em>eli:version</em></td>
+      <td>
+        <ul>
+          <li><em class="ajantasa">sfl:Consolidated</em> (ajantasaistettu, ts. muutettu)</li>
+          <li><em class="alkup">sfl:Original</em> (alkuperäinen)</li>
+        </ul>
+      </td>
+      <td>1</td>
+      <td>URI</td>
+      <td>versio</td>
+    </tr>
+    <tr>
+      <td><em>eli:version_date</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>muutoksen voimaantulopäivä</td>
+    </tr>
+    <tr>
+      <td><em>eli:changed_by</em></td>
+      <td><em>sfl:StatuteVersion</em></td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>säädöksen muuttama</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:responsibility_of</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>säädöksen allekirjoittanut viranomainen</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:related_to</em></td>
+      <td><em>sfl:GovernmentProposal</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>hallituksen esitys</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:based_on</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>nojautuu säädökseen</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>eli:changes</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>muuttanut säädöstä</td>
+    </tr>
+    <tr class="alkup">
+      <td><em>sfl:repeals</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>kumoaa säädöksen</td>
+    </tr>
+    <tr>
+      <td><em>sfl:repealedBy</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>säädöksen kumonnut säädös</td>
+    </tr>
+    <!--<tr>
+      <td><em>eli:in_force</em></td>
+      <td>
+        <ul>
+          <li><em>eli:InForce-inForce</em></li>
+          <li><em>eli:InForce-notInForce</em></li>
+        </ul>
+      </td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>säädöksen voimassaolo</td>
+    </tr>-->
+  </tbody>
+</table>
+<ul>
+    <li class="alkup">Alkuperäiset versiot</li>
+    <li class="ajantasa">Ajantasaistetut eli muutetut versiot</li>
+</ul>
+<h3>sfl:StatuteItemVersion</h3>
+<p>Alaluokat: <em>sfl:PartVersion, sfl:ChapterVersion, sfl:SectionVersion, sfl:SubsectionVersion, sfl:ParagraphVersion, sfl:SubparagraphVersion, sfl:EnactingClauseVersion, sfl:AttachmentVersion, sfl:SubheadingVersion, sfl:PreambleVersion</em></p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Tunniste</th>
+      <th>Arvojoukko</th>
+      <th>Kardinaliteetti</th>
+      <th>Arvon tyyppi</th>
+      <th>Selitys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>sfl:isVersionOf</em></td>
+      <td><em>sfl:StatuteItem</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>lainkohdan versio</td>
+    </tr>
+    <tr>
+      <td><em>eli:has_part</em></td>
+      <td><em>sfl:StatuteItemVersion</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>sisältää lainkohdan</td>
+    </tr>
+    <tr>
+      <td><em>eli:is_part_of</em></td>
+      <td>
+        <ul>
+          <li><em>sfl:StatuteVersion</em> (säädöksen versio)</li>
+          <li><em>sfl:StatuteItemVersion</em> (lainkohdan versio)</li>
+        </ul>
+      </td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>sisältyy säädökseen tai lainkohtaan</td>
+    </tr>
+    <tr>
+      <td><em>eli:version</em></td>
+      <td>
+        <ul>
+          <li><em class="ajantasa">sfl:Consolidated</em> (ajantasaistettu, ts. muutettu)</li>
+          <li><em class="alkup">sfl:Original</em> (alkuperäinen)</li>
+        </ul>
+      </td>
+      <td>1</td>
+      <td>URI</td>
+      <td>versio</td>
+    </tr>
+    <tr class="ajantasa">
+      <td><em>eli:version_date</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>muutoksen voimaantulopäivä</td>
+    </tr>
+    <tr class="ajantasa">
+      <td><em>eli:changed_by</em></td>
+      <td><em>sfl:StatuteVersion</em></td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>kohdan muuttanut säädös</td>
+    </tr>
+    <tr>
+      <td><em>eli:cites</em></td>
+      <td><em>sfl:Statute</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>viittaus säädökseen tai säädöksen kohtaan</td>
+    </tr>
+    <tr>
+      <td><em>sfl:nextItem</em> **</td>
+      <td><em>sfl:SectionVersion</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>väliotsikkoa seuraava pykälä</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+    <li class="alkup">Alkuperäiset versiot</li>
+    <li class="ajantasa">Ajantasaistetut eli muutetut versiot</li>
+    <li>** Väliotsikon versio (<em>sfl:SubheadingVersion</em>)</li>
+</ul>
+<hr/>
+<h3><em>eli:LegalExpression</em> (kieliversio)</h2>
+<table class="table table-striped">
+  <tr>
+    <th>Tunniste</th>
+    <th>Arvojoukko</th>
+    <th>Kardinaliteetti</th>
+    <th>Arvon tyyppi</th>
+    <th>Selitys</th>
+  </tr>
+  <tr>
+    <td><em>eli:realizes</em></td>
+    <td><ul>
+      <li><em>sfl:StatuteVersion</em></li>
+      <li><em>sfl:StatuteItemVersion</em></li>
+    </td>
+    <td>1</td>
+    <td>URI</td>
+    <td>säädöksen/lainkohdan versio</td>
+  </tr>
+  <tr>
+    <td><em>eli:is_embodied_by</em></td>
+    <td><em>eli:Format</em></td>
+    <td>1</td>
+    <td>URI</td>
+    <td>sisältömuoto</td>
+  </tr>
+  <tr>
+    <td><em>eli:language</em></td>
+    <td><em>eli:Language</em></td>
+    <td>1</td>
+    <td>Literal</td>
+    <td>kieli</td>
+  </tr>
+  <tr>
+    <td><em>eli:title</em></td>
+    <td><em>rdfs:Literal</em></td>
+    <td>1</td>
+    <td>Literal</td>
+    <td>säädöksen nimike</td>
+  </tr>
+  <tr>
+    <td><em>eli:title_alternative</em></td>
+    <td><em>rdfs:Literal</em></td>
+    <td>[0,n]</td>
+    <td>Literal</td>
+    <td>lain lempinimi</td>
+  </tr>
+</table>
+<hr/>
+
+<h3><em>eli:Format</em> (sisältömuoto)</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Tunniste</th>
+      <th>Arvojoukko</th>
+      <th>Kardinaliteetti</th>
+      <th>Arvon tyyppi</th>
+      <th>Selitys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>eli:embodies</em></td>
+      <td><em>eli:LegalExpression</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>kieliversio</td>
+    </tr>
+    <tr>
+      <td><em>eli:format</em></td>
+      <td></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>sisältömuoto <a href="http://www.iana.org/assignments/media-types">ks.</a></td>
+    </tr>
+    <tr>
+      <td><em>sfl:text</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>sisältö tekstimuodossa</td>
+    </tr>
+    <tr>
+      <td><em>sfl:html</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>HTML</td>
+      <td>sisältö HTML-muodossa</td>
+    </tr>
+  </tbody>
+</table>
+<hr/>

@@ -1,0 +1,90 @@
+<h1>REST API (JSON-LD)</h1>
+<h2>Legislation</h2>
+<p>List statutes by year (YYYY:</p>
+<pre>http://data.finlex.fi/api/v1/statutes/(YYYY)</pre>
+<p>Find a statute by year (YYYY) and id (#) :</p>
+<pre>http://data.finlex.fi/api/v1/statutes/(YYYY)/(#)</pre>
+<p>The request supports following parameters:</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>time</em></td>
+      <td>YYYYMMDD</td>
+      <td>point in time</td>
+    </tr>
+    <tr>
+      <td><em>language</em></td>
+      <td>fi, sv</td>
+      <td>language of the content</td>
+    </tr>
+    <tr>
+      <td><em>content</em></td>
+      <td>txt, html, xml</td>
+      <td>format of the content</td>
+    </tr>
+    <tr>
+      <td><em>pretty</em></td>
+      <td>-</td>
+      <td>returns JSON in a more readable format</td>
+    </tr>
+    <tr>
+      <td><em>tree</em></td>
+      <td>-</td>
+      <td>the document content is presented as a hierarchic tree</td>
+    </tr>
+    <tr>
+      <td><em>free</em></td>
+      <td>-</td>
+      <td>all data returned by the request is available under CC-BY license</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+    <li>Examples
+	    <ul>
+		    <li><a href="http://data.finlex.fi/api/v1/statutes/2004/1430?pretty">http://data.finlex.fi/api/v1/statutes/2004/1430?pretty</a></li>
+		    <li><a href="http://data.finlex.fi/api/v1/statutes/2004/1430?pretty&tree">http://data.finlex.fi/api/v1/statutes/2004/1430?pretty&tree</a></li>
+	    </ul>
+    </li>
+</ul>
+
+<h2>Case law</h2>
+<p>Find a specific statute by ECLI:</p>
+<pre>http://data.finlex.fi/api/v1/judgements/ECLI:FI:(KHO|KKO):(YYYY):(#)</pre>
+<p>The request supports following parameters</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Value</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>language</em></td>
+      <td>fi, sv</td>
+      <td>language of the content</td>
+    </tr>
+    <tr>
+      <td><em>content</em></td>
+      <td>txt, html, xml</td>
+      <td>format of the content</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+    <li>Examples
+	    <ul>
+		    <li><a href="http://data.finlex.fi/api/v1/judgements/ECLI:FI:KHO:2011:50">http://data.finlex.fi/api/v1/judgements/ECLI:FI:KHO:2011:50</a></li>
+		    <li><a href="http://data.finlex.fi/api/v1/judgements/ECLI:FI:KKO:2011:100?content=html&language=sv">http://data.finlex.fi/api/v1/judgements/ECLI:FI:KKO:2011:100?content=html&language=sv</a></li>
+	    </ul>
+    </li>
+</ul>

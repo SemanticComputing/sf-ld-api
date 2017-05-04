@@ -21,11 +21,17 @@ app.use(favicon(path.join(__dirname, '../shared/images', 'favicon.ico')));
 app.use(cors({exposedHeaders: config.corsHeaders}));
 app.use(bodyParser.json({limit: config.bodyLimit}));
 
+
+app.get('/', (req, res) => { return res.sendFile(path.resolve(__dirname+'/../../sf-docs/index.html')); });
+
 // internal middleware
 app.use('/', redirect);
 
 // static files
-app.use('/public', express.static(__dirname+'/../dist/public'));
+app.use('/public', express.static(__dirname+'/../../dist/public'));
+app.use('/sf-docs/partials', express.static(__dirname+'/../../sf-docs/partials'));
+app.use('/sf-docs/images', express.static(__dirname+'/../../sf-docs/images'));
+app.use('/sf-docs', express.static(__dirname+'/../../sf-docs/dist'));
 
 // api router
 app.use('/', route);

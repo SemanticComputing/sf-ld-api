@@ -1,0 +1,186 @@
+<h1>Identifiers: URI practices in the Semantic Finlex service</h1>
+<p>
+One of the key publication principles of Linked Data is to provide unique URI identifiers for referable information. The user can search for related information by typing this identifier in the browser or using it programmatically through the HTTP protocol. This page describes how the identifiers used in the Semantic Finlex service (data.finlex.fi) have been created and can be used.
+</p>
+
+<hr/>
+<h2>The legal documents</h2>
+<h3>Legislation</h3>
+<p>The URI template for the statutes is based on the ELI standard (European Legislation Identifier).</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>URI</td>
+      <th>Description</td>
+      <th>Example</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd</td>
+      <td>List of the statutes</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}</td>
+      <td>List of the statutes per year</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2000">Example</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}</td>
+      <td>A specific statute</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521">Example</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}/alkup</td>
+      <td>The original version of a specific statute</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/alkup">Example</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}/alkup/(fin|swe)/(html|txt)</td>
+      <td>The original version of a specific statute in Finnish/Swedish</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/alkup/fin">Example</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}/alkup/(fin|swe)/(html|txt|xml)</td>
+      <td>The HTML/XML/text content of the original version of a specific statute</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/alkup/fin/html">Example</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}<br/>/ajantasa/{YYYYMMDD}</td>
+      <td>A consolidated version of a statute at a specific point in time (YYYYMMDD)</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/ajantasa/20160101">Example</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}<br/>/ajantasa/{YYYYMMDD}/(fin|swe)</td>
+      <td>A consolidated version of a statute at a specific point in time (YYYYMMDD) in Finnish/Swedish</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/ajantasa/20160101/fin">Example</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}<br/>/ajantasa/{YYYYMMDD}/(fin|swe)/(html|txt)</td>
+      <td>The HTML/text content of a consolidated version of a statute at a specific point in time (YYYYMMDD) in Finnish/Swedish</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/ajantasa/20160101/fin/html">Example</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}<br/>/osa/{#}/luku/{#}/pykala/{#}/...</td>
+      <td>A statute item</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/osa/1">Example</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}<br/>/osa/{#}/luku/{#}/.../alkup</td>
+      <td>The original version of a statute item</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/osa/1/alkup">Example</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/{year}/{id}<br/>/osa/{#}/luku/{#}/.../ajantasa/YYYYMMDD</td>
+      <td>A condolidated version of a statute item</td>
+      <td><a href="http://data.finlex.fi/eli/sd/2008/521/osa/1/ajantasa/20160101">Example</td>
+    </tr>
+  </tbody>
+</table>
+<h3>Case law</h3>
+<p>The URI template for the judgments is based on the ECLI standard (European Case Law Identifier).</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>URI</td>
+      <th>Description</td>
+      <th>Example</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>http://data.finlex.fi/oikeus</td>
+      <td>List of judgments</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/ECLI:FI:(KKO|KHO):{YYYY}:{ID}</td>
+      <td>A specific judgment</td>
+      <td><a href="http://data.finlex.fi/oikeus/ECLI:FI:KKO:1996:47">Example</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/ECLI:FI:(KKO|KHO):{YYYY}:{ID}/(fin|swe)</td>
+      <td>A judgment in Finnish/Swedish</td>
+      <td><a href="http://data.finlex.fi/oikeus/ECLI:FI:KKO:1996:47/fin">Example</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/ECLI:FI:(KKO|KHO):{YYYY}:{ID}/(fin|swe)/(html|txt|xml)</td>
+      <td>The HTML/XML/text content of a judgment in Finnish/Swedish</td>
+      <td><a href="http://data.finlex.fi/oikeus/ECLI:FI:KKO:1996:47/fin/html">Example</td>
+    </tr>
+  </tbody>
+</table>
+<hr/>
+
+<h2>RDF graphs</h2>
+<h3>Legislation</h3>
+<p>Statutory law has been divided into two different graphs:</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>URI</td>
+      <td>Description</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/alkup</td>
+      <td>Contains the <i>original</i> versions of the statutes</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/eli/sd/ajantasa</td>
+      <td>Contains the <i>consolidated</i> (amended) versions of the statutes (Note: CC-BY-NC license)</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Case law</h3>
+<p>The judgments of the Supreme Court and Supreme Administrative Court have been divided into two corresponding graphs:</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <td>URI</td>
+      <td>Description</td>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/kho</td>
+      <td>Judgments of the Supreme Administrative Court</td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/oikeus/kko</td>
+      <td>Judgments of the Supreme Court</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3>Common resources:</h3>
+<p>Resources shared by different datasets have been placed into their own graph (http://data.finlex.fi/common).
+The graph contains for example RDF resources representing the Parliament and the Ministry of Justice.</p>
+<h3>Vocabularies</h3>
+<p>Different vocabularies used for subject indexing have been placed into their own graphs:</p>
+<ul>
+  <li><b>Finlex vocabulary</b>: http://data.finlex.fi/voc/finlex</li>
+  <li><b>Supreme Court vocabulary</b>: http://data.finlex.fi/voc/kko</li>
+  <li><b>Supreme Administrative Court vocabulary</b>: http://data.finlex.fi/voc/kho</li>
+</ul>
+<h3>RDF schemas</h3>
+<ul>
+  <li><b>SFL (Semantic Finlex Legislation)</b>: http://data.finlex.fi/schema/sfl</li>
+  <li><b>SFCL (Semantic Finlex Case Law)</b>: http://data.finlex.fi/schema/sfcl</li>
+</ul>
+
+<hr/>
+<h2>Other services</h2>
+<h3>REST API</h3>
+<p></p>
+<p>See the <a href="/#/en/rest-api">documentation</a>.</p>
+
+<h3>SPARQL endpoint</h3>
+<p>http://data.finlex.fi/sparql</p>
+
+<h3>VoID description of the dataset</h3>
+  <p>http://data.finlex.fi/void</p>

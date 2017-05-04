@@ -1,0 +1,139 @@
+<h1>Semanttinen Finlex &ndash; laki ja oikeus avoimena linkitettynä datana</h1>
+
+<h2>Lakitietoa on ollut saatavilla mutta ei datana</h2>
+
+<p>Oikeusnormiemme keskeisimpiä sisältöjä, kuten lakeja, näitä tarkentavia asetuksia ja niiden soveltamiseen liittyvää oikeuskäytäntöä (oikeustapauksia) on voinut lukea verkossa oikeusministeriön tuottamassa <a href="http://www.finlex.fi">Finlex-palvelussa</a>. Vaikka laki- ja oikeustieto on ollut tältä osin avointa ihmislukijoille verkkosivuina, aineistot eivät ole olleet saatavilla avoimena datana siten, että tietotekniset sovellukset, toiset verkkopalvelut ja lainsäädännöllisten sovellusten ohjelmoijat voisivat niitä hyödyntää dataa lataamalla tai avoimien rajapintojen kautta.</p>
+
+<p>Ongelman ratkaisee Finlex-tietokantaan ja -verkkopalveluun perustuva Semanttinen Finlex, joka koostuu seuraavista osista:</p>
+
+<ol>
+<li>Suomen lainsäädännön ja -käytön avoimen linkitetyn datan palvelu.</li>
+<li>Datapalvelun hyötykäyttöä esittelevät pilottisovellukset.</li>
+</ol>
+
+<h2>Käyttötapaukset</h2>
+
+<p>Monilla tahoilla on tarve lainsäädännöllisten sisältöjen saamiseksi käyttöön datana:</p>
+
+<ul>
+<li><strong>Tietoportaalit</strong>. Monien eri alojen verkkopalveluissa on tarvetta viitata mm. lakien ja asetusten eri kohtiin ja näyttää niitä lukijalle. Tämän edellytyksenä on, että lainsäädännön kohdat ovat viitattavissa ja luettavissa verkon kautta datana.</li>
+<li><strong>Media</strong>. Mm. yritysmaailmaan ja politiikkaan liittyvissä uutisissa viitataan usein lain eri kohtiin, jolloin olisi tarpeen voida johdattaa lukija alkuperäisten lakitekstien äärelle. Tämä ei onnistu, jos lainsäädännön kohdat eivät ole viitattavissa ja käytettävissä datana.</li>
+<li><strong>Lainopilliset verkkopalvelut</strong>. Tällaisia palveluita ovat esimerkiksi Talentum Oyj:n <a href="http://www.suomenlaki.com">Suomen Laki</a> ja Edita Publishing Oy:n <a href="http://www.edilex.fi">Edilex</a>, jotka tarjoavat lakitietoa erityisesti oikeusalan ammattilaisille, kuten tuomareille ja yritysjuristeille, mutta myös yksityishenkilöille. Nykyiset järjestelmät perustuvat suuressa määrin käsityöhön, koska dataa ei ole saatavilla koneen "ymmärtämässä" muodossa, vaan ainoastaan eri muotoisina PDF-, Word- ym. dokumentteina.</li>
+<li><strong>Lain valmistelutyö</strong>. Laadittaessa uusia säädöksiä aiempia täydentämään ja korvaamaan joudutaan perehtymään aiemman lainsäädännön määräyksiin vaikutusten arvioimiseksi ja ristiriitaisuuksien välttämiseksi. Semanttista tietoa lainsäädännön eri versioista ja keskinäisistä riippuvuuksista ei kuitenkaan ole saatavilla kuin tekstuaalisessa muodossa.</li>
+<li><strong>Lakiaineistojen toimittaminen ja julkaiseminen</strong>. Lainsäädäntöön liittyvää tietoa tuotetaan nykyisin epäyhtenäisellä tavalla. Käytössä on erilaisia tekstiformaatteja ja eri tapoja ja asiasanastoja sisällön kuvailussa. Jos dokumentit laaditaan jo tuotantovaiheessa rakenteisena datana yhdessä sovittuja standardeja noudattaen, helpottuu niiden jatkokäsittely ja yhdistäminen toisiin dokumentteihin esimerkiksi eduskunnassa tai Finlexin kaltaisessa julkaisujärjestelmässä.</li>
+<li><strong>Älykkäämmät palvelut</strong>. Juridisiin ongelmatilanteisiin, kuten vaikkapa avioeroon tai perinnönjakoon liittyvä tieto on lainsäädännössä usein pirstaloitunut ei lakeihin, asetuksiin ja oikeuskäytännön esimerkkitapauksiin. Ei auta, vaikka säädöksiä ja oikeustapauksia olisi saatavilla, jos kokonaisuuden hahmottaminen ei lukijalle, kuten tavalliselle kansalaiselle, onnistu. Lainsäädännön dokumenttien esittäminen koneen tulkittavissa olevana eli semanttisena datana mahdollistaa aiempaa älykkäämpien sovellusten kehittämisen, jolloin laki ja oikeus voidaan tehdä ymmärrettävämmäksi myös ihmisille. Lakitekstejä voidaan esimerkiksi linkittää niihin liittyviin toisiin teksteihin ja oikeustapauksiin tai lakia selittäviin sanastoihin automaattisesti.</li>
+<li><strong>Lainsäädännön ja -käytön tutkimus</strong>. Lain säädäntötyö ja soveltaminen ovat oikeustieteellisen tutkimustyön kohteena, ja tässä voidaan hyödyntää mm. data-analyysin menetelmiä. Tällainen työ kuitenkin edellyttää, että säädökset, niiden väliset yhteydet ja tieto soveltamisesta oikeustapauksissa on saatavilla systemaattisesti esitettynä datana.</li>
+</ul>
+
+<h2>Semanttinen Finlex datapalveluna</h2>
+
+<p>Semanttinen Finlex perustuu WWW:n infrastruktuurin kehitystyötä koordinoivan W3C-järjestön standardoimaan <a href="http://www.w3.org/standards/semanticweb/data">Linked Data</a> -teknologiaan ja julkaisumalliin. Tämä mahdollistaa 1) erilaisten oikeustieteellisten aineistojen sisällöllisen rikastamisen toistensa avulla dataa linkittämällä sekä 2) datan kustannustehokkaan hyödyntämisen erilaisissa verkkopalveluissa ja sovelluksissa. Datapalvelun teknisenä toteutusalustana on pilottivaiheessa Aalto-yliopiston <a href="http://www.ldf.fi">Linked Data Finland</a> -palvelu.</p>
+
+<h3>Datapalvelun toiminnallisuus</h3>
+
+<p>Datapalvelun keskeisiä toimintoja ovat:</p>
+
+<ol>
+<li>Mahdollisuus ladata tietoa osin tai kokonaan oman sovelluksen käyttöön eri muodoissa (RDF Turtle, JSON ym.).</li>
+<li>Tiedon hakeminen URI-tunnisteiden avulla kirjoittamalla tunniste selaimeen tai ohjelmallisesti. Semanttinen Finlex hyödyntää tunnisteissa eurooppalaista <a href="http://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52012XG1026(01)">European Legislation Identifier (ELI)</a> -tunnistejärjestelmää.</li>
+<li>Datan hakeminen SPARQL-rajapinnan kautta sovelluksiin tai ihmisen luettavaksi.</li>
+</ol>
+
+<h3>RDF-muotoinen linkitetty data</h3>
+
+<p>Semanttinen Finlex sisältää alkuvaiheessa</p>
+
+<ul>
+<li>laajan joukon alkuperäisiä säädöksiä (n. 45 000 kpl),</li>
+<li>näistä toimitettuja ajantasaisia lakeja (n. 2 800 kpl),</li>
+<li>korkeimman oikeuden (KKO) päätöksiä (n. 5 400 kpl) ja</li>
+<li>korkeimman hallinto-oikeuden (KHO) päätöksiä (n. 7 000).</li>
+</ul>
+
+<p>Sisältöä päivitetään automaattisesti Finlex-palvelusta.</p>
+
+<h3>XML-muotoiset Finlex-dokumentit</h3>
+
+<p>Semanttinen Finlex julkaisee dataa semanttisen webin RDF-standardin mukaisessa muodossa.
+Tämän lisäksi palvelu tarjoaa käyttäjälleen myös Finlexin alkuperäisiä XML-muotoisia dokumentteja
+datadumppina, jossa ovat mukana alkuperäissäädökset ja oikeustapaukset.
+Semanttisen Finlexin datajulkaisu luodaan näistä automaattisesti.
+Ajantasaisen lain julkaiseminen avoimena datana XML-muodossa ei tekijänoikeussyistä ole tässä vaiheessa mahdollista.
+</p>
+
+<h3>Sanastot ja ontologiat</h3>
+
+<p>Lisäksi palvelussa julkaistaan oikeushallinnon piirissä käytössä olevaa terminologiaa ontologioina. Tällaisia sanastoja ovat mm
+<ul>
+        <li>Asseri-sanasto, joka on 26 oikeushallinnon sanastosta koostettu n. 6000 termin kokoelma.</li>
+        <li>Finlex-palvelussa käytössä oleva säädöskokoelman asiasanasto</li>
+        <li>KKO:n ja KHO:n asiasanastot</li>
+</ul>
+</p>
+
+<p>Lisäksi käytetään ulkoisia sanastoja, kuten n. 47 000 käsitteen <a href="https://finto.fi/koko/fi/">KOKO-ontologiaa</a>, <a href="http://eurovoc.europa.eu">Eurovoc-sanastoa</a> ja DBpedian käsitteitä.
+</p>
+<p>Sanastoja käytetään mm. aineistojen automaattisessa sisällönkuvailussa ja tekstien linkityksessä.
+</p>
+<p>Sanasto- ja ontologiakehitys samoin kuin automaattisen annotoinnnin kehitystyö Semanttisen Finlexin piirissä jatkuu.
+</p>
+
+<h2>Lainsäädäntöprosessin haasteita datan avaamiselle</h2>
+
+<p>Hankkeen yksi keskeinen haaste liittyy tapaan, jolla lainsäädäntöä Suomessa julkaistaan ja toimitetaan. Lainsäädännöstä on Finlexissä olemassa kolme keskeistä aineistoa:</p>
+
+<ol>
+<li><strong>Säädökset alkuperäisinä</strong> (SA). Kokoelma sisältää säädösten tekstit sellaisina kuin ne on eduskunnasta, hallitukselta tai muusta lähteestä saatu ja julkaistu säädöskokoelmassa. Finlexissä on kaikki säädökset v. 1987 alkaen ja keskeinen osa vanhemmista säädöksistä. Uudet säädökset voidaan helposti lisätä Finlexin kokoelmaan myös alkuperäisessä PDF-muodossa.</li>
+<li><strong>Ajantasainen lainsäädäntö</strong> (AL). Tämä kokoelma sisältää päivitetyt säädöstekstit, joissa lakiin tai asetukseen tehdyt muutokset on sisällytetty alkuperäiseen säädöstekstiin. Tässä tarvitaan käsityötä, josta kohta tarkemmin lisää.</li>
+<li><strong>Säädösmuutosten hakemisto</strong> (SH). Edellisten synkronoimiseksi toisiinsa julkaistaan Finlexissä lisäksi erillistä säädösmuutosten hakemistoa, jossa kerrotaan uusien lakien ja asetusten voimaantulosta tai vanhan kumoamisesta.</li>
+</ol>
+
+<p>Kun julkaistaan uusi säädös, kuten laki tai asetus, se tulee Finlexin SA-kokoelmaan. Uusi säädös tyypillisesti korjaa tai täydentää aiempia säädöksiä muuttaen niiden eri kohtia. Kullakin ajanhetkellä voimassa olevat säädökset muodostavat ajantasaisen lain. Haasteena on, että ajantasainen lainsäädäntö -kokoelmaa (AL) ei nykyisellään voida täysin automaattisesti tuottaa aiemmista ajantasaisista laista ja niiden jälkeisistä säädöksistä, vaan tässä joudutaan tekemään tekstin tulkintaa ja editoimaan muuttuneita lakeja käsityönä.</p>
+
+<p><img src="/sf-docs/images/laki-1291-2015.png" alt="Esimerkki laista" title="Alkuperäinen säädös 1291/2015" /></p>
+
+<p><strong>Kuva 1</strong>. Esimerkki säädöksestä.</p>
+
+<p>Tarkastellaan esimerkkinä kuvassa 1 olevaa eduskunnan säädöstä 1291/2015, joka on annettu 2.11.2015:</p>
+
+<p>Säädöksen johdannossa kerrotaan sanallisesti, minkä eri lakien kohtia säädöksellä muutetaan, ja sitten kerrotaan kohta kohdalta, miten niitä on muutettu. Esimerkiksi listan ensimmäisen muutoksen kiinteistöverolain 11 §:n 3 momentin kohdalla ajantasaisessa laissa luki säädöksen julkaisemispäivänä kuvan 2 teksti:</p>
+
+<p><img src="/sf-docs/images/muutos.png" alt="Muutos lakiin" title="Muutettava lain 1291/2015 11 § 3 momentti" /> </p>
+
+<p><strong>Kuva 2</strong>. Kuvan 1 säädöksellä muutettava kohta ajantasaisessa laissa.</p>
+
+<p>Tämä momentti on siis uuden säädöksen myötä vanhentunut, mutta tämä ei näy vielä AL:ssa. Lainsäädännöllinen sisällöntuotantoprosessi ei tuota valmiita uusia ajantasaisia versioita laeista, vaan ikään kuin paikkoja nuttuun paikkojen päälle, ja ajantasaista lakia parsitaan kokoon käsityönä aina uusien säädösten tullessa voimaan. Kulloisenkin ajantasaisen lain hahmottaminen vaatii monasti lukijalta muutoshistorian selvittämistä viimeisimmästä ajantasaisesta laista lähtien. Tässä voidaan hyödyntää säädösmuutosten hakemistoa (SH).</p>
+
+<p>Finlexin kannalta käsityön tarve katkaisee julkaisuprosessin ja johtaa myös siihen, että ajantasaiseen lakiin syntyy toimitustyön kautta tekijänoikeuksia (tässä tapauksessa ajantasaista lakia toimittavallle Edita Publishing Oy:lle), jolloin datan avaaminen hankaloituu. Hyvä kysymys on, kannattaisiko julkista lainsäädäntöprosessia muuttaa niin, että se tuottaa aina myös uusia versioita muuttuneista laeista ja asetuksista säädösten ohella? Tällainen käytäntö on olemassa mm. Virossa.</p>
+
+<p>Finlexissä julkaistaan vain valikoituja osia säädöskokoelmasta ja ajantasaisesta laista. Säädösten karsinta on tarpeen, koska säädöksiä on hyvin paljon ja monilla säädöksillä on tuskin mielenkiintoa monellekaan Finlexin käyttäjälle, kuten tavallisille kansalaisille. Laajempia toimitettuja versiota ajantasaisesta laista on saatavilla kaupallisten palveluiden kautta, esimerkkinä Suomen Laki ja Edilex. Nämä tarjoavat asiakkailleen myös kaikenlaista muutakin hyödyllistä kontekstitietoa lainsäädännön eri kohdista ja linkityksiä muihin kirjallisiin aineistoihin, joita niin ikään tehdään paljolti käsityönä.</p>
+
+<p>Finlexissä ei tällä hetkellä julkaista eri ajanhetkinä voimassa ollutta ajantasaista lainsäädäntöä aikasarjana, vaan ainoastaan viimeisin versio. Jos kansalainen on esimerkiksi syytteessä pari vuotta sitten tehdystä rikoksesta, on hänen vaikea saada selville, millaisen lain version mukaan asia tullaan käsittelemään.</p>
+
+<p>Kiinnostava poliittinen kysymys on, miten monipuolista lakipalvelua viranomaisten pitäisi tarjota kansalaisille maksutta Finlexin kautta, ja mikä osuus jää yritysten kaupallisen toiminnan varaan. Semanttisen Finlexin asiakkaina ovat kansalaisten ohella sovelluksia kehittävät yritykset ja muut tahot. Tavoitteena ei ole korvata kehittyneitä kaupallisia palveluita, vaan tarjota lakitietoa kansalaisille helpommin sulavassa muodossa ja harmonisoitua hyvälaatuista dataa sovellusten kehittäjille, jolloin kalliin käsityön tarve tiedon jatkojalostuksessa vähenee.</p>
+
+<p>Suomalaisesta lainsäädäntöprosessista ja Finlexin julkaisuprosessista johtuen Semanttisen Finlexin ajantasainen lainsäädäntö on julkaistu kaupallista käyttöä rajoittavalla lisenssillä muun datan ollessa avointa.</p>
+
+<p>Käytössä oleva prosessi aiheuttaa myös eräitä haasteita ELI-tunnisteiden käytölle, mitä on selitetty tarkemmin <a href="#/haasteet">erillisellä sivulla</a>.</p>
+
+<h2>Semanttinen Finlex -sovellukset</h2>
+
+<p>Ensimmäisenä sovellusdemonstraationa Semanttinen Finlex -datapalvelun rajapinnan käytöstä on toteutettu <a href="http://tinyurl.com/pbaxmh4">kontekstuaalinen lukija</a>, joka linkittää verkossa olevan Finlex-palvelun HTML-sivujen ja PDF-dokumenttien sanoja ja pidempiä ilmauksia reaaliajassa ja automaattisesti niitä taustoittaviin tietoihin. Ideana on helpottaa lukijalle lakiteksteihin tutustumista tarjoamalla hänelle automaattisesti lakeihin liittyvää hyödyllistä lisätietoa, niiden lukukonteksti.</p>
+
+<p><img src="/sf-docs/images/selain.png" alt="Semanttinen Finlex-selain" width="100%"></p>
+
+<p><strong>Kuva 3</strong>: Kontekstuaalinen lukija tarjoaa lukukontekstin Finlexin aineistojen lukijalle linkitetyn datan avulla.</p>
+
+<p>Kontekstuaalinen lukija (kuva 3) hakee termien määritelmiä kahdesta eri datalähteestä: 1) Semanttinen Finlex -palvelun Asseri-sanastosta ja 2) Suomenkielisestä Wikipediasta, joista molemmista  on luotu Linked Data -perustainen datajulkaisu Linked Data Finland -palveluun. Linkitetty termi näkyy käyttäjälle värikoodattuna laatikkona tekstissä. Viemällä kursori laatikon päälle, voi lukea siihen liittyvää lisätietoa infoboxin kautta. Laatikon väri ilmaisee linkin tietolähteen, jotka on lueteltu selainsivun alareunassa.</p>
+
+<p>Lisäksi kunkin Finlex-sivun oikealle puolelle luodaan automaattisesti joukko semanttisia suosittelulinkkejä lakiin liittyviin muihin Semanttisen Finlexin aineistoihin. Tässä tapauksessa linkit johtavat 1) samoja teemoja käsitteleviin toisiin lakeihin, 2) samoja teemoja käsitteleviin oikeustapauksiin ja 3) samoja teemoja käsitteleviin uutisiin.</p>
+
+<h2>Projekti ja rahoitus</h2>
+<p>
+Semanttisen Finlexin käyttöön otettu versio on kehitetty Aalto-yliopiston Semanttisen laskennan tutkimusryhmässä (SeCo)
+yhteistyössä oikeusministeriön ja Edita Publishing Oy:n kanssa.
+Projektia rahoittivat sen alkuvaiheessa 2012-2014 ensin Tekes ja laaja <a href="http://seco.cs.aalto.fi/projects/ldf/">Linked Data Finland -hankkeen</a> yhteisö ja
+v. 2015 alkaen oikeus- ja valtiovarainministeriö erillisrahoituksella.
+</p>
+<p>Hankkeen taustalla olevaa tutkimusprojektia on kuvattu sen <a href="http://seco.cs.aalto.fi/projects/lawlod/">kotisivulla</a>,
+josta on myös saatavilla työhön liittyviä julkaisuja.</p>

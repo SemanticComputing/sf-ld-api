@@ -1,0 +1,81 @@
+<div ng-controller="NavController as navController">
+  <div class="col-sm-2">
+    <nav id="sidebar-menu" class="col-sm-2 nav nav-stacked affix hidden-xs">
+      <header>
+        <img class="logo" src="/sf-docs/images/sf-logo2.png"/>
+        <h1 ng-show="lang == 'fi'">Semanttinen Finlex</h1>
+        <h1 ng-show="lang == 'en'">Semantic Finlex</h1>
+      </header>
+      <ul class="main-menu">
+        <li
+            ng-repeat="tab in tabs[lang]"
+            ng-if="tab.url"
+            ng-click="navController.onClickTab(tab)">
+          <a
+             href="{{tab.url}}">
+            {{tab.title}}
+          </a>
+        </li>
+        <li
+            ng-repeat="tab in tabs[lang]"
+            ng-if="tab.tabs"
+          >
+          <a
+             id="documentation-button">
+            {{tab.title}}
+          </a>
+          <ul class="sub-menu" aria-labelledby="documentation-button">
+            <li ng-repeat="subtab in tab.tabs" role="menuitem"><a href="{{subtab.url}}">{{subtab.title}}</a>
+              <ul ng-show="subtab.tabs != undefined" class="sub-sub-menu" uib-dropdown-menu role="menu" aria-labelledby="documentation-button">
+                <li ng-repeat="subsubtab in subtab.tabs" role="menuitem"><a href="{{subsubtab.url}}">{{subsubtab.title}}</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <nav id="topbar-menu" class="navbar navbar-default hidden-sm hidden-md hidden-lg" role="navigation">
+    <div class="navbar-brand">
+      <img class="logo" src="/sf-docs/images/sf-logo2.png"/>
+    </div>
+    <div class="navbar-header navbar-right">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li
+            ng-repeat="tab in tabs[lang]"
+            ng-if="tab.url"
+            ng-click="navController.onClickTab(tab)">
+          <a
+             href="{{tab.url}}">
+            {{tab.title}}
+          </a>
+        </li>
+        <li
+            ng-repeat="tab in tabs"
+            ng-if="tab.tabs"
+            uib-dropdown
+          >
+          <a
+             uib-dropdown-toggle
+             id="documentation-button">
+            {{tab.title}}
+          </a>
+          <ul uib-dropdown-menu role="menu" aria-labelledby="documentation-button">
+            <li ng-repeat="subtab in tab.tabs" role="menuitem"><a href="{{subtab.url}}">{{subtab.title}}</a>
+              <ul ng-show="subtab.tabs" uib-dropdown-menu role="menu" aria-labelledby="documentation-button">
+                <li ng-repeat="subsubtab in subtab.tabs" role="menuitem"><a href="{{subsubtab.url}}">{{subsubtab.title}}</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</div>

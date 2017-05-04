@@ -1,0 +1,192 @@
+<h1>Case law</h1>
+<h2>RDF data model</h2>
+<p>To model the judgments ECLI standard (European Case Law Identifier) has been used along with SFCL ontology (Semantic Finlex Case Law), a custom metadata model developed as part of the project. SFCL applies FRBR model in a similar manner as ELI/SFL in the case of legislation. However, judgments do not have different temporal versions and therefore the ontology contains only the following three levels:</p>
+<ul>
+    <li><em>sfcl:Judgement</em> (work): judgment at an conceptual level</li>
+    <li><em>sfcl:Expression</em> (language version): language version of a judgment</li>
+    <li><em>sfcl:Format</em> (content format): judgment in a specific content format</li>
+</ul>
+<hr/>
+<h2>URIs</h2>
+<p>The instructions on how to build URIs for the documents can be found on a <a href="#/fen/uris">separate page</a>.</p>
+<hr/>
+<h2>Class properties</h2>
+<p>The metadata model conforms to Dublin Core definitions of the ECLI standard.</p>
+<h3><em>sfcl:Judgement</em>  (judgment)</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Range</th>
+      <th>Cardinality</th>
+      <th>Value type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>dcterms:coverage</em></td>
+      <td><em>dcterms:Location</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>the country of the court</td>
+    </tr>
+    <tr>
+      <td><em>dcterms:contributor</em></td>
+      <td><em>dcterms:Agent</em></td>
+      <td>[0,n]</td>
+      <td>Literal</td>
+      <td>judges</td>
+    </tr>
+    <tr>
+      <td><em>dcterms:creator</em></td>
+      <td><em>dcterms:Agent</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>court</td>
+    </tr>
+    <tr>
+      <td><em>dcterms:date</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>date of judgment</td>
+    </tr>
+    <tr>
+      <td><em>dcterms:description</em></td>
+      <td><em>skos:Concept</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>keywords</td>
+    </tr>
+    <tr>
+      <td><em>dcterms:issued</em></td>
+      <td><em>xsd:date</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>date of publication</td>
+    </tr>
+    <tr>
+      <td><em>dcterms:isVersionOf</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>ECLI identifier of the judgment</td>
+    </tr>
+    <tr>
+      <td><em>dcterms:type</em></td>
+      <td><em>skos:Concept</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>type of the decision</td>
+    </tr>
+    <tr>
+      <td><em>sfcl:isRealizedBy<em></td>
+      <td><em>sfcl:Expression</em></td>
+      <td>[0,n]</td>
+      <td>URI</td>
+      <td>language version</td>
+    </tr>
+  </tbody>
+</table>
+<hr/>
+<h3><em>sfcl:Expression</em> (language version)</h3>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Range</th>
+      <th>Cardinality</th>
+      <th>Value type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>dcterms:abstract</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>abstract of the judgment</td>
+    </tr>
+    <tr>
+      <td><em>dcterms:language</em></td>
+      <td>
+        <ul>
+          <li><em>fi</em></li>
+          <li><em>sv</em></li>
+        </ul>
+      </td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>language</td>
+    </tr>
+    <tr>
+      <td><em>dcterms:title</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>name of the document</td>
+    </tr>
+    <tr>
+      <td><em>sfcl:isEmbodiedBy</em></td>
+      <td><em>sfcl:Manifestation</em></td>
+      <td>3</td>
+      <td>URI</td>
+      <td>content format</td>
+    </tr>
+    <tr>
+      <td><em>sfcl:realizes</em></td>
+      <td><em>sfcl:Judgement</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>judgment</td>
+    </tr>
+  </tbody>
+</table>
+<hr/>
+<h3><em>sfcl:Format</em> (content format)</h3>
+<h5>Yläluokka: frbr:Manifestation</h5>
+<table>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Identifier</th>
+      <th>Range</th>
+      <th>Cardinality</th>
+      <th>Value type</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>sfcl:embodies</em></td>
+      <td><em>sfcl:Expression</em></td>
+      <td>1</td>
+      <td>URI</td>
+      <td>language version</td>
+    </tr>
+    <tr>
+      <td><em>sfcl:text</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>text content</td>
+    </tr>
+    <tr>
+      <td><em>sfcl:html</em></td>
+      <td><em>rdfs:Literal</em></td>
+      <td>1</td>
+      <td>Literal</td>
+      <td>HTML content</td>
+    </tr>
+    <tr>
+      <td><em>sfcl:xml</em></td>
+      <td><em>rdf:XMLLiteral</em></td>
+      <td>1</td>
+      <td>XMLLiteral</td>
+      <td>original XML</td>
+    </tr>
+  </tbody>
+</table>
+<hr/>

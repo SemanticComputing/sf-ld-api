@@ -1,0 +1,34 @@
+<p class="alert alert-warning">
+  <b>IMPORTANT REMARK:</b> Read this before using the service!
+</div>
+<h1>Challenges of data management</h1>
+<p>This page discusses the challenges of document data management, in particular those related to the formation of URIs in accordance with the ELI standard.</p>
+<h2>Converting XML documents into RDF format</h2>
+<p>The entire content of Semantic Finlex is converted from XML documents into RDF format each time the dataset is updated. Furthermore, the original XML documents are published in the service. The content of the XML documents corresponds to the content in HTML format available in Finlex.</p>
+
+ <p>Since the documents contain relatively little metadata, metadata available in RDF format is partly collected by structuring the document text during the conversion. This process is prone to error, since it is uncertain that all of the data exists at the assumed location.</p>
+
+<h2>Formation of URIs in ELI format</h2>
+<p>ELI format URIs for updated statute paragraphs are formed on the basis of the date of entry into force. With respect to amendments, dates of entry into force are specified at the end of the updated statute document; the related practices vary somewhat. As an example, let us examine Chapter 1, Section 1 of the Criminal Code:</p>
+<p><img class="finlex-ss" src="/images/rikos_1.png"/></p>
+<p>Next to the section number, there is a reference to an amendment (626/1998). The date of entry into force of this statute, 1 September 1996, is specified at the end of the document:
+</p>
+<p><img class="finlex-ss" src="/images/rikos_2.png"/></p>
+Thus, an ELI-format URI for this Section is formed as follows: <pre>http://data.finlex.fi/eli/sd/1889/39/luku/1/pykala/1/ajantasa/19960901</pre>
+However, this Section contains a Subsection which has been changed by an amendment (1680/2009) that will enter into force on 1 January 2010:
+<p><img class="finlex-ss" src="/images/rikos_3.png"/></p>
+<p>The newest date of entry into force will rise through the hierarchy until a newer date emerges. A Section-specific URI is therefore formed on the basis of the newer date, as follows:
+<pre>http://data.finlex.fi/eli/sd/1889/39/luku/1/pykala/1/ajantasa/20100101</pre>
+</p>
+<h2>Unsolved problems</h2>
+<p>The formation of URIs is often not as easy as described above, since the sections of law changed by a certain amendment can enter into force at different times. Furthermore, during older amendments, it may be impossible to find the date of entry into force of the amendment, in which case the URI must be formed on the basis of the date of issue.</p>
+<p>Another problem is caused by structures such as subsections that can be relocated within the hierarchy. This can mix up the numbering between different versions. It should be possible to identify any sections of a law that have been relocated within the hierarchy as relocated but unchanged sections (see [1]). However this has not yet been implemented.
+</p>
+<p>In addition to the above-mentioned challenges, problems are caused by errors in the original XML materials. For example, the structure of Swedish documents is not necessarily identical to that of Finnish ones. For this reason, a Swedish section of law available in Finlex will not necessarily be available in Semantic Finlex.</p>
+<p>We aim to continuously improve our data conversion process and rectify any errors identified in the material. During the update, the XML-RDF converter will recreate the entire RDF database. In this context, any corrections made will be included in the data. Please use the <a href="#/fi/palaute">feedback form</a> to notify us of eny errors in the material.</p>
+<hr/>
+<h4>References</h2>
+<ol>
+   <li>Hoekstra, R. <cite>The Metalex Document Server - Legal Documents as Versioned Linked Data</cite>.
+    Proceedings of the ISWC 2011. Bonn, Germany. Pp. 128-143. Springer-Verlag (2011)</li>
+</ol>

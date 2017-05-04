@@ -1,0 +1,132 @@
+<h1>Semantic Finlex &ndash; Finnish Law and Justice as Linked Open Data</h1>
+
+<h2>Legislative information is now also available in the form of data</h2>
+
+<p>The key contents of our legal norms, such as acts, decrees that further define acts, and case-law (legal cases) related to their implementation have been available for viewing on the Internet, via the  <a href="http://www.finlex.fi">Finlex</a> service provided by the Ministry of Justice. Although information on law and justice has been available, in this way, to human readers in the form of web pages, the datasets have not been available in the form of open data usable by IT applications, other online services and legislative applications through the downloading of data or via open interfaces.</p>
+
+
+<p>This problem has now been solved through the launch of Semantic Finlex, which is based on the Finlex database and online service. Semantic Finlex includes the following components:</p>
+<ol>
+<li>A linked open data service on Finnish legislation and jurisdiction.</li>
+<li>Pilot applications presenting practical uses of the data service.</li>
+</ol>
+
+<h2>Use cases</h2>
+
+<p>Many actors need access to legislative content as data:</p>
+
+<ul>
+<li><strong>Information portals</strong>. Within the online services provided by different sectors, it is often necessary to refer to various sections of acts and decrees and display these to users. This requires that such sections be referable and readable as online data.</li>
+<li><strong>The media</strong>. Since news on fields such as politics and the business world often refer to various sections of statutes, it is sometimes useful to guide readers to the original legal texts. However, this is not possible if the sections in question are not referable or available in data format.</li>
+<li><strong>Juridical online services</strong>.  These include services such as <a href="http://www.suomenlaki.com">Suomen Laki</a> (Finnish Law) by Talentum Oyj and <a href="http://www.edilex.fi">Edilex</a> by Edita Publishing Ltd, which primarily provide juridical information for professionals in law, such as judges and legal counsels, as well as private persons. The current systems are largely based on manual work, because the data is not available in a form "understood" by computers, but only as documents in PDF, Word and other formats.</li>
+<li><strong>Legislative drafting</strong>. When new statutes are drafted in order to complement and supersede previous ones, the drafters have to examine previous statutes in order to evaluate the effects of the changes and avoid discrepancies. However, semantic information on the various versions of and interdependencies between statutes has been available only in text format.</li>
+<li><strong>Editing and publishing of legislative datasets</strong>. Today, legislation-related information is produced in an inconsistent manner, by using various text formats and index term lists to describe information content in a number of ways. If documents were drafted at the production stage – in the form of structured data and in accordance with mutually agreed standards – this would facilitate their further processing and linking to other documents, for example in Parliament and in publishing systems such as Finlex.</li>
+<li><strong>More intelligent services</strong>.  Legislative information related to problematic juridical situations, such as divorce or estate distribution, is often scattered between various acts, decrees and legal practice cases. The availability of statutes and legal cases as such is of little help if the reader, such as an ordinary citizen, finds it impossible to piece the issue together. Presenting legislative documents in a form that can be interpreted by a computer, i.e. as semantic data, would enable the development of more intelligent applications, which would in turn enable making law and justice more comprehensible to citizens. For example, legal texts can be automatically linked to other related texts, legal cases and vocabularies explaining legal terminology.</li>
+<li><strong>Research into legislation and legal practice</strong>. The enactment of legislation and legal practice are fields of research in which, say, data analysis methods can be used. However, such methods require that statutes, the connections between them and case-law-based information on their implementation are available in the form of systematically presented data.</li>
+</ul>
+
+<h2>Semantic Finlex as a data service</h2>
+
+<p>Semantic Finlex is based on the <a href="http://www.w3.org/standards/semanticweb/data">Linked Data</a>  technology and publication model standardised by the World Wide Web Consortium (W3C), which coordinates WWW infrastructure development work. This enables 1) the mutual enrichment of various legal dataset contents by linking data and 2) the cost-effective use of data in various online services and applications. At the pilot stage, the technical implementation platform of the data service is the <a href="http://www.ldf.fi">Linked Data Finland</a> service provided by Aalto University.</p>
+
+<h3>Functionality of the data service</h3>
+
+<p>The key functions of the data service include:</p>
+
+<ol>
+<li>The opportunity to download information partially or completely into the user's own application in various formats (RDF Turtle, JSON etc.).</li>
+<li>Information retrieval based on Uniform Resource Identifiers (URI), by typing the identifier into the browser or through programmatic data retrieval. As a source of identifiers, Semantic Finlex uses the <a href="http://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:52012XG1026(01)">European Legislation Identifier (ELI)</a> system.</li>
+<li>Data retrieval through the SPARQL interface into applications or for viewing by people.</li>
+</ol>
+
+<h3>Linked data in RDF format</h3>
+
+<p>At its current initial stage, Semantic Finlex includes</p>
+
+<ul>
+<li>a wide range of original texts of acts and decrees (approx. 45,000),</li>
+<li>consolidated legislation based on the aforementioned statutes (approx. 2,800),</li>
+<li>decisions of the Supreme Court (approx. 5,400), and</li>
+<li>decisions of the Supreme Administrative Court (approx. 7,000).</li>
+</ul>
+
+<p>The contents are automatically updated from the Finlex service.</p>
+
+<h3>Finlex documents in XML format</h3>
+
+<p>Semantic Finlex publishes data in a format that complies with the RDF standard of the Semantic Web. Furthermore, the service provides original Finlex documents as a data dump in XML format, which includes original texts of acts and decrees as well as legal cases. Data publication by Semantic Finlex is automatic, based on these. At this stage, for reasons associated with copyright it is not possible to publish updated statutes as open data in XML format.</p>
+
+<h3>Vocabularies and ontologies</h3>
+
+<p>The terminology used in judicial administration is also published in the form of ontologies in Semantic Finlex. These include:
+<ul>
+  <li>Asseri vocabulary, a collection of around 6,000 terms compiled from 26 separate vocabularies used in judicial administration.</li>
+  <li>The vocabulary of Statutes of Finland used in the Finlex service</li>
+  <li>Vocabularies of the Supreme Court and the Supreme Administrative Court</li>
+</ul>
+</p>
+
+Furthermore, external vocabularies are used, such as the <a href="https://finto.fi/koko/fi/">Finnish Collaborative Holistic Ontology (KOKO)</a>, <a href="http://eurovoc.europa.eu">Eurovoc</a> and concepts from the DBpedia ontology.
+</p>
+<p>Vocabularies are used for purposes such as the automatic subject indexing of documents and linking of texts.
+</p>
+<p>Vocabulary and ontology-based development, and the development of automatic annotation, will continue within the Semantic Finlex framework.
+</p>
+
+<h2>Challenges posed by the legislative process for the opening of data</h2>
+
+<p>One of the key challenges of this project is the way in which statutes are edited and published in Finland. The three basic legislative datasets of the Finlex service are the following:</p>
+
+<ol>
+<li><strong>Original texts of acts and decrees</strong>. This dataset contains the texts of acts and decrees as received from Parliament, the Government or other sources and published in the Statute Book of Finland. Finlex contains all Finnish statutes since 1987 and key older statutes. New statutes can easily be added to Finlex in their original PDF format.</li>
+<li><strong>Consolidated legislation</strong>. This collection contains updated statute texts in which any amendments made to an act or decree have been included in the original statute text. This requires manual work to which we will return later in this document.</li>
+<li><strong>Reference database of legislation</strong>. In order to synchronise the previous two datasets, a separate Reference database of legislation is also published as part of the Finlex service. This provides information on the entry into force of new acts and decrees or the repeal of old ones.</li>
+</ol>
+
+<p>When a new statute, such as an act or decree, is published, it is added to the <i>Original texts of acts and decrees</i> section of Finlex. A new statute typically amends or complements previous statutes, by changing various sections within them. The statutes in force at any given time constitute the <i>Consolidated legislation</i> section of Finlex. The challenge lies in the fact that, in its present form, this section cannot be created in full automatically from previous statutes and their subsequent amendments. The textual interpretation and manual editing of amended statutes are required instead.</p>
+
+<p><img src="/images/laki-1291-2015.png" alt="Example of a statute." title="Original statute 1291/2015" /></p>
+
+<p><strong>Figure 1</strong>. Example of a statute.</p>
+
+<p>As an example, let us examine Government statute 1291/2015 issued on 2 November 2015:</p>
+
+<p>The introductory section of the statute lists the sections of the various laws amended by the statute. After this, the statute provides details, section by section, on how those laws have been amended. For example, as regards the first amendment to Section 11(3) of the Real Estate Tax Act, on the date of publication of the amendment, this section reads in the Consolidated legislation section of Finlex as shown in Figure 2:</p>
+
+<p><img src="/images/muutos.png" alt="Muutos lakiin" title="Muutettava lain 1291/2015 11 § 3 momentti" /> </p>
+
+<p><strong>Figure 2</strong>.  A subsection in Consolidated (updated) legislation that is amended by the statute shown in Figure 1.</p>
+
+<p>Thus, this sub-section has become outdated due to the new statute, but this is not yet visible in the <i>Consolidated legislation</i> section of Finlex. The legislative content production process does not produce new, complete and updated versions of statutes, but rather "patches over patches". As a result of this, the Consolidated (updated) legislation section of Finlex is manually patched up whenever new statutes enter into force. For this reason, to understand an updated statute the reader must often trace the version history, starting from the latest version. The <i>Reference database of legislation</i> can be used for such a purpose.</p>
+
+<p>From the viewpoint of Finlex, the need for manual work interrupts the publication process and entails the creation of copyrights by editing work (in this case, for Edita Publishing Ltd, which is in charge of <i>Consolidated legislation</i>), which makes it more difficult to open out the data. We may ask whether the public legislative process should be changed in such a manner that it always creates new, complete versions of amended acts and decrees. Such a practice is applied in countries such as Estonia.</p>
+
+<p>Only selected parts of the Statute Book of Finland and updated legislation are published in Finlex. Such selection is necessary due to the large number of statutes and the fact that only a few users of Finlex, such as ordinary citizens, are interested in such a wide range of statutes. More extensive, edited versions of updated legislation are available through commercial services such as Suomen Laki (Finnish Law) and Edilex. These also provide other useful, context-related information on the various sections of statutes, and links to other written datasets, which are mainly manually maintained.</p>
+
+<p>At present, statutes that have been in force at any given time are not published as a time series in Finlex, but only in their latest versions. For example, if a citizen faces charges for a criminal offence committed a couple of years ago, it is difficult for him/her to establish which version of a statute will be applied in the proceedings.</p>
+
+<p>An interesting policy question is: how extensive a legal service should the authorities offer to citizens free of charge through Finlex, and what proportion should be handled by commercial service providers? In addition to citizens, the customers of Semantic Finlex include businesses and other organisations that develop applications. The objective of Semantic Finlex is not to replace highly-developed commercial services, but to provide citizens with legislative information in a more digestible form, and application developers with harmonised, high-quality data. This would dispense with the need for expensive manual work in the further processing of data.</p>
+
+<p>Due to the Finnish legislative process and the publication process applied in Finlex, Consolidated (updated) legislation is published via Semantic Finlex under a license that restricts its commercial use, while the remaining data in Semantic Finlex is open.</p>
+
+<p>The practice currently applied also poses certain challenges to the use of European Legislation Identifiers (ELI). This is explained in more detail <a href="#/en/futurework">on a separate page</a>.</p>
+
+<h2>Semantic Finlex applications</h2>
+
+<p>The first demonstration application to present the use of the Semantic Finlex data service interface is the <a href="http://tinyurl.com/pbaxmh4">Contextual Reader</a>, which links individual words and longer versions of HTML and PDF documents available in the online Finlex service to relevant background information automatically and in real time. The idea is to make it easier for users to read legal texts by automatically offering them useful additional information, i.e. a reading context.</p>
+
+<p><img src="/images/selain.png" alt="Contextual reader" width="100%"></p>
+
+<p><strong>Figure 3</strong>: The Contextual Reader uses linked data to provide a reading context for users of materials in Finlex.</p>
+
+<p>The Contextual Reader (Figure 3) searches for term definitions from two data sources: 1) the Asseri vocabulary and 2) the Finnish version of Wikipedia. From these two sources, a linked data-based data publication capability has been created as part of the Linked Data Finland service. A linked term is visible to the user as a colour-coded text box. By placing the cursor over the box, the user can obtain additional information through an info box. The colour of the box indicates the sources of information, which are listed at the bottom of the browser window.
+</p>
+
+<p>Furthermore, on the right hand side of each Finlex page, the browser automatically provides a number of recommended semantic links to other materials in Semantic Finlex, which are related to the statute being viewed. In the above example, the links lead to 1) other statutes dealing with the same themes, 2) legal cases dealing with the same themes and 3) news dealing with the same themes.</p>
+
+<h2>Project and its financing</h2>
+<p>
+The Semantic Finlex version now being introduced has been developed by Aalto University Semantic Computing Research Group (SeCo) in cooperation with the Ministry of Justice and Edita Publishing Ltd. At its initial stages in 2012–2014, the project was funded by Tekes – the Finnish Funding Agency for Technology and Innovation, as well as an extensive <a href="http://seco.cs.aalto.fi/projects/ldf/">Linked Data Finland project</a>  community. Since 2015, the project has been in receipt of separate funding from the Ministry of Justice and the Ministry of Finance.
+</p>
+<p>The research project underlying Semantic Finlex is described on the project's <a href="http://seco.cs.aalto.fi/projects/lawlod/">home page</a>,
+which also has publications related to the subject.</p>

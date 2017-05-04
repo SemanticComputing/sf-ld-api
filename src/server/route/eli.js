@@ -3,6 +3,11 @@ import statuteCtrl from '../../shared/ctrl/statuteCtrl'
 
 let find = (req, res, next, urlComponents = {}) => {
   const params = Object.assign(req.params, req.query, urlComponents);
+  // Disallow tree and force HTML format in browser requests
+  if (req.originalUrl.match(/(.html((\?){1}|$))/)) {
+    delete params['tree'];
+    params.format = 'html';
+  }
   statuteCtrl.find(params)
     .then((data) => {
       res.locals.data = data;
@@ -34,7 +39,6 @@ let eli = Router()
     return next();
   })
   .get(/sd(\/[0-9]{4})?(\/[0-9]{1,4}[A-Za-z]{0,1})?(.*)?\.([^.]+)/, (req, res, next) => {
-    console.log(req.params)
     const params = {};
     if (req.params[0]) params.year = req.params[0].substring(1);
     if (req.params[1]) params.statuteId = req.params[1].substring(1);
@@ -43,19 +47,6 @@ let eli = Router()
       if (arr && arr.length > 0) params.sectionOfALaw = arr.join('');
     }
     return find(req, res, next, Object.assign(res.locals.urlComponents, params));
-  })
-/*  .get(/sd\/([0-9]{4})\/([0-9]{1,4}[A-Za-z]{0,1})\.([^.]+)/, (req, res, next) => {
-    console.log('no section of a law')
-    return find(req, res, next, {
-      year: req.params[0],
-      statuteId: req.params[1]
-    });
-  })
-  .get(/sd\/([0-9]{4})\.([^.]+)/, (req, res, next) => {
-    return find(req, res, next, {
-      year: req.params[0],
-    });
-  })*/
-  //.get(/sd\.([^.]+)/, find);
+  });
 
 export default eli

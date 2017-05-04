@@ -1,0 +1,90 @@
+<h1>REST API (JSON-LD)</h1>
+<h2>Lainsäädäntö</h2>
+<p>Listan säädöksistä antovuoden (YYYY) mukaan voi hakea kutsulla:</p>
+<pre>http://data.finlex.fi/api/v1/statutes/(YYYY)</pre>
+<p>Yksittäisen säädöksen (säädösnumero #) voi hakea kutsulla:</p>
+<pre>http://data.finlex.fi/api/v1/statutes/(YYYY)/(#)</pre>
+<p>Lisäksi kutsu tukee seuraavia parametrejä</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Parametri</th>
+      <th>Arvo</th>
+      <th>Selitys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>time</em></td>
+      <td>YYYYMMDD</td>
+      <td>voimassa oleva versio ajanhetkellä</td>
+    </tr>
+    <tr>
+      <td><em>language</em></td>
+      <td>fi, sv</td>
+      <td>sisällön kieli</td>
+    </tr>
+    <tr>
+      <td><em>content</em></td>
+      <td>txt, html, xml</td>
+      <td>sisällön muoto</td>
+    </tr>
+    <tr>
+      <td><em>pretty</em></td>
+      <td>-</td>
+      <td>palauttaa JSON-rakenteen luettavammassa muodossa</td>
+    </tr>
+    <tr>
+      <td><em>tree</em></td>
+      <td>-</td>
+      <td>asiakirjan sisältö ja metadata puumaisena rakenteena</td>
+    </tr>
+    <tr>
+      <td><em>free</em></td>
+      <td>-</td>
+      <td>kutsun rajoittaminen CC-BY-lisenssillä julkaistuun dataan</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+    <li>Esimerkkejä
+	    <ul>
+		    <li><a href="http://data.finlex.fi/api/v1/statutes/2004/1430?pretty">http://data.finlex.fi/api/v1/statutes/2004/1430?pretty</a></li>
+		    <li><a href="http://data.finlex.fi/api/v1/statutes/2004/1430?pretty&tree">http://data.finlex.fi/api/v1/statutes/2004/1430?pretty&tree</a></li>
+	    </ul>
+    </li>
+</ul>
+
+<h2>Oikeuskäytäntö</h2>
+<p>Yksittäisen oikeuden ratkaisun voi hakea kutsulla:</p>
+<pre>http://data.finlex.fi/api/v1/judgements/ECLI:FI:(KHO|KKO):(YYYY):(#)</pre>
+<p>Lisäksi kutsu tukee seuraavia parametrejä</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Parametri</th>
+      <th>Arvo</th>
+      <th>Selitys</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>language</em></td>
+      <td>fi, sv</td>
+      <td>sisällön kieli</td>
+    </tr>
+    <tr>
+      <td><em>content</em></td>
+      <td>txt, html, xml</td>
+      <td>sisällön muoto</td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+    <li>Esimerkkejä
+	    <ul>
+		    <li><a href="http://data.finlex.fi/api/v1/judgements/ECLI:FI:KHO:2011:50">http://data.finlex.fi/api/v1/judgements/ECLI:FI:KHO:2011:50</a></li>
+		    <li><a href="http://data.finlex.fi/api/v1/judgements/ECLI:FI:KKO:2011:100?content=html&language=sv">http://data.finlex.fi/api/v1/judgements/ECLI:FI:KKO:2011:100?content=html&language=sv</a></li>
+	    </ul>
+    </li>
+</ul>
