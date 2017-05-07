@@ -1,4 +1,4 @@
-import JsonLd from '../lib/JsonLd';
+import LegislationJsonLd from '../lib/LegislationJsonLd';
 import Sparql from '../lib/Sparql';
 import StatuteQuery from '../query/StatuteQuery';
 import Promise from 'bluebird';
@@ -17,7 +17,7 @@ class StatuteCtrl {
           if (data.results.bindings.length==0)
             return reject();
 
-          const jsonLd = new JsonLd(params);
+          const jsonLd = new LegislationJsonLd(params);
           const dataFormatted = (params.statuteId) ?
             jsonLd.convertStatuteBindings(data) :
             jsonLd.convertStatuteListBindings(data);

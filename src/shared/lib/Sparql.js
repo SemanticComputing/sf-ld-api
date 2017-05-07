@@ -15,7 +15,7 @@ export default class {
 
   // make sparql select query
   select(query) {
-    console.log(query)
+    console.log(prefix.prefixesSparql+query)
     return new Promise((resolve, reject) => {
       request.post(this.endpoint)
         .send({query: prefix.prefixesSparql+query})

@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import prefix from './prefix';
 
-export default class JsonLd {
+export default class LegislationJsonLd {
 
   constructor(params = {}) {
     this.lang = (params.lang) ? params.lang : 'fi';
@@ -9,10 +9,10 @@ export default class JsonLd {
     this.context = {
       'isRealizedBy': { '@id': 'eli:is_realized_by', '@type':'@id'},
       'isEmbodiedBy': { '@id': 'eli:is_embodied_by', '@type':'@id'},
-      'hasVersion': { '@id': 'sfl:hasVersion', '@type':'@id'},
+      'hasVersion': { '@id': 'eli:has_member', '@type':'@id'},
       'idLocal': 'eli:id_local',
       'title_fi': {'@id': 'eli:title', '@language': 'fi'},
-      'title_sv': {'@id': 'sfl:title', '@language': 'sv'},
+      'title_sv': {'@id': 'eli:title', '@language': 'sv'},
       'content_fi': {'@id': 'sfl:'+this.format, '@language': 'fi'},
       'content_sv': {'@id': 'sfl:'+this.format, '@language': 'sv'}
     };
@@ -49,7 +49,6 @@ export default class JsonLd {
       '@context': Object.assign(_.invert(prefix.prefixes), context)
     };
     return (pretty) ? JSON.stringify(response, null, 2) : response;
-//    return results;
   }
 
   convertStatuteBindings(results, pretty = true) {
@@ -115,15 +114,15 @@ export default class JsonLd {
           return an-bn;
         })
         var subheadings = object[property].filter(function(value) {
-          return itemMap[value] && itemMap[value].nextItem;
+          return itemMap[value] && itemMap[value].followedBy;
         })
         subheadings.forEach(function(sh) {
           object[property].splice(object[property].indexOf(sh),1);
-          object[property].splice(object[property].indexOf(itemMap[sh].nextItem[0]),0,sh);
+          object[property].splice(object[property].indexOf(itemMap[sh].followedBy[0]),0,sh);
         })
         object[property] = object[property].map(function(value) {
           if (context[property]["@type"]!="@id") return value;
-          if (property!='nextItem' && itemMap[value]) return itemMap[value];
+          if (property!='followedBy' && itemMap[value]) return itemMap[value];
           return prefix.shorten(value);
         })
         if (object[property].length==1) object[property]=object[property][0];

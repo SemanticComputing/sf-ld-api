@@ -1,7 +1,7 @@
 import Router from 'express'
 import statuteCtrl from '../../shared/ctrl/statuteCtrl'
 
-let find = (req, res, next, urlComponents = {}) => {
+let findData = (req, res, next, urlComponents = {}) => {
   const params = Object.assign(req.params, req.query, urlComponents);
   // Disallow tree and force HTML format in browser requests
   if (req.originalUrl.match(/(.html((\?){1}|$))/)) {
@@ -14,6 +14,7 @@ let find = (req, res, next, urlComponents = {}) => {
       return next();
     })
     .catch((err) => {
+      console.error(err);
       return next();
     });
 };
@@ -46,7 +47,7 @@ let eli = Router()
       const arr = req.params[2].match(/(\/(osa|luku|pykala|momentti|kohta|alakohta|liite|voimaantulo|valiotsikko|johdanto|loppukappale|johtolause)\/*([0-9]+[a-z]{0,1})*)/g)
       if (arr && arr.length > 0) params.sectionOfALaw = arr.join('');
     }
-    return find(req, res, next, Object.assign(res.locals.urlComponents, params));
+    return findData(req, res, next, Object.assign(res.locals.urlComponents, params));
   });
 
 export default eli
