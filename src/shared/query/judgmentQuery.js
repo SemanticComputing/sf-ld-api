@@ -1,5 +1,6 @@
 import moment from 'moment';
 import sfcl from '../lib/sfcl';
+import common from '../lib/common';
 
 export default class JudgmentQuery {
 
@@ -9,8 +10,10 @@ export default class JudgmentQuery {
     this.vars = '*';
     // Default limit
     this.limit = params.limit ? 'LIMIT '+params.limit : (params.year) ? '':'LIMIT 10';
+    // Judgments by court
+    this.judgment = (params.court) ? '?judgment a sfcl:Judgment . ?judgment dcterms:creator  '+common.getCourtByName(params.court)+'.' : '?judgment a sfcl:Judgment .';
     // Judgments by year
-    this.judgment = (params.year) ? '?judgment a sfcl:Judgment . ?judgment dcterms:date ?date .  FILTER(year(?date) = '+parseInt(params.year)+')' : '?judgment a sfcl:Judgment .';
+    this.judgment = (params.year) ? '?judgment dcterms:date ?date .FILTER(year(?date) = '+parseInt(params.year)+')' : this.judgment;
     // Judgment by id
     this.judgment = (params.judgmentId) ? 'VALUES ?judgment { sfecli:'+params.year+'\\/'+params.judgmentId+' }' : this.judgment;
     // Filter by lang

@@ -9,7 +9,7 @@ export default class LegislationJsonLd {
     this.context = {
       'isRealizedBy': { '@id': 'eli:is_realized_by', '@type':'@id'},
       'isEmbodiedBy': { '@id': 'eli:is_embodied_by', '@type':'@id'},
-      'hasVersion': { '@id': 'eli:has_member', '@type':'@id'},
+      'hasMember': { '@id': 'eli:has_member', '@type':'@id'},
       'idLocal': 'eli:id_local',
       'title_fi': {'@id': 'eli:title', '@language': 'fi'},
       'title_sv': {'@id': 'eli:title', '@language': 'sv'},
@@ -35,8 +35,8 @@ export default class LegislationJsonLd {
       const statute = statutes[binding.statute.value];
       addProp(statute, 'idLocal', binding.idLocal.value);
       const statuteVersion = {'@id':prefix.shorten(binding.statuteVersion.value), '@type':prefix.shorten(binding.statuteVersionType.value)};
-      addProp(statute, 'hasVersion', statuteVersion);
-      if (binding.hasVersion.value != binding.statuteVersion.value) addProp(statute, 'hasVersion', binding.hasVersion.value);
+      addProp(statute, 'hasMember', statuteVersion);
+      if (binding.hasMember.value != binding.statuteVersion.value) addProp(statute, 'hasMember', binding.hasMember.value);
       const expression = {'@id':prefix.shorten(binding.expression.value), '@type':prefix.shorten(binding.expressionType.value)};
       addProp(statuteVersion, 'isRealizedBy', expression);
       addProp(expression, 'title_'+this.lang, binding.title.value);
@@ -52,6 +52,7 @@ export default class LegislationJsonLd {
   }
 
   convertStatuteBindings(results, pretty = true) {
+    //console.log(results.results.bindings)
     let context = {
       "isRealizedBy": { "@id": "eli:is_realized_by", "@type":"@id"},
       "isEmbodiedBy": { "@id": "eli:is_embodied_by", "@type":"@id"},
@@ -131,8 +132,8 @@ export default class LegislationJsonLd {
     delete context['@type'];
     for (var ns in prefix.prefixes)
       context[prefix.prefixes[ns]]=ns;
-    const idx = workLevel.hasVersion.indexOf(results.results.bindings[0].s.value);
-    workLevel.hasVersion[idx] = itemMap[results.results.bindings[0].s.value];
+    const idx = workLevel.hasMember.indexOf(results.results.bindings[0].s.value);
+    workLevel.hasMember[idx] = itemMap[results.results.bindings[0].s.value];
     var response = workLevel;
     response['@context']=context;
     response = (pretty) ? JSON.stringify(response, null, 2) : response;

@@ -57,7 +57,7 @@ export default class StatuteQuery {
       # No matching consolidated version, find original
       OPTIONAL {
         ?statute eli:has_member ?statuteVersion .
-        FILTER(?versionDate = "") .
+        FILTER(!BOUND(?versionDate))
         ?statuteVersion eli:version sfl:Original .
       }
       FILTER(BOUND(?statuteVersion))`;
@@ -66,9 +66,11 @@ export default class StatuteQuery {
   findMany() {
     return `SELECT ${this.vars} WHERE {
       ${this.selectVersion}
+      # Statute must be found at this point
+      FILTER(BOUND(?statute))
       ?statute eli:id_local ?idLocal .
-      ?statute eli:has_member ?hasVersion .
-      ?statute a ?statuteType .
+      ?statute eli:has_member ?hasMember .
+      ?statute sfl:statuteType ?statuteType .
       ?statuteVersion eli:is_realized_by ?expression .
       ?statuteVersion a ?statuteVersionType .
       ${this.eliLangFilter}

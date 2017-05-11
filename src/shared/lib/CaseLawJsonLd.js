@@ -12,8 +12,8 @@ export default class CaseLawJsonLd {
       'ecli': 'dcterms:isVersionOf',
       'title_fi': {'@id': 'dcterms:title', '@language': 'fi'},
       'title_sv': {'@id': 'dcterms:title', '@language': 'sv'},
-      'content_fi': {'@id': 'sfl:'+this.format, '@language': 'fi'},
-      'content_sv': {'@id': 'sfl:'+this.format, '@language': 'sv'}
+      'content_fi': {'@id': 'sfcl:'+this.format, '@language': 'fi'},
+      'content_sv': {'@id': 'sfcl:'+this.format, '@language': 'sv'}
     };
   }
 

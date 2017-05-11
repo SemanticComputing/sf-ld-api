@@ -31,9 +31,9 @@ let ecli = Router()
     });
     return next();
   })
-  .get(/(kko|kho)?(\/[0-9]{4})?(\/[0-9]{1,4}[A-Za-z]{0,1})?(.*)?\.([^.]+)/, (req, res, next) => {
+  .get(/(\/kko|\/kho)?(\/[0-9]{4})?(\/[0-9]{1,4}[A-Za-z]{0,1})?(.*)?\.([^.]+)/, (req, res, next) => {
     const params = {};
-    if (req.params[0]) params.court = req.params[0];
+    if (req.params[0]) params.court = req.params[0].substring(1);
     if (req.params[1]) params.year = req.params[1].substring(1);
     if (req.params[2]) params.judgmentId = req.params[2].substring(1);
     return findData(req, res, next, Object.assign(res.locals.urlComponents, params));

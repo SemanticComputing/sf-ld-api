@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import favicon from 'serve-favicon';
 import redirect from './middleware/redirect';
+import redirectLegacyEcli from './route/ecliLegacy';
 import route from './route';
 import Router from 'react-router';
 import config from '../config.json';
@@ -25,6 +26,7 @@ app.use(bodyParser.json({limit: config.bodyLimit}));
 app.get('/', (req, res) => { return res.sendFile(path.resolve(__dirname+'/../../sf-docs/index.html')); });
 
 // internal middleware
+app.use('/oikeus', redirectLegacyEcli);
 app.use('/', redirect);
 
 // static files

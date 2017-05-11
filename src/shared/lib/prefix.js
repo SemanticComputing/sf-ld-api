@@ -2,6 +2,7 @@ class Prefix {
 
   constructor() {
     this.prefixesSparql =  `
+      PREFIX common: <http://data.finlex.fi/common/>
       PREFIX dcterms: <http://purl.org/dc/terms/>
       PREFIX eli: <http://data.europa.eu/eli/ontology#>
       PREFIX sfcl: <http://data.finlex.fi/schema/sfcl/>
@@ -12,7 +13,9 @@ class Prefix {
 
     `
     this.prefixes = {
+      'http://purl.org/dc/terms/' : 'dcterms',
       'http://www.w3.org/2001/XMLSchema#' : 'xsd',
+      'http://data.finlex.fi/common/' : 'common',
       'http://data.finlex.fi/schema/scfl/' : 'sfcl',
       'http://data.finlex.fi/schema/sfl/' : 'sfl',
       'http://data.finlex.fi/ecli/' : 'sfecli',
