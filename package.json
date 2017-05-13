@@ -6,7 +6,7 @@
   "scripts": {
     "build-server": "babel src/server -s -D -d dist --ignore \"src/client/index.jsx\" --presets es2015,react,stage-0",
     "watch-server": "nodemon -w src -e js,jsx --exec \"babel-node src/server --presets es2015,react --plugins transform-decorators-legacy\"",
-    "build-client": "mkdir -p dist/public && browserify src/client/index.jsx -o dist/public/bundle.js -t [ babelify --presets [ es2015 react stage-0 ] --plugins [transform-decorators-legacy] ]",
+    "build-client": "mkdir -p dist/public && catw -c 'lessc -' 'src/client/styles/*.less' > dist/public/bundle.css && browserify src/client/index.jsx -o dist/public/bundle.js -t [ babelify --presets [ es2015 react stage-0 ] --plugins [transform-decorators-legacy] ]",
     "watch-client": "watch 'npm run build-client' src/",
     "dev": "npm run watch-client & npm run watch-server & wait",
     "start": "node dist",
@@ -58,7 +58,9 @@
     "babel-preset-stage-0": "^6.5.0",
     "babelify": "^7.3.0",
     "browserify": "^14.1.0",
+    "catw": "^1.0.1",
     "eslint": "^3.1.1",
+    "less": "^2.7.2",
     "nodemon": "^1.9.2",
     "watch": "^1.0.2"
   }

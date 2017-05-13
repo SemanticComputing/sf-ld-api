@@ -7,6 +7,8 @@ export default class StatuteQuery {
   constructor(params = {}) {
     console.log(params)
     this.vars = '*';
+    // Get only CC BY  data
+    this.fromGraph = (params.hasOwnProperty('free')) ? ' FROM <http://data.finlex.fi/eli/sd/alkup>' : '';
     // Get version valid at a certain point in time
     this.versionDateFilter = params.pointInTime ?
       'FILTER (\"'+moment(params.pointInTime, 'YYYYMMDD').format('YYYY-MM-DD')+'\"^^xsd:date >= ?vd)' : '';
@@ -64,7 +66,7 @@ export default class StatuteQuery {
   }
 
   findMany() {
-    return `SELECT ${this.vars} WHERE {
+    return `SELECT ${this.vars}${this.fromGraph} WHERE {
       ${this.selectVersion}
       # Statute must be found at this point
       FILTER(BOUND(?statute))
@@ -80,7 +82,7 @@ export default class StatuteQuery {
   }
 
   findOne() {
-    return `SELECT ${this.vars} WHERE {
+    return `SELECT ${this.vars} ${this.fromGraph} WHERE {
       {
         ${this.selectVersion}
         ${this.tree}

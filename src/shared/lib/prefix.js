@@ -1,3 +1,5 @@
+import _      from 'lodash';
+
 class Prefix {
 
   constructor() {
@@ -24,15 +26,25 @@ class Prefix {
     };
   }
 
+  lengthen(prefixed) {
+    for (const ns in _.invert(this.prefixes)) {
+      if (prefixed.substring(0, prefixed.indexOf(':')) == ns)
+        return _.invert(this.prefixes)[ns]+prefixed.substring(prefixed.indexOf(':')+1, prefixed.length)
+    }
+    return prefixed;
+  }
+
   shorten(uri) {
     for (const ns in this.prefixes) {
       if (uri.indexOf(ns)==0)
-        return this.prefixes[ns]+':'+uri.substr(ns.length)
+        return this.prefixes[ns]+':'+uri.substr(ns.length);
     }
-    return uri
+    return uri;
   }
+
+
 }
 
 const prefix = new Prefix();
 
-export default prefix
+export default prefix;

@@ -7,8 +7,9 @@ import _                      from 'lodash';
 export default class Statute extends React.Component {
 
   render() {
+    console.log(typeof this.props.data)
     const data = JSON.parse(this.props.data);
-    const version = _.filter(data.hasVersion, (item) => {return item.isRealizedBy});
+    const version = _.filter(data.hasMember, (item) => {return item.isRealizedBy});
     var html = '';
     if (version[0]) {
       //html += version[0].versionDate
