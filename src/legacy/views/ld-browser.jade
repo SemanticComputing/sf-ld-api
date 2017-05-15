@@ -1,0 +1,49 @@
+extends layout
+
+block content
+  .container
+    h3= subject
+    h4 Resource properties:
+    table.table.table-striped(resource='#{subjectUri}')
+      thead
+        tr
+          th Property
+          th Resource
+      tbody
+        each value in resource
+          tr
+            td= value.predicateLabel
+            if (value.objectType == 'list')
+              td
+                #aut-rec-show
+                  a= 'Show'
+                #aut-rec-hide
+                    a= 'Hide'
+                #aut-rec-subjects
+                  - for (var i = 0; i < value.objectUris.length; i++)
+                    if (i < value.objectUris.length-1)
+                      a(property='#{value.predicateUri}',href='#{value.objectUris[i]}')= value.objectUris[i]+', '
+                    else
+                      a(property='#{value.predicateUri}',href='#{value.objectUris[i]}')= value.objectUris[i]
+            else if (value.objectType == 'uri')
+              td
+                a(property='#{value.predicateUri}',href='#{value.objectUri}')= value.objectLabel
+            else if (value.objectType == 'date')
+              td(property='#{value.predicateUri}',datatype='http://www.w3.org/2001/XMLSchema#date')= value.objectLabel
+            else
+              td(property='#{value.predicateUri}')= value.objectLabel
+    h4 References from other resources:
+    table.table.table-striped
+      thead
+        tr
+          th Resource
+          th Property
+      tbody
+        each value in references
+          tr
+            if (value.type == 'uri')
+              td
+                a(href='#{value.link}')= value.value
+            else
+              td= value.value
+            td= value.predicate

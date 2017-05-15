@@ -1,0 +1,30 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+  body
+    #sidebar
+      //
+        #bases-on
+          i Säädöksen nojalla annetut säädökset:
+        #infovis
+        #changed-by
+          p
+            i Säädöstä muuttaneet säädökset:
+          p
+            i Säädöksen muuttamat säädökset:
+          p
+            a(href='http://philogb.github.io/jit/static/v20/Jit/Examples/Sunburst/example2.html') Säädökseen liittyvät lait/oikeustapaukset
+          p
+            b Rangaistussäännökset
+          p
+            a(href='http://js.cytoscape.org/demos/cde4db55e581d10405f5/') Koko ajantasan esittäminen graafina
+    #main
+      .content!= html
+
+      script(src='/js/lib/jquery-2.1.4.min.js', defer)
+      script(src='/js/lib/jit-yc.js', defer)
+      script(src='/js/lib/underscore-min.js', defer)
+      //
+        script(src='/js/src/tree.js', defer)

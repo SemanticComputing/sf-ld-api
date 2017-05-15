@@ -1,0 +1,24 @@
+{
+  "name": "semantic-finlex-api",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Arttu Oksanen <arttu.oksanen@aalto.fi>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.0",
+    "lodash": "^4.16.1"
+  }
+}

@@ -1,0 +1,9 @@
+extends layout
+
+block content
+  .container
+    h3= title
+    ul
+      each value in resources
+        li
+          a(href='#{value.uri}')= value.title+' ('+value.id+')'

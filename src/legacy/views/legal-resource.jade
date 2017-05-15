@@ -1,0 +1,98 @@
+extends layout
+
+block content
+  .container-fluid
+    //-h3= title
+    i= resource['version_date']
+    ul.nav.nav-tabs#lr-tabs(role='tablist')
+      li.active(role='presentation')
+        a(href='#content', aria-controls='content', role='tab', data-toggle='tab') Sisältö
+      li(role='presentation')
+        a(href='#metadata', aria-controls='metadata', role='tab', data-toggle='tab') RDF-Metadata
+    .tab-content
+      .tab-pane.active#content(role='tabpanel')
+        .row
+          .col-md-9
+            .document-info
+              div
+                i= statutetext+': '+statuteItemId
+              div
+                i= versiontext+': '+versiondate+''
+        .row
+          .col-md-9
+            .document-content!= html
+          .col-md-3
+            img(src='#{tagcloud}',width='100%',class='toggle-img-modal',data-toggle='modal',data-target='#tagcloud-modal',onerror="this.style.display='none'")
+            if changedBy.length > 0
+              h4 Muutossäädökset
+              ul.list-group
+                each val, key in changedBy
+                  li.list-group-items
+                    a(href='#{val.uri}')= val.title
+            if cites.length > 0
+              h4 Viitatut säädökset
+              ul.list-group
+                each val, key in cites
+                  li.list-group-items
+                    a(href='#{val.uri}')= val.title
+            if judgements.length > 0
+              h4 Tuomioistuinten ratkaisut
+                ul.list-group
+                  each val, key in judgements
+                    li.list-group-items
+                      a(href='#{val.uri}')= val.ecli
+            if transposes.length > 0
+              h4 Esitöissä viitatut EU-säädökset
+                ul.list-group
+                  each val, key in transposes
+                    li.list-group-items
+                      a(href='#{val.uri}')= val.title
+            h4 Samoja teemoja käsittelevät EU-säädökset
+            each term, key in mentionsEuroVocLaw
+              b
+                a(href='#{term.termUri}')= ' '+term.term+''
+              ul.list-group
+                each val, key in term.docs
+                  li.list-group-items
+                    a(href='#{val.uri}')= val.title
+      .tab-pane#metadata(role='tabpanel')
+        h4= subject
+        h4 Resurssin ominaisuudet:
+        table.table.table-striped(resource='#{subjectUri}')
+          thead
+            tr
+              th Ominaisuus
+              th Resurssi
+          tbody
+            each value in resource
+              tr
+                td= value.predicateLabel
+                if (value.objectType == 'uri')
+                  td
+                    a(property='#{value.predicateUri}',href='#{value.objectUri}')= value.objectLabel
+                else if (value.objectType == 'date')
+                  td(property='#{value.predicateUri}',datatype='http://www.w3.org/2001/XMLSchema#date')= value.objectLabel
+                else
+                  td(property='#{value.predicateUri}')= value.objectLabel
+        table.table.table-striped
+          thead
+            tr
+              th Resurssi, josta viittaus
+              th Ominaisuus
+          tbody
+            each ref in references
+              tr
+                if (ref.oType == 'uri')
+                  td
+                    a(href='#{ref.sLink}')= ref.sValue
+                else
+                  td= ref.value
+                td= ref.pValue
+    #tagcloud-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='tagcloud-modal-label')
+      .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+            button.close(type='button', data-dismiss='modal', aria-label='Close')
+              span(aria-hidden='true') ×
+          .modal-body
+            img(src='#{tagcloud}',width='100%',onerror="this.style.display='none'")

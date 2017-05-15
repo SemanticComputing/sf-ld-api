@@ -2,7 +2,7 @@ import React                  from 'react';
 import { Link }               from 'react-router'
 import _                      from 'lodash';
 import { connect }            from 'react-redux';
-import prefix                 from '../lib/Prefix'
+import prefix                 from '../lib/prefix'
 
 @connect(state => ({ data: state.data }))
 
