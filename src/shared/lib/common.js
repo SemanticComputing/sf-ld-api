@@ -13,7 +13,22 @@ class Common {
       default:
         return '';
         break;
+    }
+  }
 
+  get2LetterLangCode(code) {
+    switch (code) {
+      case 'fi':
+      case 'fin':
+        return 'fi';
+        break;
+      case 'sv':
+      case 'swe':
+        return 'sv';
+        break;
+      default:
+        return '';
+        break;
     }
   }
 

@@ -6,11 +6,11 @@ import prefix from './prefix'
 export default class {
 
   constructor(params = {}) {
-    this.endpoint = params.endpoint || config.endpoint
+    this.endpoint = params.endpoint || config.endpoint;
     this.headers = params.headers || {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/sparql-results+json'
-    }
+    };
   }
 
   // make sparql select query

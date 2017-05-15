@@ -93,7 +93,8 @@ export default class LegislationJsonLd {
       }
       if (binding.content) {
         currentSubject['isRealizedBy'] = [binding.expression.value];
-        context['content_'+binding.content['xml:lang']]= { "@id": 'eli:title', "@language": binding.content['xml:lang'] };
+        var formatProp = (binding.format.value.substring(binding.format.value.length-4, binding.format.value.length) == 'html') ? 'html' : 'text';
+        context['content_'+binding.content['xml:lang']]= { "@id": 'sfl:'+formatProp, "@language": binding.content['xml:lang'] };
         if (!itemMap[binding.expression.value]) itemMap[binding.expression.value]={'@id':prefix.shorten(binding.expression.value)};
         itemMap[binding.expression.value]['isEmbodiedBy']=[binding.format.value];
         itemMap[binding.format.value]={'@id':prefix.shorten(binding.format.value)};

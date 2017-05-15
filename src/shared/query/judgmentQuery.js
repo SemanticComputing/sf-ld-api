@@ -15,13 +15,13 @@ export default class JudgmentQuery {
     // Judgments by year
     this.judgment = (params.year) ? '?judgment dcterms:date ?date .FILTER(year(?date) = '+parseInt(params.year)+')' : this.judgment;
     // Judgment by id
-    this.judgment = (params.judgmentId) ? 'VALUES ?judgment { sfecli:'+params.year+'\\/'+params.judgmentId+' }' : this.judgment;
+    this.judgment = (params.judgmentId) ? 'VALUES ?judgment { sfecli:'+params.court+'\\/'+params.year+'\\/'+params.judgmentId+' }' : this.judgment;
     // Filter by lang
-    this.ecliLangFilter = params.lang ? '?expression dcterms:language "'+params.lang+'".' : '?expression dcterms:language "fi".';
+    this.ecliLangFilter = params.lang ? '?expression dcterms:language "'+common.get2LetterLangCode(params.lang)+'".' : '?expression dcterms:language "fi".';
     // Filter by format
     this.content = '?format a sfcl:Format . ?format '+((params.format) ? sfcl.getPropertyByFormat(params.format) : sfcl.getPropertyByFormat('text'))+' ?content .';
     // Bind judgment to variable j
-    this.judgmentBind = (params.judgmentId) ? 'BIND(sfecli:'+params.year+'\\/'+params.judgmentId+' AS ?j)' : '';
+    this.judgmentBind = (params.judgmentId) ? 'BIND(sfecli:'+params.court+'\\/'+params.year+'\\/'+params.judgmentId+' AS ?judgment)' : '';
   }
 
   findMany() {
@@ -50,7 +50,8 @@ export default class JudgmentQuery {
       }
       UNION {
        ${this.judgmentBind}
-       ?j ?p ?o.
+       ?judgment ?p ?o.
+       FILTER (?p != sfcl:isRealizedBy)
       }
     }`
   }
