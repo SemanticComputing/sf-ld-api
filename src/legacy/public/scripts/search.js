@@ -65,7 +65,7 @@
       console.log(data)
       if (data.searchresults.length > 0) {
         var dataLen = (data.searchresults.length > number*5) ? number*5 : data.searchresults.length;
-        $('#search-results').html('<h3 class="search-results-heading">Hakutulokset ('+parseInt(((number-1)*5)+1)+(dataLen!=((number-1)*5)+1 ? '-'+dataLen : '')+' / '+data.searchresults.length+')</h3><div class="close-button"><img src="/images/close-button.png"/ width="30"></div>');
+        $('#search-results').html('<h3 class="search-results-heading">Hakutulokset ('+parseInt(((number-1)*5)+1)+(dataLen!=((number-1)*5)+1 ? '-'+dataLen : '')+' / '+data.searchresults.length+')</h3><div class="close-button"><img src="/legacy/images/close-button.png"/ width="30"></div>');
         if (data.searchresults.length > 5) {
           $('#search-results').append('<div id="search-results-nav"></div>');
           var last = Math.ceil(data.searchresults.length/5);

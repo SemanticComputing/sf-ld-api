@@ -10,9 +10,11 @@ function resolveContentType(acceptHeader) {
 
 function findResource(req,res) {
   // Return HTML page
-  if (req.get('Accept').indexOf('html') > -1)
+  if (req.get('Accept').indexOf('html') > -1) {
+    req.originalUrl = req.originalUrl.substring(0,req.originalUrl.indexOf('.html')).replace('/ld-browser', '');
     ldBrowserController.findResource(req,res);
   // Return RDF data
+}
   else
     ldBrowserController.findRdf(req,res);
 }
@@ -20,6 +22,7 @@ function findResource(req,res) {
 function findJudgments(req,res) {
   switch (resolveContentType(req.get('Accept'))) {
     case 'html':
+      req.originalUrl = req.originalUrl.substring(0,req.originalUrl.indexOf('.html')).replace('/ld-browser', '');
       return ldBrowserController.findJudgments(req,res);
       break;
     default:
@@ -30,6 +33,7 @@ function findJudgments(req,res) {
 function findJudgment(req,res) {
   switch (resolveContentType(req.get('Accept'))) {
     case 'html':
+      req.originalUrl = req.originalUrl.substring(0,req.originalUrl.indexOf('.html')).replace('/ld-browser', '');
       return ldBrowserController.findJudgment(req,res);
       break;
     default:
@@ -37,15 +41,11 @@ function findJudgment(req,res) {
   }
 }
 
-
-//router.get(/.*\.html$/, ldBrowserController.findHtml);
-//router.get(/.*\.rdf$/, rdfController.findResource);
-//router.get(/.*\.txt$/, ldBrowserController.findText);
-//router.get(/.*\.xml$/, ldBrowserController.findXml);//router.get(/eli\/sd\/([0-9]{4})$/, findStatutes)
-router.get('/ECLI:FI:(KKO|KHO):([0-9]{4}):(I|B|T){0,2}[0-9]{1,4}', findJudgment);
-router.get('/ECLI*', findResource);
-router.get('', findJudgments);
-//router.get(/ecli\/(kko|kho)\/([0-9]{4})$/, findJudgmentsByYear)
-//router.get(/ecli\/(kko|kho)$/, findJudgmentsByCourt)
+router.get(/\/(kko|kho)\/([0-9]{4})\/(I|B|T){0,2}[0-9]{1,4}\/(fin|swe)\/(html|txt|text|xml)\.html/, findResource);
+router.get(/\/(kko|kho)\/([0-9]{4})\/(I|B|T){0,2}[0-9]{1,4}\/(fin|swe)\.html/, findResource);
+router.get(/\/(kko|kho)\/([0-9]{4})\/(I|B|T){0,2}[0-9]{1,4}\.html/, findJudgment);
+router.get(/\/(kko|kho)\/([0-9]{4})\.html/, findJudgments);
+router.get(/\/(kko|kho)\.html/, findJudgments);
+router.get(/\.html/, findJudgments);
 
 module.exports = router;

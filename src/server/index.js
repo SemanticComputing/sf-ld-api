@@ -26,6 +26,9 @@ app.use(require('express-validator')({
     isContentType: function(value) {
        return (["txt", "xml", "html"].indexOf(value) > -1)
     },
+    isCourt: function(value) {
+      return (["kko", "kho"].indexOf(value) > -1)
+    },
     isECLI: function(value) {
        var matches = value.match(/ECLI:FI:(KKO|KHO):[0-9]{4}:(I|B|T){0,2}[0-9]{1,4}/g);
        var filtered = (matches != null) ? matches.join("") : "";
@@ -61,7 +64,7 @@ app.use(require('express-validator')({
 // legacy search
 app.use('/api/v1', require('../legacy/routes/api'));
 
-app.get('/', (req, res) => {return res.sendFile(path.resolve(__dirname+'/../../sf-docs/index.html'));});
+app.get('/', (req, res) => {return res.sendFile(path.resolve(__dirname+'/../sf-docs/index.html'));});
 
 // internal middleware
 //app.use('/search', );
@@ -81,9 +84,9 @@ app.use('/legacy/json', express.static(path.join(__dirname, '../legacy/public/js
 // static files
 app.use('/images', express.static(path.join(__dirname, '../shared/images')));
 app.use('/public', express.static(__dirname+'/../../dist/public'));
-app.use('/sf-docs/partials', express.static(__dirname+'/../../sf-docs/partials'));
-app.use('/sf-docs/images', express.static(__dirname+'/../../sf-docs/images'));
-app.use('/sf-docs', express.static(__dirname+'/../../sf-docs/dist'));
+app.use('/sf-docs/partials', express.static(__dirname+'/../sf-docs/partials'));
+app.use('/sf-docs/images', express.static(__dirname+'/../sf-docs/images'));
+app.use('/sf-docs', express.static(__dirname+'/../sf-docs/dist'));
 
 // api router
 app.use('/', route);

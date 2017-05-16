@@ -2,7 +2,7 @@ import React                  from 'react';
 import { connect }            from 'react-redux';
 import _                      from 'lodash';
 
-@connect(state => ({ data: state.data }))
+//@connect(state => ({ data: state.data }))
 
 export default class Statute extends React.Component {
 

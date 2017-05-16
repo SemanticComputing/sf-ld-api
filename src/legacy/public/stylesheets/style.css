@@ -196,10 +196,6 @@ img.schema {
   white-space: pre-wrap;
 }
 
-.document, .statute {
-  font-family: Courier;
-}
-
 .document-info, .document-content {
     margin: 10px;
     padding: 20px;

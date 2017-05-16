@@ -66,7 +66,7 @@ export default class CaseLawJsonLd {
           if (binding.o.type=='uri')
             context[prop]= { "@id": pprop, "@type": "@id" };
           else if (binding.o['xml:lang'])
-            context[prop+'_'+binding.o['xml:lang']]= { "@id": pprop, "@language": binding.o['xml:lang'] };
+            context[prop]= { "@id": pprop, "@language": binding.o['xml:lang'] };
           else if (binding.o['datatype'])
             context[prop]= { "@id": pprop, "@type": prefix.shorten(binding.o['datatype']) };
         }

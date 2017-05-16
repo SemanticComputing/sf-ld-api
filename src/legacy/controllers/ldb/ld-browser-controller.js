@@ -437,8 +437,9 @@ var self = {
            title: titleVal,
            html: htmlVal
          };
+         console.log(results["@graph"][0])
 
-         var version = isVersionRequest ? results["@graph"][0]["@id"] : results["@graph"][0]["isVersionOf"];
+         var version = isVersionRequest ? results["@graph"][0]["@id"] : results["@graph"][0]["is_member_of"];
 
          // Build SPARQL query string
          var query = "SELECT * WHERE { <" + version + "> ?p ?o } ORDER BY ?p";
@@ -687,6 +688,20 @@ var self = {
    */
    findJudgments: function(req, res, next) {
 
+     function getCourtByName(name) {
+       switch (name) {
+         case 'kko':
+          return 'http://data.finlex.fi/common/KKO';
+          break;
+         case 'kko':
+          return 'http://data.finlex.fi/common/KHO';
+          break;
+        default:
+          return "";
+          break;
+       }
+     }
+
      function buildLinkURI(uri) {
       return uri.replace("http://data.finlex.fi/", "/")
      }
@@ -696,12 +711,20 @@ var self = {
      var sparqlService = require('../../services/sparql-service');
      var namespaceService = require('../../services/namespace-service');
 
+     // Check params
+     req.checkParams('0', 'Invalid year').optional().isInt();
+     req.checkParams('1', 'Invalid court name').isCourt();
+
      // Default format
      var contentType = 'application/sparql-results+json';
 
      // Build SPARQL query string
      var query = "SELECT DISTINCT ?j ?id ?t "+
-       "WHERE { ?j rdf:type sfcl:Judgement ."+
+       "WHERE { ?j rdf:type sfcl:Judgment ."+
+       // Judgments by court
+       ((req.params[0]) ? '?j dcterms:creator <'+getCourtByName(req.params['0'])+">." : "")+
+       // Judgments by year
+       ((req.params[1]) ? "?j dcterms:date ?date .FILTER(year(?date) = "+parseInt(req.params[1])+")" : "")+
        "?j dcterms:isVersionOf ?id ."+
        (req.query.year!=undefined ? "FILTER(REGEX(STR(?id), \"\/"+req.query.year+"\", \"i\")) " : "")+
        "?j sfcl:isRealizedBy ?e."+

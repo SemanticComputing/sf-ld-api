@@ -29,11 +29,11 @@ function findLegalResource(req,res) {
   // uri terminated with ajantasa, or none -> get latest consolidated version
   switch (resolveContentType(req.get('Accept'))) {
     case 'html':
-      req.originalUrl = (req.originalUrl.match(/ajantasa$/)||!req.params[3]) ?
-        req.originalUrl+'/'+date2str(new Date(), 'yyyyMMdd') : req.originalUrl;
+    req.originalUrl = req.originalUrl.substring(0,req.originalUrl.indexOf('.html')).replace('/ld-browser', '');
       ldBrowserController.findLegalResource(req,res);
       break;
     default:
+      req.originalUrl = req.originalUrl.substring(0,req.originalUrl.indexOf('.html')).replace('/ld-browser', '');
       rdfController.findResource(req,res);
       break;
   }
@@ -42,6 +42,7 @@ function findLegalResource(req,res) {
 function findResource(req,res) {
   switch (resolveContentType(req.get('Accept'))) {
     case 'html':
+      req.originalUrl = req.originalUrl.substring(0,req.originalUrl.indexOf('.html')).replace('/ld-browser', '');
       ldBrowserController.findResource(req,res);
       break;
     default:
@@ -74,16 +75,16 @@ function findStatutesByYear(req,res) {
 //router.get(/.*\.rdf$/, rdfController.findResource);
 //router.get(/.*\.txt$/, ldBrowserController.findText);
 //router.get(/.*\.xml$/, ldBrowserController.findXml);
-router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\/?([0-9]{8})\/(fin|swe)\/(txt|html|xml)(.html((\?){1}|$))/, findResource)
-router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\/?([0-9]{8})\/(fin|swe)(.html((\?){1}|$))/, findResource)
-router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)(.html((\?){1}|$))/, findLegalResource)
-router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\/?([0-9]{8})(.html((\?){1}|$))/, findLegalResource)
-router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(alkup)\/(fin|swe)\/(txt|html|xml)(.html((\?){1}|$))/, findResource)
-router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(alkup)\/(fin|swe)(.html((\?){1}|$))/, findResource)
-router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(alkup)(.html((\?){1}|$))/, findLegalResource)
+router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\/?([0-9]{8})\/(fin|swe)\/(txt|html|xml)\.html$/, findResource)
+router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\/?([0-9]{8})\/(fin|swe)\.html$/, findResource)
+router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\.html$/, findLegalResource)
+router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\/?([0-9]{8})\.html$/, findLegalResource)
+router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(alkup)\/(fin|swe)\/(txt|html|xml)\.html$/, findResource)
+router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(alkup)\/(fin|swe)\.html$/, findResource)
+router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(alkup)\.html$/, findLegalResource)
 router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\.html$/, findLegalResource)
 router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})\.html$/, findLegalResource)
-router.get(/sd\/([0-9]{4})(.html((\?){1}|$))/, findStatutesByYear)
-router.get(/sd(.html((\?){1}|$))/, findStatutes)
+router.get(/sd\/([0-9]{4})\.html$/, findStatutesByYear)
+router.get(/sd\.html$/, findStatutes)
 
 module.exports = router;

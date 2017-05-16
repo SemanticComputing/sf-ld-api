@@ -1,7 +1,7 @@
 import React                   from 'react';
 import { Router, Route }       from 'react-router';
-import StatuteList             from './components/StatuteList.jsx';
-import Statute                 from './components/Statute.jsx';
+import StatuteList             from './components/StatuteList.js';
+import Statute                 from './components/Statute.js';
 
 export default class App extends React.Component {
   render() {

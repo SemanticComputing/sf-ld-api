@@ -6,21 +6,20 @@ var express = require('express'),
 
 function findResource(req,res) {
   // Return HTML page
-  if (req.get('Accept').indexOf('html') > -1)
+  if (req.get('Accept').indexOf('html') > -1) {
+    req.originalUrl = req.originalUrl.substring(0,req.originalUrl.indexOf('.html')).replace('/ld-browser', '');
     ldBrowserController.findResource(req,res);
   // Return RDF data
-  else
+} else {
+    req.originalUrl = req.originalUrl.substring(0,req.originalUrl.indexOf('.html')).replace('/ld-browser', '');
     ldBrowserController.findRdf(req,res);
+  }
 }
 
-//router.get(/.*\.html$/, ldBrowserController.findHtml);
-//router.get(/.*\.rdf$/, rdfController.findResource);
-//router.get(/.*\.txt$/, ldBrowserController.findText);
-//router.get(/.*\.xml$/, ldBrowserController.findXml);
 router.get('/', findResource);
 router.get('/voc*', findResource);
 router.get('/common*', findResource);
 router.get('/schema*', findResource);
-router.get('/data/:dataset', fileController.findZipFilesByDataset);
+router.get('/data/:dataset\.html', fileController.findZipFilesByDataset);
 
 module.exports = router;

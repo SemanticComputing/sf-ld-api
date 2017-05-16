@@ -24,7 +24,7 @@ var self = {
     '        FILTER(LANG(?l) = '+ (lang=='sv' ? '\'sv\'' : '\'fi\'')+' )\n'+
     '        VALUES ?score {100}\n'+
     '        VALUES ?matchType {\'keyword\'}\n'+
-    '        ?s rdf:type sfcl:Judgement.\n'+
+    '        ?s rdf:type sfcl:Judgment.\n'+
     '        ?s dcterms:description ?c .\n'+
     '        ?s sfcl:isRealizedBy ?e .\n'+
     '        ?e dcterms:language '+ (lang=='sv' ? '\'sv\'' : '\'fi\'')+'. \n'+
@@ -32,7 +32,7 @@ var self = {
     '        ?e dcterms:abstract ?abstract .\n'+
      '      } UNION {\n'+
      '        (?e ?score) text:query (dcterms:abstract \''+req.query.query+'*\' 20) . \n'+
-     '        ?s rdf:type sfcl:Judgement.\n'+
+     '        ?s rdf:type sfcl:Judgment.\n'+
      '        ?s sfcl:isRealizedBy ?e .\n'+
      '        ?e sfcl:isEmbodiedBy ?f .\n'+
      '        ?e dcterms:language '+ (lang=='sv' ? '\'sv\'' : '\'fi\'')+'. \n'+
@@ -42,7 +42,7 @@ var self = {
      '        ?e dcterms:abstract ?abstract .\n'+
     '      } UNION {\n'+
     '        (?f ?score) text:query (sfcl:text \''+req.query.query+'*\' 20) . \n'+
-    '        ?s rdf:type sfcl:Judgement.\n'+
+    '        ?s rdf:type sfcl:Judgment.\n'+
     '        ?s sfcl:isRealizedBy ?e .\n'+
     '        ?e sfcl:isEmbodiedBy ?f .\n'+
     '        ?e dcterms:language '+ (lang=='sv' ? '\'sv\'' : '\'fi\'')+'. \n'+
@@ -168,10 +168,10 @@ var self = {
      // Build SPARQL query string
      var queries = {
        'construct':
-         "CONSTRUCT { ?d <" + rdf + "type>  <" + sfcl + "Judgement> . } WHERE " +
-           "{ ?d <" + rdf + "type> <" + sfcl + "Judgement> . } LIMIT 50",
+         "CONSTRUCT { ?d <" + rdf + "type>  <" + sfcl + "Judgment> . } WHERE " +
+           "{ ?d <" + rdf + "type> <" + sfcl + "Judgment> . } LIMIT 50",
        'select': "SELECT ?d WHERE" +
-         "{ ?d <" + rdf + "type> <" + sfcl + "Judgement> . } LIMIT 50 "
+         "{ ?d <" + rdf + "type> <" + sfcl + "Judgment> . } LIMIT 50 "
      }
 
      var query = queries[queryType];

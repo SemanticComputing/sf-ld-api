@@ -19,7 +19,7 @@ var self = {
 
   getPrefixForm: function(uri) {
     var prefixForm = uri;
-    _ = require('lodash');
+    var _ = require('lodash');
     _.each(self.namespaces, function(namespaceUri, index) {
       if (uri.indexOf(namespaceUri) > -1) {
         prefixForm = prefixForm.replace(namespaceUri, index + ":")
