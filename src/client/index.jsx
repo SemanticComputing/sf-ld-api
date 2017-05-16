@@ -3,7 +3,7 @@ import { render }               from 'react-dom';
 import { createHistory }        from 'history'
 import { Provider }             from 'react-redux';
 import * as reducers            from '../shared/reducers';
-import App                      from '../shared/App.jsx';
+import App                      from '../shared/App';
 import { createStore,
          combineReducers }      from 'redux';
 

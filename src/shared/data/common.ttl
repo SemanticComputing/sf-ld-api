@@ -1,0 +1,43 @@
+@prefix : <http://data.finlex.fi/common/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+
+:Finland
+  rdf:type dcterms:Location ;
+.
+
+:OM
+  rdf:type dcterms:Agent ;
+  skos:prefLabel "Ministry of Justice"@en, "Oikeusministeriö"@fi, "Justitieministeriet"@sv;
+.
+
+:Eduskunta
+  rdf:type dcterms:Agent ;
+  skos:prefLabel "The Parliament of Finland"@en, "Eduskunta"@fi, "Riksdagen"@sv ;
+.
+
+:KKO
+  rdf:type dcterms:Agent ;
+  skos:prefLabel "Korkein oikeus"@fi, "Högsta domstolen"@sv, "Supreme Court"@en;
+.
+
+:KHO
+  rdf:type dcterms:Agent ;
+  skos:prefLabel "Korkein hallinto-oikeus"@fi, "Högsta förvaltningsdomstolen"@sv, "Supreme Administrative Court"@en;
+.
+
+:Rikosasia
+  rdf:type skos:Concept ;
+  skos:prefLabel "Rikosasia"@fi
+.
+
+:Siviiliasia
+  rdf:type skos:Concept ;
+  skos:prefLabel "Siviiliasia"@fi
+.
+
+:Hallinto-oikeus
+  rdf:type skos:Concept ;
+  skos:prefLabel "Hallinto-oikeus"@fi
+.

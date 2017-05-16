@@ -28,18 +28,18 @@ As part of the ELI ontology, metadata fields are defined for each level. These w
 <p>
 SFL ontology (Semantic Finlex Legislation) is an extension to ELI ontology used in the Semantic Finlex service. In addition to different language and content format versions SFL defines classes for different temporal versions of statutes and sections of law. Therefore, SFL divides <em>eli:LegalResource</em> class to four subclasses that are as follows</p>
 <ul>
-  <li><em>sfl:Statute</em> (Statute). Statute at a conceptual level eg. Criminal Code 39/1889</li>
-  <li><em>sfl:StatuteItem</em> (Statute item). Section of law at conceptual level eg. Criminal Code 39/1889 Chapter 1 Section 2</li>
-  <li><em>sfl:StatuteVersion</em> (Statute version). Statute at a specific point in time, eg. Criminal Code 39/1889 as it was on 1.1.2016</li>
-  <li><em>sfl:StatuteItemVersion</em> (Statute item version). Section of law at a specific point in time, eg. Criminal Code 39/1889 Chapter 1 Section 2 as it was on 1.1.2016</li>
+  <li><em>sfl:Statute</em> (statute). Statute at a conceptual level eg. Criminal Code 39/1889</li>
+  <li><em>sfl:SectionOfALaw</em> (section of a law). Section of law at conceptual level eg. Criminal Code 39/1889 Chapter 1 Section 2</li>
+  <li><em>sfl:StatuteVersion</em> (statute version). Statute at a specific point in time, eg. Criminal Code 39/1889 as it was on 1.1.2016</li>
+  <li><em>sfl:SectionOfALawVersion</em> (section of a law version). Section of law at a specific point in time, eg. Criminal Code 39/1889 Chapter 1 Section 2 as it was on 1.1.2016</li>
 </ul>
-The relationship between a statute and a statute version is expressed with properties <em>sfl:hasVersion</em> and <em>sfl:isVersionOf</em>. The relationship between a statute item and a statute item version is expressed likewise with the same properties.
+The relationship between a statute and a statute version is expressed with properties <em>eli:has_member</em> and <em>eli:is_member_of</em>. The relationship between a section of a law and a section of a law version is expressed likewise with the same properties.
 <hr/>
 
 
 <h2>Structure of the document</h2>
-<img class="schema" src="/images/data_model/statute_parts.png"/>
-<p>Kuva 4: <i>Structure of the document</i></p>
+<img class="schema" src="/sf-docs/images/data_model/statute_parts.png"/>
+<p>Fig. 4: <i>Structure of the document</i></p>
 <p>The structure of the document is modeled at the time level because the structure of a document may vary between different temporal versions. For example new subsections may be added to sections or a chapter might be relocated from a part of the statute to another part. The hierarchical structure of a statute is presented in figure 4.</p>
 <hr/>
 
@@ -61,7 +61,7 @@ The relationship between a statute and a statute version is expressed with prope
   </thead>
   <tbody>
     <tr>
-      <td><em>sfl:hasVersion</em></td>
+      <td><em>eli:has_member</em></td>
       <td><em>sfl:StatuteVersion</em></td>
       <td>[0, n]</td>
       <td>URI</td>
@@ -100,9 +100,20 @@ The relationship between a statute and a statute version is expressed with prope
       <td>URI</td>
       <td>statute type</td>
     </tr>
+    <tr>
+      <td><em>eli:in_force</em></td>
+      <td>
+        <ul>
+          <li><em>eli:InForce-notInForce</em></li>
+        </ul>
+      </td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>is / is not in force</td>
+    </tr>
   </tbody>
 </table>
-<h3><em>sfl:StatuteItem</em> (statute item)</h3>
+<h3><em>sfl:SectionOfALaw</em> (section of a law)</h3>
 <p>Alaluokat: <em>sfl:Part, sfl:Chapter, sfl:Section, sfl:Subsection, sfl:Paragraph, sfl:Subparagraph, sfl:EnactingClause, sfl:Attachment, sfl:Subheading, sfl:Preamble, sfl:FinalParagraph, sfl:EntryIntoForce</em></p>
 <table class="table table-striped">
   <thead>
@@ -116,11 +127,22 @@ The relationship between a statute and a statute version is expressed with prope
   </thead>
   <tbody>
     <tr>
-      <td>sfl:hasVersion</td>
-      <td>sfl:StatuteItemVersion</td>
+      <td>eli:has_member</td>
+      <td>sfl:SectionOfALawVersion</td>
       <td>[0, n]</td>
       <td>URI</td>
-      <td>temporal version of a statute item</td>
+      <td>temporal version of a section of a law</td>
+    </tr>
+    <tr>
+      <td><em>eli:in_force</em></td>
+      <td>
+        <ul>
+          <li><em>eli:InForce-notInForce</em></li>
+        </ul>
+      </td>
+      <td>[0,1]</td>
+      <td>URI</td>
+      <td>is not in force</td>
     </tr>
   </tbody>
 </table>
@@ -140,7 +162,7 @@ The relationship between a statute and a statute version is expressed with prope
   </thead>
   <tbody>
     <tr>
-      <td><em>sfl:isVersionOf</em></td>
+      <td><em>eli:is_member_of</em></td>
       <td><em>sfl:Statute</em></td>
       <td>[0,n]</td>
       <td>URI</td>
@@ -148,10 +170,10 @@ The relationship between a statute and a statute version is expressed with prope
     </tr>
     <tr>
       <td><em>eli:has_part</em></td>
-      <td><em>sfl:StatuteItemVersion</em></td>
+      <td><em>sfl:SectionOfALawVersion</em></td>
       <td>[0,n]</td>
       <td>URI</td>
-      <td>contains statute item</td>
+      <td>contains section of a law</td>
     </tr>
     <tr>
       <td><em>eli:is_realized_by</em></td>
@@ -215,11 +237,11 @@ The relationship between a statute and a statute version is expressed with prope
       <td>version date (date of entry into force of the amendment)</td>
     </tr>
     <tr>
-      <td><em>eli:changed_by</em></td>
+      <td><em>eli:amended_by</em></td>
       <td><em>sfl:StatuteVersion</em></td>
       <td>[0,1]</td>
       <td>URI</td>
-      <td>changed by the statute</td>
+      <td>amended by the statute</td>
     </tr>
     <tr class="alkup">
       <td><em>eli:responsibility_of</em></td>
@@ -243,45 +265,33 @@ The relationship between a statute and a statute version is expressed with prope
       <td>based on a statute</td>
     </tr>
     <tr class="alkup">
-      <td><em>eli:changes</em></td>
+      <td><em>eli:amends</em></td>
       <td><em>sfl:Statute</em></td>
       <td>[0,n]</td>
       <td>URI</td>
       <td>amends statute</td>
     </tr>
     <tr class="alkup">
-      <td><em>sfl:repeals</em></td>
+      <td><em>eli:repeals</em></td>
       <td><em>sfl:Statute</em></td>
       <td>[0,n]</td>
       <td>URI</td>
       <td>repeals statute</td>
     </tr>
     <tr>
-      <td><em>sfl:repealedBy</em></td>
+      <td><em>eli:repealed_by</em></td>
       <td><em>sfl:Statute</em></td>
       <td>[0,1]</td>
       <td>URI</td>
       <td>repealed by statute</td>
     </tr>
-    <!--<tr>
-      <td><em>eli:in_force</em></td>
-      <td>
-        <ul>
-          <li><em>eli:InForce-inForce</em></li>
-          <li><em>eli:InForce-notInForce</em></li>
-        </ul>
-      </td>
-      <td>[0,1]</td>
-      <td>URI</td>
-      <td>is / is not in force</td>
-    </tr>-->
   </tbody>
 </table>
 <ul>
     <li class="alkup">Original versions</li>
     <li class="ajantasa">Consolidated (amended) versions</li>
 </ul>
-<h3>sfl:StatuteItemVersion</h3>
+<h3>sfl:SectionOfALawVersion</h3>
 <p>Alaluokat: <em>sfl:PartVersion, sfl:ChapterVersion, sfl:SectionVersion, sfl:SubsectionVersion, sfl:ParagraphVersion, sfl:SubparagraphVersion, sfl:EnactingClauseVersion, sfl:AttachmentVersion, sfl:SubheadingVersion, sfl:PreambleVersion</em></p>
 <table class="table table-striped">
   <thead>
@@ -295,30 +305,30 @@ The relationship between a statute and a statute version is expressed with prope
   </thead>
   <tbody>
     <tr>
-      <td><em>sfl:isVersionOf</em></td>
-      <td><em>sfl:StatuteItem</em></td>
+      <td><em>eli:is_member_of</em></td>
+      <td><em>sfl:SectionOfALaw</em></td>
       <td>1</td>
       <td>URI</td>
-      <td>is version of a statute item</td>
+      <td>is version of a section of a law</td>
     </tr>
     <tr>
       <td><em>eli:has_part</em></td>
-      <td><em>sfl:StatuteItemVersion</em></td>
+      <td><em>sfl:SectionOfALawVersion</em></td>
       <td>[0,n]</td>
       <td>URI</td>
-      <td>contains a statute item</td>
+      <td>contains a section of a law</td>
     </tr>
     <tr>
       <td><em>eli:is_part_of</em></td>
       <td>
         <ul>
           <li><em>sfl:StatuteVersion</em> (statute version)</li>
-          <li><em>sfl:StatuteItemVersion</em> (statute item version)</li>
+          <li><em>sfl:SectionOfALawVersion</em> (section of a law version)</li>
         </ul>
       </td>
       <td>[0,n]</td>
       <td>URI</td>
-      <td>is part of a statute / statute item</td>
+      <td>is part of a statute / section of a law</td>
     </tr>
     <tr>
       <td><em>eli:version</em></td>
@@ -340,7 +350,7 @@ The relationship between a statute and a statute version is expressed with prope
       <td>date of entry into force of the amendment</td>
     </tr>
     <tr class="ajantasa">
-      <td><em>eli:changed_by</em></td>
+      <td><em>eli:amended_by</em></td>
       <td><em>sfl:StatuteVersion</em></td>
       <td>[0,1]</td>
       <td>URI</td>
@@ -351,10 +361,10 @@ The relationship between a statute and a statute version is expressed with prope
       <td><em>sfl:Statute</em></td>
       <td>[0,n]</td>
       <td>URI</td>
-      <td>in text reference to a statute / statute item</td>
+      <td>in text reference to a statute / section of a law</td>
     </tr>
     <tr>
-      <td><em>sfl:nextItem</em> **</td>
+      <td><em>sfl:followedBy</em> **</td>
       <td><em>sfl:SectionVersion</em></td>
       <td>1</td>
       <td>URI</td>
@@ -381,11 +391,11 @@ The relationship between a statute and a statute version is expressed with prope
     <td><em>eli:realizes</em></td>
     <td><ul>
       <li><em>sfl:StatuteVersion</em></li>
-      <li><em>sfl:StatuteItemVersion</em></li>
+      <li><em>sfl:SectionOfALawVersion</em></li>
     </td>
     <td>1</td>
     <td>URI</td>
-    <td>statute/statute item temporal version</td>
+    <td>statute/section of a law temporal version</td>
   </tr>
   <tr>
     <td><em>eli:is_embodied_by</em></td>

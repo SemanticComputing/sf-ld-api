@@ -1,10 +1,11 @@
 <h1>REST API (JSON-LD)</h1>
+<p><b>The REST API works with redirects by using the URI identifiers described earlier in the documentation. The HTTP request <i>Accept</i> header must be <i>application/ld+json</i> or <i>application/json</i>.</b></p>
 <h2>Legislation</h2>
 <p>List statutes by year (YYYY:</p>
-<pre>http://data.finlex.fi/api/v1/statutes/(YYYY)</pre>
+<pre>http://data.finlex.fi/eli/sd/(YYYY)</pre>
 <p>Find a statute by year (YYYY) and id (#) :</p>
-<pre>http://data.finlex.fi/api/v1/statutes/(YYYY)/(#)</pre>
-<p>The request supports following parameters:</p>
+<pre>http://data.finlex.fi/eli/sd/(YYYY)/(#)</pre>
+<p>The requests support following parameters:</p>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -15,9 +16,9 @@
   </thead>
   <tbody>
     <tr>
-      <td><em>time</em></td>
+      <td><em>pointInTime</em></td>
       <td>YYYYMMDD</td>
-      <td>point in time</td>
+      <td>get version of a statute / section of a law valid at a given date</td>
     </tr>
     <tr>
       <td><em>language</em></td>
@@ -26,7 +27,7 @@
     </tr>
     <tr>
       <td><em>content</em></td>
-      <td>txt, html, xml</td>
+      <td>txt, html</td>
       <td>format of the content</td>
     </tr>
     <tr>
@@ -49,16 +50,22 @@
 <ul>
     <li>Examples
 	    <ul>
-		    <li><a href="http://data.finlex.fi/api/v1/statutes/2004/1430?pretty">http://data.finlex.fi/api/v1/statutes/2004/1430?pretty</a></li>
-		    <li><a href="http://data.finlex.fi/api/v1/statutes/2004/1430?pretty&tree">http://data.finlex.fi/api/v1/statutes/2004/1430?pretty&tree</a></li>
+		    <li><a href="http://data.finlex.fi/eli/sd/2004/1430?pretty">http://data.finlex.fi/eli/sd/2004/1430?pretty</a></li>
+		    <li><a href="http://data.finlex.fi/eli/sd/2004/1430?pretty&tree">http://data.finlex.fi/eli/sd/2004/1430?pretty&tree</a></li>
 	    </ul>
     </li>
 </ul>
 
 <h2>Case law</h2>
-<p>Find a specific statute by ECLI:</p>
-<pre>http://data.finlex.fi/api/v1/judgements/ECLI:FI:(KHO|KKO):(YYYY):(#)</pre>
-<p>The request supports following parameters</p>
+<p>Find a judgments by court:</p>
+<pre>http://data.finlex.fi/ecli/(kho|kko)</pre>
+<p>Find a judgments by year:</p>
+<pre>http://data.finlex.fi/ecli/(kho|kko)/(YYYY)</pre>
+<p>Find a judgments by year and court:</p>
+<pre>http://data.finlex.fi/ecli/(YYYY)</pre>
+<p>Find a specific judgment by id:</p>
+<pre>http://data.finlex.fi/ecli/(kho|kko)/(YYYY)/(#)</pre>
+<p>The requests support following parameters</p>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -75,7 +82,7 @@
     </tr>
     <tr>
       <td><em>content</em></td>
-      <td>txt, html, xml</td>
+      <td>txt, html</td>
       <td>format of the content</td>
     </tr>
   </tbody>
@@ -83,8 +90,8 @@
 <ul>
     <li>Examples
 	    <ul>
-		    <li><a href="http://data.finlex.fi/api/v1/judgements/ECLI:FI:KHO:2011:50">http://data.finlex.fi/api/v1/judgements/ECLI:FI:KHO:2011:50</a></li>
-		    <li><a href="http://data.finlex.fi/api/v1/judgements/ECLI:FI:KKO:2011:100?content=html&language=sv">http://data.finlex.fi/api/v1/judgements/ECLI:FI:KKO:2011:100?content=html&language=sv</a></li>
+		    <li><a href="http://data.finlex.fi/ecli/kho/2011/50">http://data.finlex.fi/ecli/kho/2011/50</a></li>
+		    <li><a href="http://data.finlex.fi/ecli/kho/2011/100?content=html&language=sv">http://data.finlex.fi/ecli/kho/2011/50?content=html&language=sv</a></li>
 	    </ul>
     </li>
 </ul>

@@ -1,0 +1,77 @@
+@prefix : <http://data.finlex.fi/schema/sfcl/> .
+@prefix sfl: <http://data.finlex.fi/schema/sfl/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix frbr: <http://purl.org/vocab/frbr/core#> .
+
+<http://data.finlex.fi/schema/sfcl>
+  rdf:type owl:Ontology ;
+  owl:imports <http://purl.org/vocab/frbr/core> ;
+  owl:imports <http://data.finlex.fi/schema/sfl/> ;
+.
+:Judgment
+  rdf:type owl:Class ;
+  rdfs:subClassOf frbr:Work ;
+  rdfs:label "Judgment"@en, "Oikeuden ratkaisu"@fi ;
+.
+:Expression
+  rdf:type owl:Class ;
+  rdfs:subClassOf frbr:Expression ;
+.
+:Format
+  rdf:type owl:Class ;
+  rdfs:subClassOf frbr:Manifestation ;
+.
+:refToLegislation
+  rdf:type owl:ObjectProperty ;
+  rdfs:label "Reference to legislation"@en, "Viittaus lainsäädäntöön"@en;
+  rdfs:domain ( :Judgement ) ;
+  rdfs:range ( sfl:Statute sfl:StatuteItem ) ;
+.
+:realizes
+  rdf:type owl:ObjectProperty ;
+  rdfs:subPropertyOf frbr:isRealizationOf ;
+  rdfs:label "Realizes"@en ;
+  rdfs:domain ( :Expression ) ;
+  rdfs:range ( :Judgement ) ;
+.
+:isRealizedBy
+  rdf:type owl:ObjectProperty ;
+  rdfs:subPropertyOf frbr: ;
+  rdfs:label "Is realized by"@en ;
+  rdfs:domain ( :Judgement ) ;
+  rdfs:range ( :Expression ) ;
+.
+:embodies
+  rdf:type owl:ObjectProperty ;
+  rdfs:subPropertyOf frbr:embodimentOf ;
+  rdfs:label "Embodies"@en ;
+  rdfs:domain ( :Format ) ;
+  rdfs:range ( :Expression ) ;
+.
+:isEmbodiedBy
+  rdf:type owl:ObjectProperty ;
+  rdfs:subPropertyOf frbr:embodiment ;
+  rdfs:label "Is embodied by"@en ;
+  rdfs:domain ( :Expression ) ;
+  rdfs:range ( :Format ) ;
+.
+:text
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "Text"@en ;
+  rdfs:domain ( :Format ) ;
+  rdfs:range rdfs:Literal ;
+.
+:html
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "HTML"@en;
+  rdfs:domain ( :Format ) ;
+  rdfs:range rdfs:Literal ;
+.
+:xml
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "XML"@en;
+  rdfs:domain ( :Format ) ;
+  rdfs:range rdf:XMLLiteral ;
+.

@@ -79,7 +79,7 @@ One of the key publication principles of Linked Data is to provide unique URI id
   </tbody>
 </table>
 <h3>Case law</h3>
-<p>The URI template for the judgments is based on the ECLI standard (European Case Law Identifier).</p>
+<p>The URI template for the judgments is based on the ECLI standard (European Case Law Identifier), but modified to align with the HTTP URI patterns of the ELI standard.</p>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -95,19 +95,19 @@ One of the key publication principles of Linked Data is to provide unique URI id
       <td></td>
     </tr>
     <tr>
-      <td>http://data.finlex.fi/oikeus/ECLI:FI:(KKO|KHO):{YYYY}:{ID}</td>
+      <td>http://data.finlex.fi/ecli/{court)/{year}/{id}</td>
       <td>A specific judgment</td>
-      <td><a href="http://data.finlex.fi/oikeus/ECLI:FI:KKO:1996:47">Example</td>
+      <td><a href="http://data.finlex.fi/ecli/kko/1996/47">Example</td>
     </tr>
     <tr>
-      <td>http://data.finlex.fi/oikeus/ECLI:FI:(KKO|KHO):{YYYY}:{ID}/(fin|swe)</td>
+      <td>http://data.finlex.fi/ecli/{court)/{year}/{id}/{language}</td>
       <td>A judgment in Finnish/Swedish</td>
-      <td><a href="http://data.finlex.fi/oikeus/ECLI:FI:KKO:1996:47/fin">Example</td>
+      <td><a href="http://data.finlex.fi/ecli/kko/1996/47/fin">Example</td>
     </tr>
     <tr>
-      <td>http://data.finlex.fi/oikeus/ECLI:FI:(KKO|KHO):{YYYY}:{ID}/(fin|swe)/(html|txt|xml)</td>
-      <td>The HTML/XML/text content of a judgment in Finnish/Swedish</td>
-      <td><a href="http://data.finlex.fi/oikeus/ECLI:FI:KKO:1996:47/fin/html">Example</td>
+      <td>http://data.finlex.fi/ecli/{court)/{year}/{id}/{language}/{format}</td>
+      <td>The HTML/text content of a judgment in Finnish/Swedish</td>
+      <td><a href="http://data.finlex.fi/ecli/kko/1996/47/fin/html">Example</td>
     </tr>
   </tbody>
 </table>
@@ -171,6 +171,7 @@ The graph contains for example RDF resources representing the Parliament and the
 <ul>
   <li><b>SFL (Semantic Finlex Legislation)</b>: http://data.finlex.fi/schema/sfl</li>
   <li><b>SFCL (Semantic Finlex Case Law)</b>: http://data.finlex.fi/schema/sfcl</li>
+  <li><b>SFL (Semantic Finlex Legislation)</b>: http://data.finlex.fi/schema/common</li>
 </ul>
 
 <hr/>
@@ -183,4 +184,4 @@ The graph contains for example RDF resources representing the Parliament and the
 <p>http://data.finlex.fi/sparql</p>
 
 <h3>VoID description of the dataset</h3>
-  <p>http://data.finlex.fi/void</p>
+<p>http://data.finlex.fi/void</p>

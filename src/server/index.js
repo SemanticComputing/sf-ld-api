@@ -8,6 +8,9 @@ import favicon from 'serve-favicon';
 import redirect from './middleware/redirect';
 import redirectLegacyEcli from './route/ecliLegacy';
 import route from './route';
+import common from './route/common';
+import schema from './route/schema';
+import voidDesc from './route/void';
 import Router from 'react-router';
 import config from '../config.json';
 
@@ -63,6 +66,11 @@ app.use(require('express-validator')({
 
 // legacy search
 app.use('/api/v1', require('../legacy/routes/api'));
+
+// schemas, @TODO, replace with 303 and ldb
+app.use('/schema', schema);
+app.use('/common', common);
+app.use('/void', voidDesc);
 
 app.get('/', (req, res) => {return res.sendFile(path.resolve(__dirname+'/../sf-docs/index.html'));});
 

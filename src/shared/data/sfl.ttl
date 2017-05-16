@@ -1,0 +1,254 @@
+@prefix : <http://data.finlex.fi/schema/sfl/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix eli: <http://data.europa.eu/eli/ontology#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+<http://data.finlex.fi/schema/sfl>
+  rdf:type owl:Ontology ;
+  owl:imports <http://data.europa.eu/eli/ontology#> ;
+.
+:Statute
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:LegalResource ;
+  rdfs:label "Statute"@en, "Säädös"@fi, "Författning"@sv;
+.
+:StatuteVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:LegalResource ;
+  rdfs:label "Statute version"@en, "Säädöksen versio"@fi ;
+.
+:SectionOfALaw
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:LegalResourceSubdivision ;
+  rdfs:label "Section of a law"@en, "Lainkohta"@fi,;
+.
+:StatuteVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:LegalResourceSubdivision ;
+  rdfs:label "Section of a law version"@en, "Lainkohdan versio"@fi ;
+.
+:Act
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:ResourceType ;
+  rdfs:label "Act"@en, "Laki"@fi ;
+.
+:Decree
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:ResourceType ;
+  rdfs:label "Decree"@en, "Asetus"@fi ;
+.
+:PresidentialDecree
+  rdf:type owl:Class ;
+  rdfs:subClassOf :Decree ;
+  rdfs:label "Presidential decree"@en, "Tasavallan presidentin asetus"@fi ;
+.
+:GovernmentDecree
+  rdf:type owl:Class ;
+  rdfs:subClassOf :Decree ;
+  rdfs:label "Government decree"@en, "Valtioneuvoston asetus"@fi ;
+.
+:MinisterialDecree
+  rdf:type owl:Class ;
+  rdfs:subClassOf :Decree ;
+  rdfs:label "Ministerial decree"@en, "Ministeriön asetus"@fi ;
+.
+:Decision
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:ResourceType ;
+  rdfs:label "Decision"@en, "Päätös"@fi ;
+.
+:GovernmentDecision
+  rdf:type owl:Class ;
+  rdfs:subClassOf :Decision ;
+  rdfs:label "Government decision"@en, "Valtioneuvoston päätös"@fi ;
+.
+:OtherDecision
+  rdf:type owl:Class ;
+  rdfs:subClassOf :Decision  ;
+  rdfs:label "Other decision"@en, "Muu päätös"@fi ;
+.
+:OtherStatute
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:ResourceType ;
+  rdfs:label "Other statute"@en, "Muu säädös"@fi ;
+.
+:StatuteItem
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:LegalResource ;
+  rdfs:label "Statute item"@en, "Lainkohta"@fi ;
+.
+:Part
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Part"@en, "Osa"@fi ;
+.
+:Chapter
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Chapter"@en, "Luku"@fi ;
+.
+:Section
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Section"@en, "Pykälä"@fi ;
+.
+:Subsection
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Subsection"@en, "Momentti"@fi ;
+.
+:Paragraph
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Paragraph"@en, "Kohta"@fi ;
+.
+:Subparagraph
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Subparagraph"@en, "Alakohta"@fi ;
+.
+:Preamble
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Preamble"@en, "Johdantokappale"@fi ;
+.
+:FinalParagraph
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Final paragraph"@en, "Loppukappale"@fi ;
+.
+:EnactingClause
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Enacting clause"@en, "Johtolause"@fi ;
+.
+:EntryIntoForce
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Entry into force"@en, "Voimaantulosäännös"@fi ;
+.
+:Attachment
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Attachment"@en, "Liite"@fi ;
+.
+:Subheading
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItem ;
+  rdfs:label "Subheading"@en, "Väliotsikko"@fi ;
+.
+:StatuteItemVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf eli:LegalResource ;
+  rdfs:label "Statute item version"@en, "Lainkohdan versio"@fi ;
+.
+:PartVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Part version"@en, "Osan versio"@fi ;
+.
+:ChapterVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Chapter version"@en, "Luvun versio"@fi ;
+.
+:SectionVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Section version"@en, "Pykälän versio"@fi ;
+.
+:SubsectionVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Subsection version"@en, "Momentin versio"@fi ;
+.
+:ParagraphVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Paragraph version"@en, "Kohdan versio"@fi ;
+.
+:SubparagraphVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Subparagraph version"@en, "Alakohdan versio"@fi ;
+.
+:PreambleVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Preamble version"@en, "Johdantokappaleen versio"@fi ;
+.
+:FinalParagraphVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Final paragraph version"@en, "Loppukappaleen versio"@fi ;
+.
+:EnactingClauseVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Enacting clause version"@en, "Johtolauseen versio"@fi ;
+.
+:EntryIntoForceVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Entry into force version"@en, "Voimaantulosäännöksen versio"@fi ;
+.
+:AttachmentVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Attachment version"@en, "Liitteen versio"@fi ;
+.
+:SubheadingVersion
+  rdf:type owl:Class ;
+  rdfs:subClassOf :StatuteItemVersion ;
+  rdfs:label "Subheading version"@en, "Väliotsikon versio"@fi ;
+.
+:StatuteType
+  rdf:type owl:Class ;
+  rdfs:label "Statute type"@en, "Säädöksen tyyppi"@fi ;
+.
+:NewStatute
+  rdf:type :StatuteType ;
+  rdfs:label "New statute"@en, "Uusi säädös"@fi ;
+.
+:Amendment
+  rdf:type :StatuteType ;
+  rdfs:label "Amendment"@en, "Muutossäädös"@fi ;
+.
+:Repeal
+  rdf:type :StatuteType ;
+  rdfs:label "Repeal"@en, "Kumoamissäädös"@fi ;
+.
+:Original
+  rdf:type eli:Version ;
+  rdfs:label "Original version"@en, "Alkuperäinen versio"@fi ;
+.
+:Consolidated
+  rdf:type eli:Version ;
+  rdfs:label "Consolidated version"@en, "Ajantasaistettu (muutettu) versio"@fi
+.
+:followedBy
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "Followed by"@en, "Seuraava pykälä"@fi ;
+  rdfs:domain ( sfl:SubheadingVersion ) ;
+  rdfs:range sfl:SectionVersion;
+.
+:text
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "Text content"@en, "Tekstisisältö"@fi ;
+  rdfs:domain ( eli:Format ) ;
+  rdfs:range rdfs:Literal ;
+.
+:html
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "HTML content"@en, "HTML-sisältö"@fi ;
+  rdfs:domain ( eli:Format ) ;
+  rdfs:range rdfs:Literal ;
+.
+:xml
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "XML"@en, "XML"@fi ;
+  rdfs:domain ( eli:Format ) ;
+  rdfs:range rdf:XMLLiteral ;
+.
