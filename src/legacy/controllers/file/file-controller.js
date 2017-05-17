@@ -2,7 +2,7 @@ var self = {
 
     findZipFilesByDataset: function(req,res) {
       var fs = require('fs');
-      var files = fs.readdirSync('/Users/apoksane/org/seco/dev/sf-browser/src/legacy/public/data/'+req.param('dataset'));
+      var files = fs.readdirSync('dist/data/xml/'+req.param('dataset'));
       res.render('file-list', {dataset: req.param('dataset'), title: self.getDatasetName(req.param('dataset'))+' (XML)', files: files});
     },
 

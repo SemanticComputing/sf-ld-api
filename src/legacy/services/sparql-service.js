@@ -4,8 +4,8 @@ var self = {
 
   // Service endpoint
   //endpoint: 'http://130.233.124.183:3030/semantic-finlex/sparql',
-  endpoint: 'http://localhost:3030/semantic-finlex/sparql',
-  //endpoint: 'http://data.finlex.fi/sparql',
+  //endpoint: 'http://localhost:3030/semantic-finlex/sparql',
+  endpoint: 'http://data.finlex.fi/sparql',
 
   // Formats for CONSTRUCT queries
   constructFormats: {

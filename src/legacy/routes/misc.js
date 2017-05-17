@@ -20,6 +20,6 @@ router.get('/', findResource);
 router.get('/voc*', findResource);
 router.get('/common*', findResource);
 router.get('/schema*', findResource);
-router.get('/data/:dataset\.html', fileController.findZipFilesByDataset);
+router.get('/data/xml/:dataset\.html', fileController.findZipFilesByDataset);
 
 module.exports = router;

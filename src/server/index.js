@@ -22,7 +22,12 @@ app.use(morgan('dev'));
 
 // 3rd party middleware
 app.use(favicon(path.join(__dirname, '../shared/images', 'favicon.ico')));
-app.use(cors({exposedHeaders: config.corsHeaders}));
+//app.use(cors({exposedHeaders: config.corsHeaders}));
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 app.use(bodyParser.json({limit: config.bodyLimit}));
 app.use(require('express-validator')({
   customValidators: {
@@ -95,6 +100,7 @@ app.use('/public', express.static(__dirname+'/../../dist/public'));
 app.use('/sf-docs/partials', express.static(__dirname+'/../sf-docs/partials'));
 app.use('/sf-docs/images', express.static(__dirname+'/../sf-docs/images'));
 app.use('/sf-docs', express.static(__dirname+'/../sf-docs/dist'));
+app.use('/tagclouds', express.static(__dirname+'/../../tagclouds'));
 
 // api router
 app.use('/', route);

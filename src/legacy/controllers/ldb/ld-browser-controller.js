@@ -433,7 +433,7 @@ var self = {
          var htmlVal = (!html) ? "" : html['@value'];
          var metadata = jsonldService.filterMetadata(results["@graph"][0])
          var templateVariables = {
-           tagcloud: "http://data.finlex.fi/tagclouds/cloud_data.finlex.fi_eli_sd_"+req.params[0]+"_"+req.params[1]+".png",
+           tagcloud: "/tagclouds/cloud_data.finlex.fi_eli_sd_"+req.params[0]+"_"+req.params[1]+".png",
            title: titleVal,
            html: htmlVal
          };
