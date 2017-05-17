@@ -11,7 +11,7 @@ export default (req, res, next) => {
     return ((req.originalUrl.substring(0,11)=='/ld-browser')?'':'/ld-browser')+req.originalUrl.split("?")[0]+"."+extension+(req.originalUrl.split("?")[1] ? "?"+req.originalUrl.split("?")[1] : "");
   };
 
-  if (req.originalUrl.match(/(.js((\?){1}|$)|.map((\?){1}|$)|.jpg((\?){1}|$)|.png((\?){1}|$)|.ttl((\?){1}|$)|.rdf((\?){1}|$)|.css((\?){1}|$)|.json((\?){1}|$)|.jsonld((\?){1}|$)|.html((\?){1}|$))/)) {
+  if (req.originalUrl.match(/(.js((\?){1}|$)|.map((\?){1}|$)|.jpg((\?){1}|$)|.png((\?){1}|$)|.ttl((\?){1}|$)|.rdf((\?){1}|$)|.css((\?){1}|$)|.json((\?){1}|$)|.jsonld((\?){1}|$)|.html((\?){1}|$)|.zip((\?){1}|$))/)) {
     return next();
   } else {
     switch(accept(req.get('Accept'))) {

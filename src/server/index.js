@@ -101,6 +101,9 @@ app.use('/sf-docs/partials', express.static(__dirname+'/../sf-docs/partials'));
 app.use('/sf-docs/images', express.static(__dirname+'/../sf-docs/images'));
 app.use('/sf-docs', express.static(__dirname+'/../sf-docs/dist'));
 app.use('/tagclouds', express.static(__dirname+'/../../tagclouds'));
+app.use('/data/xml/asd', express.static(__dirname+'/../data/xml/asd'));
+app.use('/data/xml/kko', express.static(__dirname+'/../data/xml/kko'));
+app.use('/data/xml/kho', express.static(__dirname+'/../data/xml/kho'));
 
 // api router
 app.use('/', route);
