@@ -22,7 +22,7 @@
 :SectionOfALaw
   rdf:type owl:Class ;
   rdfs:subClassOf eli:LegalResourceSubdivision ;
-  rdfs:label "Section of a law"@en, "Lainkohta"@fi,;
+  rdfs:label "Section of a law"@en, "Lainkohta"@fi ;
 .
 :StatuteVersion
   rdf:type owl:Class ;
@@ -231,8 +231,8 @@
 :followedBy
   rdf:type owl:DatatypeProperty ;
   rdfs:label "Followed by"@en, "Seuraava pykälä"@fi ;
-  rdfs:domain ( sfl:SubheadingVersion ) ;
-  rdfs:range sfl:SectionVersion;
+  rdfs:domain ( :SubheadingVersion ) ;
+  rdfs:range :SectionVersion;
 .
 :text
   rdf:type owl:DatatypeProperty ;
