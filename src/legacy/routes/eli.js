@@ -74,7 +74,7 @@ function findStatutesByYear(req,res) {
 //router.get(/.*\.html$/, ldBrowserController.findHtml);
 //router.get(/.*\.rdf$/, rdfController.findResource);
 //router.get(/.*\.txt$/, ldBrowserController.findText);
-//router.get(/.*\.xml$/, ldBrowserController.findXml);
+router.get(/.*\.xml$/, ldBrowserController.findXml);
 router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\/?([0-9]{8})\/(fin|swe)\/(txt|html|xml)\.html$/, findResource)
 router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\/?([0-9]{8})\/(fin|swe)\.html$/, findResource)
 router.get(/sd\/([0-9]{4})\/([0-9]+[A-Z]{0,1})(.*)\/(ajantasa)\.html$/, findLegalResource)

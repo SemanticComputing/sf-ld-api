@@ -41,6 +41,7 @@ function findJudgment(req,res) {
   }
 }
 
+router.get(/.*\.xml$/, ldBrowserController.findXml);
 router.get(/\/(kko|kho)\/([0-9]{4})\/(I|B|T){0,2}[0-9]{1,4}\/(fin|swe)\/(html|txt|text|xml)\.html/, findResource);
 router.get(/\/(kko|kho)\/([0-9]{4})\/(I|B|T){0,2}[0-9]{1,4}\/(fin|swe)\.html/, findResource);
 router.get(/\/(kko|kho)\/([0-9]{4})\/(I|B|T){0,2}[0-9]{1,4}\.html/, findJudgment);
