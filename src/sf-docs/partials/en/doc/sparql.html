@@ -30,7 +30,7 @@
     # http://data.finlex.fi/eli/sd/1889/39/luku/1
     # http://data.finlex.fi/eli/sd/1889/39/luku/1/pykala/1
     # http://data.finlex.fi/eli/sd/1889/39/voimaantulo
-   &lt;http://data.finlex.fi/eli/sd/1889/39> sfl:hasVersion ?document_version .
+   &lt;http://data.finlex.fi/eli/sd/1889/39> eli:has_member ?document_version .
 
    # lang options: fin,swe
    # format options: txt and html
@@ -52,7 +52,7 @@
   SELECT ?title
   WHERE {
     ?s rdf:type sfl:Statute .
-    ?s sfl:hasVersion ?v .
+    ?s eli:has_member ?v .
     BIND(IRI(CONCAT(str(?v),"/fin")) AS ?e)
     ?e eli:title ?title .
   } LIMIT 10
@@ -66,7 +66,7 @@
 
   # Query : Get the newest version of a statute (Osakeyhtiölaki)
   SELECT ?s WHERE {
-    &lt;http://data.finlex.fi/eli/sd/2006/624> sfl:hasVersion ?s .
+    &lt;http://data.finlex.fi/eli/sd/2006/624> eli:has_member ?s .
     OPTIONAL {?s eli:version_date ?dv .}
   }
   ORDER BY DESC(?dv) LIMIT 1
@@ -83,7 +83,7 @@
     {
       SELECT ?sv ?dv WHERE
       {
-        &lt;http://data.finlex.fi/eli/sd/2008/521> sfl:hasVersion ?sv .
+        &lt;http://data.finlex.fi/eli/sd/2008/521> eli:has_member ?sv .
         OPTIONAL { ?sv eli:version_date ?dv .}
       } ORDER BY DESC(?dv) LIMIT 1
     }
@@ -133,7 +133,7 @@
   SELECT (COUNT(?o) AS ?co) ?c WHERE {
     {
     	SELECT ?sv WHERE {
-        &lt;http://data.finlex.fi/eli/sd/1889/39> sfl:hasVersion ?sv .
+        &lt;http://data.finlex.fi/eli/sd/1889/39> eli:has_member ?sv .
         ?sv eli:version_date ?dv .
       } ORDER BY DESC(?dv) LIMIT 1
     }
@@ -153,7 +153,7 @@
     # select latest
     {
       SELECT ?sv WHERE {
-        &lt;http://data.finlex.fi/eli/sd/1889/39> sfl:hasVersion ?sv .
+        &lt;http://data.finlex.fi/eli/sd/1889/39> eli:has_member ?sv .
         ?sv eli:version_date ?dv .
       } ORDER BY DESC(?dv) LIMIT 1
     }
@@ -175,7 +175,7 @@
   SELECT ?sv ?c ?l WHERE {
     {
       SELECT ?sv WHERE {
-        &lt;http://data.finlex.fi/eli/sd/1889/39> sfl:hasVersion ?sv .
+        &lt;http://data.finlex.fi/eli/sd/1889/39> eli:has_member ?sv .
         ?sv eli:version_date ?dv .
       } ORDER BY DESC(?dv) LIMIT 1
     }
@@ -196,7 +196,7 @@
   SELECT ?statuteVersion ?title WHERE {
     GRAPH &lt;http://data.finlex.fi/sd/ajantasa&gt; {
       ?statute a sfl:Statute ;
-               sfl:hasVersion ?statuteVersion .
+               eli:has_member ?statuteVersion .
       FILTER NOT EXISTS {
         ?statute eli:in_force eli:InForce-notInForce .
       }
@@ -204,7 +204,7 @@
         ?statuteVersion eli:version_date ?date .
       }
       FILTER (!bound(?date) || NOT EXISTS {
-        ?statute sfl:hasVersion ?statuteVersion2 .
+        ?statute eli:has_member ?statuteVersion2 .
         FILTER (?statuteVersion2 != ?statuteVersion)
         ?statuteVersion2 eli:version_date ?date2 .
         FILTER (?date2 > ?date)}
