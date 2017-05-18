@@ -43,7 +43,7 @@ export default class LegislationJsonLd {
     })
     // Sort response by statute year and id
     const response = {
-      '@graph': _.sortBy(_.map(statutes), (statute) => {
+      '@graph': _.sortBy(_.map(_.filter(statutes, (statute) => {return statute.idLocal[0].match(/^(\d+)/) != null;})), (statute) => {
         return parseInt(statute.idLocal[0].match(/\d{4}$/)+((statuteId) => {while(statuteId.length < 4) statuteId = '0'+statuteId; return statuteId;})(statute.idLocal[0].match(/^(\d+)/)[0]))
       }),
       '@context': Object.assign(_.invert(prefix.prefixes), context)
