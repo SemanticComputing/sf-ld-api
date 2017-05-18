@@ -85,7 +85,7 @@ app.use('/oikeus', redirectLegacyEcli);
 app.use('/', redirect);
 
 // legacy routes, static files
-app.use('/ld-browser', require('../legacy/routes/index'));
+app.use('/', function(req,res,next) {console.log(req.originalUrl);next();}, require('../legacy/routes/index'));
 app.set('view engine', 'jade')
 app.set('views', path.join(__dirname, '/../legacy/views'));
 app.use('/legacy/images', express.static(path.join(__dirname, '../legacy/public/images')));

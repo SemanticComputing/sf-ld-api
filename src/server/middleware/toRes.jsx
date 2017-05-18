@@ -2,6 +2,7 @@ import express                   from 'express';
 import React                     from 'react';
 import { renderToString }        from 'react-dom/server'
 import { createMemoryHistory }   from 'history';
+import * as jsonld               from 'jsonld';
 import App                       from '../../shared/App';
 import { Provider }              from 'react-redux';
 import * as reducers             from '../../shared/reducers';
@@ -80,9 +81,18 @@ export default function toRes(req, res) {
       `;
 
     res.end(html);
-
   }
-  else if (req.originalUrl.match(/(.jsonld|.json)((\?){1}|$)/))
+
+  // JSON-LD is the preferred format
+  else if (req.originalUrl.match(/(.jsonld|.json|.rdf)((\?){1}|$)/))
     return res.send(res.locals.data)
+
+  // Serialize other requests to N-Quads (RDF), for now
+  else if (req.originalUrl.match(/(.nquads|.nq|.nt|.ttl)((\?){1}|$)/)) {
+    jsonld.toRDF(JSON.parse(res.locals.data), {format: 'application/nquads'}, function(err, nquads) {
+      res.set('Content-Type', 'application/nquads');
+      return res.send(nquads)
+    });
+  }
 
 }

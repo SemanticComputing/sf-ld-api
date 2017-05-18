@@ -14,7 +14,6 @@ class JudgmentCtrl {
       new Sparql()
         .select(query)
         .then((data) => {
-          console.log(data.results);
           if (data.results.bindings.length==0)
             return reject();
 

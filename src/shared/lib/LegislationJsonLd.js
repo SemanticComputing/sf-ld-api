@@ -36,7 +36,7 @@ export default class LegislationJsonLd {
       addProp(statute, 'idLocal', binding.idLocal.value);
       const statuteVersion = {'@id':prefix.shorten(binding.statuteVersion.value), '@type':prefix.shorten(binding.statuteVersionType.value)};
       addProp(statute, 'hasMember', statuteVersion);
-      if (binding.hasMember.value != binding.statuteVersion.value) addProp(statute, 'hasMember', binding.hasMember.value);
+      if (binding.hasMember && binding.hasMember.value != binding.statuteVersion.value) addProp(statute, 'hasMember', binding.hasMember.value);
       const expression = {'@id':prefix.shorten(binding.expression.value), '@type':prefix.shorten(binding.expressionType.value)};
       addProp(statuteVersion, 'isRealizedBy', expression);
       addProp(expression, 'title_'+this.lang, binding.title.value);

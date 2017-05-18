@@ -1,15 +1,20 @@
 @prefix : <http://data.finlex.fi/schema/sfcl/> .
+@prefix vann: <http://purl.org/vocab/vann/> .
 @prefix sfl: <http://data.finlex.fi/schema/sfl/> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix frbr: <http://purl.org/vocab/frbr/core#> .
 
-<http://data.finlex.fi/schema/sfcl>
-  rdf:type owl:Ontology ;
-  owl:imports <http://purl.org/vocab/frbr/core> ;
-  owl:imports <http://data.finlex.fi/schema/sfl/> ;
-.
+<http://data.finlex.fi/schema/sfcl/>
+  a owl:Ontology ;
+  rdfs:label "Semantic Finlex Case Law Ontology"@en ;
+  vann:preferredNamespacePrefix "sfcl" ;
+  owl:versionInfo "1.0" ;
+  dcterms:creator "Semantic Computing Group (SeCo), Aalto University"@en ;
+  owl:imports <http://purl.org/vocab/frbr/core>, <http://data.europa.eu/eli/ontology#>, <http://data.finlex.fi/schema/sfl/> .
+
 :Judgment
   rdf:type owl:Class ;
   rdfs:subClassOf frbr:Work ;
@@ -25,22 +30,22 @@
 .
 :refToLegislation
   rdf:type owl:ObjectProperty ;
-  rdfs:label "Reference to legislation"@en, "Viittaus lainsäädäntöön"@en;
-  rdfs:domain ( :Judgement ) ;
-  rdfs:range ( sfl:Statute sfl:StatuteItem ) ;
+  rdfs:label "Reference to legislation"@en, "Viittaus lainsäädäntöön"@fi;
+  rdfs:domain ( :Judgment ) ;
+  rdfs:range ( sfl:Statute sfl:SectionOfALaw ) ;
 .
 :realizes
   rdf:type owl:ObjectProperty ;
   rdfs:subPropertyOf frbr:isRealizationOf ;
   rdfs:label "Realizes"@en ;
   rdfs:domain ( :Expression ) ;
-  rdfs:range ( :Judgement ) ;
+  rdfs:range ( :Judgment ) ;
 .
 :isRealizedBy
   rdf:type owl:ObjectProperty ;
   rdfs:subPropertyOf frbr: ;
   rdfs:label "Is realized by"@en ;
-  rdfs:domain ( :Judgement ) ;
+  rdfs:domain ( :Judgment ) ;
   rdfs:range ( :Expression ) ;
 .
 :embodies

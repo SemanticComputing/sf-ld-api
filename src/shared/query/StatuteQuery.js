@@ -59,11 +59,27 @@ export default class StatuteQuery {
       # No matching consolidated version, find original
       OPTIONAL {
         ?statute eli:has_member ?statuteVersion .
-        FILTER(!BOUND(?versionDate))
         ?statuteVersion eli:version sfl:Original .
       }
       FILTER(BOUND(?statuteVersion))`;
+
+    this.selectVersion = (params.year && !params.statuteId) ?  `
+      ?statuteVersion a sfl:StatuteVersion .
+      ?statuteVersion eli:date_document ?d .
+      FILTER (year(?d) = ${params.year})
+      ?statuteVersion eli:is_member_of ?statute .
+    ` : this.selectVersion;
+
+    this.selectVersion = (!params.year && !params.statuteId) ?  `
+      {
+        SELECT distinct ?statute {
+          ?statute a sfl:Statute .
+        } ${this.limit}
+      }
+      ?statute eli:has_member ?statuteVersion .
+    ` : this.selectVersion;
   }
+
 
   findMany() {
     return `SELECT ${this.vars}${this.fromGraph} WHERE {
@@ -71,7 +87,6 @@ export default class StatuteQuery {
       # Statute must be found at this point
       FILTER(BOUND(?statute))
       ?statute eli:id_local ?idLocal .
-      ?statute eli:has_member ?hasMember .
       ?statute sfl:statuteType ?statuteType .
       ?statuteVersion eli:is_realized_by ?expression .
       ?statuteVersion a ?statuteVersionType .

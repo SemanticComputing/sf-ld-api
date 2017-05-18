@@ -30,7 +30,6 @@ export default class CaseLawJsonLd {
     }
     // Collect values
     _.each(results.results.bindings, (binding) => {
-      console.log(binding)
       if (!judgments[binding.judgment.value]) judgments[binding.judgment.value] = {'@id':prefix.shorten(binding.judgment.value), '@type':prefix.shorten(binding.judgmentType.value)};
       const judgment = judgments[binding.judgment.value];
       addProp(judgment, 'ecliIdentifier', binding.ecli.value);
@@ -90,7 +89,6 @@ export default class CaseLawJsonLd {
     delete context['@type'];
     for (var ns in prefix.prefixes)
       context[prefix.prefixes[ns]]=ns;
-    console.log(itemMap)
     const idx = workLevel.isRealizedBy.indexOf(results.results.bindings[0].expression.value);
     workLevel.isRealizedBy[idx] = itemMap[results.results.bindings[0].expression.value];
     workLevel.isRealizedBy[idx]['isEmbodiedBy'] = itemMap[results.results.bindings[0].format.value];
