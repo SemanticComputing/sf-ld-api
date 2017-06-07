@@ -13,8 +13,17 @@ p {
   text-align: justify;
 }
 
+/* Fixed content position on big screen */
+@media screen and (min-width: 768px) {
+  .content-wrapper {
+    position: absolute;
+    left: 240px;
+    min-width: 800px;
+  }
+}
+
 .content-wrapper {
-  padding-left: 40px;
+  margin-left: 40px;
 }
 
 .lang-selector {
@@ -26,7 +35,7 @@ p {
 /* SIDE BAR */
 
 nav#sidebar-menu header {
-  margin: 5px;
+  margin: 20px 10px 20px;
   margin-bottom: 10px;
 }
 
@@ -58,10 +67,10 @@ nav ul {
 }
 
 nav#sidebar-menu {
-  background-color: #1c6fa3;
+  background-color: rgb(1,46,163);/* #1c6fa3; */
   height: 100%;
   left: 0;
-  max-width: 220px;
+  width: 240px;
 }
 
 #sidebar-menu .main-menu a {
@@ -93,6 +102,10 @@ nav#sidebar-menu {
 	padding-left: 50px;
 }
 
+.campaign-logo {
+  margin-left: 40px;
+}
+
 /* TOP BAR */
 
 nav#topbar-menu .navbar-brand {
@@ -109,7 +122,7 @@ nav#topbar-menu .navbar-brand img.logo {
 }
 
 nav#topbar-menu {
-  background-color: #1c6fa3;
+  background-color: rgb(1,46,163);
 }
 
 nav#topbar-menu a, nav#sidebar-menu a {
@@ -151,20 +164,16 @@ nav#topbar-menu a, nav#sidebar-menu a {
   width: 100%;
 }
 
-.footer {
-  bottom: 0;
-  height: 70px;
-  position: absolute;
-}
-
-.footer img {
-  margin: 10px;
+footer {
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 footer img.logo {
   display:inline;
   max-height: 45px;
   max-width: 100px;
+  margin: 20px;
 }
 
 img.finlex-ss {
