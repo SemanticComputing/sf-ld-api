@@ -4,11 +4,7 @@ import { renderToString }        from 'react-dom/server'
 import { createMemoryHistory }   from 'history';
 import * as jsonld               from 'jsonld';
 import App                       from '../../shared/App';
-import { Provider }              from 'react-redux';
-import * as reducers             from '../../shared/reducers';
 import accept                    from './accept';
-import { createStore,
-         combineReducers }       from 'redux';
 
 export default function toRes(req, res) {
 
@@ -43,22 +39,13 @@ export default function toRes(req, res) {
       return obj;
     }
 
-    const history  = createMemoryHistory(req.url);
-    const reducer  = combineReducers(reducers);
-    const store    = createStore(reducer, {data: res.locals.data});
+    const history = createMemoryHistory(req.originalUrl);
 
     const InitialView = (
-      <Provider store={store}>
-        <App data={res.locals.data} history={history}/>
-      </Provider>
+      <App data={res.locals.data} history={history}/>
     );
 
     const componentHtml = renderToString(InitialView);
-
-    const initialState = store.getState();
-
-    // @TODO: This goes inside inside head script tags
-    // window.__INITIAL_STATE__ = ${JSON.stringify(initialState)};
 
     const html = `
       <!DOCTYPE html>
@@ -68,14 +55,15 @@ export default function toRes(req, res) {
           <title>Semanttinen Finlex</title>
           <link rel="stylesheet" href="/public/bundle.css">
           <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+          <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
           <script type="application/ld+json">
-            ${JSON.stringify(removeContent(JSON.parse(res.locals.data)), null , 2)}
+            ${JSON.stringify(removeContent(res.locals.data), null , 2)}
           </script>
         </head>
         <body>
           <div id="react-view">${componentHtml}</div>
-          <!--<script type="application/javascript" src="/public/bundle.js"></script>-->
+          <script type="application/javascript" src="/public/bundle.js"></script>
         </body>
       </html>
       `;

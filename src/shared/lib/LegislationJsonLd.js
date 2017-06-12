@@ -141,5 +141,16 @@ export default class LegislationJsonLd {
     return response;
   }
 
+  getStatuteContent(statute, lang = 'fi') {
+    const version = _.filter(statute.hasMember, (item) => {return item.isRealizedBy});
+    return (version[0]) ? version[0].isRealizedBy.isEmbodiedBy['content_'+lang] : '';
+  }
+
+  getStatuteTitle(statute, lang = 'fi') {
+    if (statute.hasMember && statute.hasMember[0] && statute.hasMember[0].isRealizedBy && statute.hasMember[0].isRealizedBy[0]) {
+      return (lang == 'fi') ? statute.hasMember[0].isRealizedBy[0].title_fi[0] : statute.hasMember[0].isRealizedBy[0].title_sv[0];
+    }
+    return '';
+  }
 
 }

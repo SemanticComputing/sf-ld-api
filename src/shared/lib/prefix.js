@@ -11,6 +11,8 @@ class Prefix {
       PREFIX sfl: <http://data.finlex.fi/schema/sfl/>
       PREFIX sfecli: <http://data.finlex.fi/ecli/>
       PREFIX sfsd: <http://data.finlex.fi/eli/sd/>
+      PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+      PREFIX text: <http://jena.apache.org/text#>
       PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
 
     `
@@ -22,6 +24,8 @@ class Prefix {
       'http://data.finlex.fi/schema/sfl/' : 'sfl',
       'http://data.finlex.fi/ecli/' : 'sfecli',
       'http://data.finlex.fi/eli/sd/' : 'sfsd',
+      'http://www.w3.org/2004/02/skos/core#' : 'skos',
+      'http://jena.apache.org/text#' : 'text',
       'http://data.europa.eu/eli/ontology#' : 'eli',
     };
   }

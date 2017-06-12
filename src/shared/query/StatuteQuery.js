@@ -4,35 +4,50 @@ import sfl from '../lib/sfl';
 
 export default class StatuteQuery {
 
+
   constructor(params = {}) {
-    console.log(params)
+
     this.vars = '*';
-    // Get only CC BY  data
+
+    // Get only CC BY data
     this.fromGraph = (params.hasOwnProperty('free')) ? ' FROM <http://data.finlex.fi/eli/sd/alkup>' : '';
+
     // Get version valid at a certain point in time
     this.versionDateFilter = params.pointInTime ?
       'FILTER (\"'+moment(params.pointInTime, 'YYYYMMDD').format('YYYY-MM-DD')+'\"^^xsd:date >= ?vd)' : '';
     // Default limit
     this.limit = params.limit ? 'LIMIT '+params.limit : (params.year) ? '':'LIMIT 10';
+
+    // Offset
+    this.offset = params.offset ? 'OFFSET '+params.offset : '';
+
     // Statutes by year
     this.statute = (params.year) ? '?statute a sfl:Statute . ?statute eli:id_local ?idLocal . FILTER regex(?idLocal, \"'+params.year+'$\", \"i\")' : '?statute a sfl:Statute .';
+
     // Statute by id
     this.statute = (params.statuteId) ? 'VALUES ?statute { sfsd:'+params.year+'\\/'+params.statuteId+' }' : this.statute;
+
     // Section of a law by id
     this.statute = (params.statuteId && params.sectionOfALaw) ? 'VALUES ?statute { sfsd:'+params.year+'\\/'+params.statuteId+params.sectionOfALaw.replace(/\//gi, '\\/')+' }' : this.statute;
+
     // Bind statute to variable s
     this.statuteBind = (params.statuteId) ? 'BIND(sfsd:'+params.year+'\\/'+params.statuteId+' AS ?s)' : '';
+
     // Bind section of a law to variable s
     this.statuteBind = (params.statuteId && params.sectionOfALaw) ? 'BIND(sfsd:'+params.year+'\\/'+params.statuteId+params.sectionOfALaw.replace(/\//gi, '\\/')+' AS ?s)' : this.statuteBind;
+
     // Filter by lang
     this.eliLangFilter = params.lang ? '?expression eli:language '+eli.getLangResource(params.lang)+'.' : '?expression eli:language '+eli.getLangResource('fi')+'.';
+
     // Filter by format
     this.formatFilter = '?format eli:format '+((params.format) ? eli.getFormatResource(params.format) : eli.getFormatResource('text'))+'.';
     this.content = '?format '+((params.format) ? sfl.getPropertyByFormat(params.format) : sfl.getPropertyByFormat('text'))+' ?content .';
+
     // Build document tree
     this.tree = (params.hasOwnProperty('tree')) ? '?statuteVersion eli:has_part* ?s .' : 'BIND(?statuteVersion AS ?s)';
     this.treeFilter = (params.hasOwnProperty('tree')) ? 'FILTER NOT EXISTS { ?s eli:has_part _:b . }' : '';
-    // Original or consolidated
+
+    // One by id
     this.selectVersion = (params.version == 'alkup') ?
       // Find original versions
       `
@@ -63,18 +78,19 @@ export default class StatuteQuery {
       }
       FILTER(BOUND(?statuteVersion))`;
 
-    this.selectVersion = (params.year && !params.statuteId) ?  `
-      ?statuteVersion a sfl:StatuteVersion .
-      ?statuteVersion eli:date_document ?d .
-      FILTER (year(?d) = ${params.year})
-      ?statuteVersion eli:is_member_of ?statute .
-    ` : this.selectVersion;
-
-    this.selectVersion = (!params.year && !params.statuteId) ?  `
+    // Many (by year)
+    this.selectVersion = (!params.statuteId) ?  `
       {
-        SELECT distinct ?statute {
+        SELECT DISTINCT ?statute ?year ?number ?letter {
           ?statute a sfl:Statute .
-        } ${this.limit}
+          ?statute eli:has_member ?statuteVersion .
+          ?statuteVersion eli:date_document ?date_document .
+          ${params.year ? `FILTER (year(?date_document) = ${params.year})` : ``}
+          BIND (YEAR(?date_document) AS ?year)
+          ?statute eli:id_local ?id_local .
+          BIND (xsd:integer(REPLACE(?id_local, "[^0-9]+[0-9]+", "")) AS ?number)
+          BIND (REPLACE(?id_local, "[^A-Z]", "") AS ?letter)
+        } ORDER BY ?year ?number ?letter ${this.limit} ${this.offset}
       }
       ?statute eli:has_member ?statuteVersion .
     ` : this.selectVersion;
@@ -95,6 +111,7 @@ export default class StatuteQuery {
       ?expression a ?expressionType .
     }`
   }
+
 
   findOne() {
     return `SELECT ${this.vars} ${this.fromGraph} WHERE {
@@ -123,5 +140,6 @@ export default class StatuteQuery {
       }
     }`
   }
+
 
 }

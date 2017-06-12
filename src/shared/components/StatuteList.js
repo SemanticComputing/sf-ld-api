@@ -1,28 +1,29 @@
 import React                  from 'react';
-import { Link }               from 'react-router'
+import { Link }               from 'react-router';
 import _                      from 'lodash';
-import { connect }            from 'react-redux';
-import prefix                 from '../lib/prefix'
+import prefix                 from '../lib/prefix';
+import LegislationJsonLd      from '../lib/LegislationJsonLd';
 
-//@connect(state => ({ data: state.data }))
 
 export default class StatuteList extends React.Component {
 
   render() {
-    const data = JSON.parse(this.props.data);
-    //console.log(data);
+    const data = JSON.parse(this.props.route.data);
+    //const data = [];
+    const year = (this.props.params.year) ? this.props.params.year.replace(/[^0-9]+/g, '') : undefined;
     const statuteList = _.map(data['@graph'], (statute, i) => {
-      const id = statute.idLocal
-      var title = '';
-      if (statute.hasMember && statute.hasMember[0] && statute.hasMember[0].isRealizedBy && statute.hasMember[0].isRealizedBy[0]) {
-        console.log(statute.hasMember[0].isRealizedBy[0].title_fi);
-        title = (statute.hasMember[0].isRealizedBy[0].title_fi) ? statute.hasMember[0].isRealizedBy[0].title_fi[0] : statute.hasMember[0].isRealizedBy[0].title_sv[0];
-      }
-      return <li className="statute-list-item" key={i}><Link to={prefix.lengthen(statute['@id'])}>{statute.idLocal} - {title}</Link></li>
-    })
+      return (
+        <li className="statute-list-item" key={i}>
+          <Link to={prefix.lengthen(statute['@id'])}>{statute.idLocal} - {new LegislationJsonLd().getStatuteTitle(statute)}</Link>
+        </li>
+      );
+    });
     return (
-      <ul className="statute-list" >{statuteList}</ul>
-    )
+      <div className="statutes">
+        <h1>{(year) ? "Säädökset ("+year+")" : "Säädökset"}</h1>
+        <ul className="statute-list" >{statuteList}</ul>
+      </div>
+    );
   }
 
 }

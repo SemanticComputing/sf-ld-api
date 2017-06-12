@@ -44,10 +44,10 @@
     "morgan": "^1.8.0",
     "path": "^0.12.7",
     "react": "^15.4.2",
+    "react-autocomplete": "^1.5.6",
+    "react-bootstrap": "^0.31.0",
     "react-dom": "^15.4.2",
-    "react-redux": "^5.0.3",
     "react-router": "<4.0.0",
-    "redux": "^3.6.0",
     "resource-router-middleware": "^0.6.0",
     "serve-favicon": "^2.4.1",
     "superagent": "^3.5.0"
