@@ -39,6 +39,7 @@
     "history": "<4.0.0",
     "immutable": "^3.8.1",
     "jade": "^1.11.0",
+    "jquery": "^3.2.1",
     "jsonld": "^0.4.12",
     "moment": "^2.18.0",
     "morgan": "^1.8.0",
@@ -48,6 +49,7 @@
     "react-bootstrap": "^0.31.0",
     "react-dom": "^15.4.2",
     "react-router": "<4.0.0",
+    "react-tooltip": "^3.3.0",
     "resource-router-middleware": "^0.6.0",
     "serve-favicon": "^2.4.1",
     "superagent": "^3.5.0"

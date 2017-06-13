@@ -12,8 +12,6 @@ class ConceptCtrl {
         new ConceptQuery(params).findOne() :
         new ConceptQuery(params).findMany();
 
-      console.log(query)
-
       new Sparql({endpoint: 'http://ldf.fi/onki-light/sparql'})
         .select(query)
         .then((data) => {
@@ -23,8 +21,8 @@ class ConceptCtrl {
           const bindings = _.map(data.results.bindings, (val, key) => {
             return Object.assign(val, {id: key});
           });
-          console.log(bindings);
-          return resolve(bindings)
+
+          return resolve(bindings);
         })
         .catch((err) => {
           return reject(err);
