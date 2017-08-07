@@ -1,7 +1,7 @@
 <h1>REST API (JSON-LD)</h1>
 <p><b>The REST API works using redirects and content negotation by using the URI identifiers described in the <a href="#/fi/urit">previous section</a>. Therefore you must <u>allow redirects</u> and <u>set HTTP request <i>Accept</i> header</u> to either <i>application/ld+json</i> or <i>application/json</i>.</b></p>
 <p>Example with curl:</p>
-<p><i>curl -L --header "Accept: application/ld+json" http://data.finlex.fi/eli/sd/2004/1430?pretty&tree</i></p>
+<p><i>curl -L --header "Accept: application/ld+json" 'http://data.finlex.fi/eli/sd/2004/1430?pretty&tree'</i></p>
 <h2>Legislation</h2>
 <p>List statutes by year (YYYY:</p>
 <pre>http://data.finlex.fi/eli/sd/(YYYY)</pre>
