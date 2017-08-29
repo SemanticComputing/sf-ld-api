@@ -1,5 +1,7 @@
 <h1>REST API (JSON-LD)</h1>
-<p><b>The REST API works with redirects by using the URI identifiers described earlier in the documentation. The HTTP request <i>Accept</i> header must be <i>application/ld+json</i> or <i>application/json</i>.</b></p>
+<p><b>The REST API works using redirects and content negotation by using the URI identifiers described in the <a href="#/fi/urit">previous section</a>. Therefore you must <u>allow redirects</u> and <u>set HTTP request <i>Accept</i> header</u> to either <i>application/ld+json</i> or <i>application/json</i>.</b></p>
+<p>Example with curl:</p>
+<p><i>curl -L --header "Accept: application/ld+json" 'http://data.finlex.fi/eli/sd/2004/1430?pretty&tree'</i></p>
 <h2>Legislation</h2>
 <p>List statutes by year (YYYY:</p>
 <pre>http://data.finlex.fi/eli/sd/(YYYY)</pre>
@@ -50,8 +52,8 @@
 <ul>
     <li>Examples
 	    <ul>
-		    <li><a href="http://data.finlex.fi/eli/sd/2004/1430?pretty">http://data.finlex.fi/eli/sd/2004/1430?pretty</a></li>
-		    <li><a href="http://data.finlex.fi/eli/sd/2004/1430?pretty&tree">http://data.finlex.fi/eli/sd/2004/1430?pretty&tree</a></li>
+		    <li><a href="http://data.finlex.fi/eli/sd/2004/1430.jsonld?pretty">http://data.finlex.fi/eli/sd/2004/1430?pretty</a></li>
+		    <li><a href="http://data.finlex.fi/eli/sd/2004/1430.jsonld?pretty&tree">http://data.finlex.fi/eli/sd/2004/1430?pretty&tree</a></li>
 	    </ul>
     </li>
 </ul>
@@ -90,8 +92,8 @@
 <ul>
     <li>Examples
 	    <ul>
-		    <li><a href="http://data.finlex.fi/ecli/kho/2011/50">http://data.finlex.fi/ecli/kho/2011/50</a></li>
-		    <li><a href="http://data.finlex.fi/ecli/kho/2011/100?content=html&language=sv">http://data.finlex.fi/ecli/kho/2011/50?content=html&language=sv</a></li>
+		    <li><a href="http://data.finlex.fi/ecli/kho/2011/50.jsonld">http://data.finlex.fi/ecli/kho/2011/50</a></li>
+		    <li><a href="http://data.finlex.fi/ecli/kho/2011/100.jsonld?content=html&language=sv">http://data.finlex.fi/ecli/kho/2011/50?content=html&language=sv</a></li>
 	    </ul>
     </li>
 </ul>
