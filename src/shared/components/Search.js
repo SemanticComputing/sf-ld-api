@@ -1,5 +1,5 @@
 import React                                            from 'react';
-import { Button, ControlLabel, FormControl, FormGroup } from 'react-bootstrap'
+import { Button, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
 import _                                                from 'lodash';
 import Promise                                          from 'bluebird';
 import Autocomplete                                     from 'react-autocomplete';
@@ -23,7 +23,7 @@ export default class Search extends React.Component {
       searchResults: [],
       queryTs: new Date().getTime(),
       acQueryTs: new Date().getTime()
-    }
+    };
   }
 
 
@@ -31,7 +31,7 @@ export default class Search extends React.Component {
     const handlers = {
       'sd': statuteCtrl.findByQuery,
       'oikeus': 'oikeusHandler'
-    }
+    };
     return handlers['sd'];
   }
 
@@ -45,8 +45,8 @@ export default class Search extends React.Component {
 
   handleQueryChange(event, value) {
     const ts = new Date().getTime();
-    this.setState({acQueryTs: new Date(ts).getTime()})
-    this.setState({ value, loading: true, query : value  })
+    this.setState({acQueryTs: new Date(ts).getTime()});
+    this.setState({ value, loading: true, query : value  });
     this.queryAc(value)
       .then((items) => {
         const itemsMod = _.map(items, (item) => {
@@ -60,30 +60,30 @@ export default class Search extends React.Component {
         if (ts == this.state.acQueryTs)
           this.setState({ autoComplete: itemsMod, loading: false });
       })
-      .catch((err) => { console.log(err);})
+      .catch((err) => { console.log(err);});
   }
 
 
   query() {
     const query = this.state.query;
     const ts = new Date().getTime();
-    this.setState({queryTs: new Date(ts).getTime()})
+    this.setState({queryTs: new Date(ts).getTime()});
     this.getQueryHandler()({query: query})
       .then((results) => {
         if (ts == this.state.queryTs) {
           const searchResults = _.map(results, (result, idx) => {
             return <SearchResult
-                      key={idx+'-'+new Date().getTime()}
-                      title={result.title ? result.title.value : ''}
-                      content={result.txt ? result.txt.value : ''}
-                      query={query}
-                      workUrl={result.s ? result.s.value : ''}
-                      versionUrl={result.v ? result.v.value : ''}
-                      statuteVersionUrl={result.st ? result.st.value : ''}
-                      statuteTitle={result.stt ? result.stt.value : ''}
-                      type={result.t ? result.t.value : ''}
-                      >
-                    </SearchResult>;
+              key={idx+'-'+new Date().getTime()}
+              title={result.title ? result.title.value : ''}
+              content={result.txt ? result.txt.value : ''}
+              query={query}
+              workUrl={result.s ? result.s.value : ''}
+              versionUrl={result.v ? result.v.value : ''}
+              statuteVersionUrl={result.st ? result.st.value : ''}
+              statuteTitle={result.stt ? result.stt.value : ''}
+              type={result.t ? result.t.value : ''}
+            >
+            </SearchResult>;
           });
           this.setState({searchResults: searchResults});
         }
@@ -101,11 +101,11 @@ export default class Search extends React.Component {
         return reject();
       }
       conceptCtrl.find({
-          query: query,
-          limit: 10
-        })
+        query: query,
+        limit: 10
+      })
         .then((items) => { return resolve(items); })
-        .catch((err) => { return reject(err); })
+        .catch((err) => { return reject(err); });
     });
   }
 
@@ -132,7 +132,7 @@ export default class Search extends React.Component {
               items={this.state.autoComplete}
               getItemValue={(item) => item.sl.value}
               onSelect={(value, item) => {
-                this.setState({ value, autoComplete: [item], query : item.sl.value })
+                this.setState({ value, autoComplete: [item], query : item.sl.value });
               }}
               onChange={this.handleQueryChange}
               renderItem={(item, isHighlighted) => (
@@ -150,7 +150,7 @@ export default class Search extends React.Component {
           {this.state.searchResults}
         </div>
       </div>
-    )
+    );
   }
 
 }

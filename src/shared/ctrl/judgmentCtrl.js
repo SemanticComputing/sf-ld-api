@@ -22,16 +22,16 @@ class JudgmentCtrl {
             jsonLd.convertJudgmentBindings(data) :
             jsonLd.convertJudgmentListBindings(data);
 
-          return resolve(dataFormatted)
+          return resolve(dataFormatted);
         })
         .catch((err) => {
           return reject(err);
-        })
+        });
     });
   }
 
 }
 
-const judgmentCtrl = new JudgmentCtrl()
+const judgmentCtrl = new JudgmentCtrl();
 
-export default judgmentCtrl
+export default judgmentCtrl;

@@ -16,6 +16,6 @@ class Sfcl {
 
 }
 
-const sfcl = new Sfcl()
+const sfcl = new Sfcl();
 
-export default sfcl
+export default sfcl;

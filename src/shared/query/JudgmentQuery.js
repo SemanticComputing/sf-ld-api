@@ -5,7 +5,7 @@ import common from '../lib/common';
 export default class JudgmentQuery {
 
   constructor(params = {}) {
-    console.log(params)
+    console.log(params);
 
     this.vars = '*';
     // Default limit
@@ -33,7 +33,7 @@ export default class JudgmentQuery {
       ${this.ecliLangFilter}
       ?expression dcterms:title ?title .
       ?expression a ?expressionType .
-    } ${this.limit}`
+    } ${this.limit}`;
   }
 
   findOne() {
@@ -53,7 +53,7 @@ export default class JudgmentQuery {
        ?judgment ?p ?o.
        FILTER (?p != sfcl:isRealizedBy)
       }
-    }`
+    }`;
   }
 
 }

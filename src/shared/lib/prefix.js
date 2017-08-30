@@ -15,7 +15,7 @@ class Prefix {
       PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
       PREFIX text: <http://jena.apache.org/text#>
       PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-    `
+    `;
     this.prefixes = {
       'http://purl.org/dc/terms/' : 'dcterms',
       'http://www.w3.org/2001/XMLSchema#' : 'xsd',
@@ -34,7 +34,7 @@ class Prefix {
   lengthen(prefixed) {
     for (const ns in _.invert(this.prefixes)) {
       if (prefixed.substring(0, prefixed.indexOf(':')) == ns)
-        return _.invert(this.prefixes)[ns]+prefixed.substring(prefixed.indexOf(':')+1, prefixed.length)
+        return _.invert(this.prefixes)[ns]+prefixed.substring(prefixed.indexOf(':')+1, prefixed.length);
     }
     return prefixed;
   }

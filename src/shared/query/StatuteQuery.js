@@ -85,7 +85,7 @@ export default class StatuteQuery {
           ?statute a sfl:Statute .
           ?statute eli:has_member ?statuteVersion .
           ?statuteVersion eli:date_document ?date_document .
-          ${params.year ? `FILTER (year(?date_document) = ${params.year})` : ``}
+          ${params.year ? `FILTER (year(?date_document) = ${params.year})` : ''}
           BIND (YEAR(?date_document) AS ?year)
           ?statute eli:id_local ?id_local .
           BIND (xsd:integer(REPLACE(?id_local, "[^0-9]+[0-9]+", "")) AS ?number)
@@ -113,10 +113,10 @@ export default class StatuteQuery {
       ${this.eliLangFilter}
       ?expression eli:title ?title .
       ?expression a ?expressionType .
-    }`
+    }`;
   }
 
-/*{
+  /*{
    ?c a skos:Concept .
    ?c skos:prefLabel ?l .
    FILTER(regex(LCASE(str(?l)), LCASE(\'${this.regexQuery}\') ) )
@@ -179,7 +179,7 @@ export default class StatuteQuery {
           FILTER (LANG(?stt) = 'fi')
         }
       } GROUP BY ?s ?v ?st ?stt ?c ?l ?t ?title ?txt ?score ?matchType ORDER BY DESC(?score) LIMIT 20
-    `
+    `;
   }
 
 
@@ -208,7 +208,7 @@ export default class StatuteQuery {
         ${this.statuteBind}
         ?s ?p ?o.
       }
-    }`
+    }`;
   }
 
 
