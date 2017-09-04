@@ -20,7 +20,7 @@ export default class StatuteList extends React.Component {
     });
     return (
       <div className="statutes">
-        <h1>{(year) ? "Säädökset ("+year+")" : "Säädökset"}</h1>
+        <h1>{(year) ? 'Säädökset ('+year+')' : 'Säädökset'}</h1>
         <ul className="statute-list" >{statuteList}</ul>
       </div>
     );

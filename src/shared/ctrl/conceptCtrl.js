@@ -1,4 +1,3 @@
-import ConceptJsonLd from '../lib/ConceptJsonLd';
 import Sparql from '../lib/Sparql';
 import ConceptQuery from '../query/ConceptQuery';
 import Promise from 'bluebird';
@@ -15,7 +14,7 @@ class ConceptCtrl {
       new Sparql({endpoint: 'http://ldf.fi/onki-light/sparql'})
         .select(query)
         .then((data) => {
-          if (data.results.bindings.length==0)
+          if (data.results.bindings.length === 0)
             return reject();
 
           const bindings = _.map(data.results.bindings, (val, key) => {
@@ -26,12 +25,12 @@ class ConceptCtrl {
         })
         .catch((err) => {
           return reject(err);
-        })
+        });
     });
   }
 
 }
 
-const conceptCtrl = new ConceptCtrl()
+const conceptCtrl = new ConceptCtrl();
 
-export default conceptCtrl
+export default conceptCtrl;

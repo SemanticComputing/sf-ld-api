@@ -15,7 +15,7 @@ class StatuteCtrl {
       new Sparql()
         .select(query)
         .then((data) => {
-          if (data.results.bindings.length==0)
+          if (data.results.bindings.length === 0)
             return reject();
 
           const jsonLd = new LegislationJsonLd(params);
@@ -23,11 +23,11 @@ class StatuteCtrl {
             jsonLd.convertStatuteBindings(data) :
             jsonLd.convertStatuteListBindings(data);
 
-          return resolve(dataFormatted)
+          return resolve(dataFormatted);
         })
         .catch((err) => {
           return reject(err);
-        })
+        });
     });
   }
 
@@ -53,12 +53,12 @@ class StatuteCtrl {
         })
         .catch((err) => {
           return reject(err);
-        })
+        });
     });
   }
 
 }
 
-const statuteCtrl = new StatuteCtrl()
+const statuteCtrl = new StatuteCtrl();
 
-export default statuteCtrl
+export default statuteCtrl;

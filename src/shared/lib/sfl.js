@@ -16,6 +16,6 @@ class Sfl {
 
 }
 
-const sfl = new Sfl()
+const sfl = new Sfl();
 
-export default sfl
+export default sfl;
