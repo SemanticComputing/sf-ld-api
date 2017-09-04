@@ -74,6 +74,10 @@ export default class Search extends React.Component {
     const query = this.state.query;
     const ts = new Date().getTime();
     this.setState({queryTs: ts});
+    if (!query) {
+      this.setState({searchResults: null});
+      return;
+    }
     this.getQueryHandler()({query: query})
       .then((results) => {
         if (ts == this.state.queryTs) {
