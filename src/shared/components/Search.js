@@ -1,21 +1,23 @@
-import React                                            from 'react';
-import { Button, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
-import { map, debounce }                                from 'lodash';
-import Promise                                          from 'bluebird';
-import Autocomplete                                     from 'react-autocomplete';
-import statuteCtrl                                      from '../ctrl/statuteCtrl';
-import conceptCtrl                                      from '../ctrl/conceptCtrl';
-import SearchResult                                     from './SearchResult';
+import React                from 'react';
+import { Button, FormControl }           from 'react-bootstrap';
+import { map, debounce }    from 'lodash';
+import Promise              from 'bluebird';
+import Autocomplete         from 'react-autocomplete';
+import statuteCtrl          from '../ctrl/statuteCtrl';
+import conceptCtrl          from '../ctrl/conceptCtrl';
+import SearchResult         from './SearchResult';
 
 export default class Search extends React.Component {
 
   constructor(props) {
     super(props);
 
-    this.delayedQueryChanged = debounce(this.handleQueryChange.bind(this), 200);
+    // Debounced so that a query isn't fired for each keystroke
+    this._delayedQueryChanged = debounce(this._handleQueryChange.bind(this), 200);
     this.onQueryChange = this.onQueryChange.bind(this);
 
     this.handleDocCategoryChange = this.handleDocCategoryChange.bind(this);
+
     this.state = {
       query: '',
       docCategory: 'all',
@@ -50,57 +52,61 @@ export default class Search extends React.Component {
       loading: true,
       query: value
     });
-    this.delayedQueryChanged(event, value, ts);
+    this._delayedQueryChanged(event, value, ts);
   }
 
-  handleQueryChange(event, value, ts) {
+  _handleQueryChange(event, value, ts) {
     return this.queryAc(value)
       .then((items) => {
         const itemsMod = map(items, (item) => {
-          //if (item.st.value == 'narrower') item.label = item.cl.value+' ↳ '+item.sl.value;
-          //else if (item.st.value == 'related') item.label = item.cl.value+' → '+item.sl.value;
-          //else
           item.label = item.sl.value;
           return item;
         });
         if (ts == this.state.acQueryTs)
           this.setState({ autoComplete: itemsMod, loading: false });
       })
-      .catch((err) => { console.log(err);});
+      .catch((err) => { console.log(err); });
   }
 
-  query(event) {
-    event.preventDefault();
+  query() {
     const query = this.state.query;
     const ts = new Date().getTime();
     this.setState({queryTs: ts});
-    if (!query) {
-      this.setState({searchResults: null});
-      return;
-    }
-    this.getQueryHandler()({query: query})
-      .then((results) => {
+    return new Promise((resolve, reject) => {
+      if (!query) {
+        return this.setState({searchResults: null});
+      }
+      return this.getQueryHandler()({query: query}).then((results) => {
         if (ts == this.state.queryTs) {
-          const searchResults = map(results, (result, idx) => {
-            return <SearchResult
-              key={idx+'-'+new Date().getTime()}
-              title={result.title ? result.title.value : ''}
-              content={result.txt ? result.txt.value : ''}
-              query={query}
-              workUrl={result.s ? result.s.value : ''}
-              versionUrl={result.v ? result.v.value : ''}
-              statuteVersionUrl={result.st ? result.st.value : ''}
-              statuteTitle={result.stt ? result.stt.value : ''}
-              type={result.t ? result.t.value : ''}
-            >
-            </SearchResult>;
-          });
-          this.setState({searchResults: searchResults});
+          return resolve(results);
         }
-      })
-      .catch((err) => {
-        console.log(err);
+        return reject('Old');
       });
+    });
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+    return this.query().then((results) => {
+      const searchResults = map(results, (result, idx) => {
+        console.log('res', result)
+        return <SearchResult
+          key={idx+'-'+new Date().getTime()}
+          title={result.title ? result.title.value : ''}
+          content={result.txt ? result.txt.value : ''}
+          query={this.state.query}
+          workUrl={result.s ? result.s.value : ''}
+          versionUrl={result.v ? result.v.value : ''}
+          statuteVersionUrl={result.st ? result.st.value : ''}
+          statuteTitle={result.stt ? result.stt.value : ''}
+          type={result.t ? result.t.value : ''}
+        >
+        </SearchResult>;
+      });
+      this.setState({searchResults: searchResults});
+    }).catch((err) => {
+      console.log(err);
+    });
   }
 
   // Autocomplete
@@ -124,7 +130,7 @@ export default class Search extends React.Component {
       <div className="search">
         <h1>Haku</h1>
         <div className="search-bar">
-          <form onSubmit={(e) => this.query(e)}>
+          <form onSubmit={(e) => this.onSubmit(e)}>
             <div className="query-doc-category" style={{display: 'inline-block'}}>
               <FormControl value={this.state.docCategory} onChange={this.handleDocCategoryChange} componentClass="select" placeholder="Valitse">
                 <option key={0} value="sd">Lainsäädäntö</option>

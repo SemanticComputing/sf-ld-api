@@ -8,7 +8,7 @@ import ReactTooltip                                     from 'react-tooltip';
 import statuteCtrl                                      from '../ctrl/statuteCtrl';
 import conceptCtrl                                      from '../ctrl/conceptCtrl';
 import eli                                              from '../lib/eli';
-import Sparql                                              from '../lib/Sparql';
+import Sparql                                           from '../lib/Sparql';
 
 export default class SearchResult extends React.Component {
 
@@ -28,26 +28,11 @@ export default class SearchResult extends React.Component {
   }
 
   sanitize(html, query) {
-    console.log(query);
     const $html = $('<div />', {html:html});
     $html.find('.item-identifier').html('');
     $html.find('.reference-amendment').html('');
     $html.find('.heading').html('');
     $html.find('.section-id').html('');
-    $html.find('a').attr('href', (i, href) => {
-      const self = this;
-      console.log(href);
-      new Sparql().select(`SELECT ?txt WHERE {
-        <${href}> eli:has_member ?v .
-        ?v eli:is_realized_by ?e .
-        ?e eli:is_embodied_by ?f .
-        ?f sfl:text ?txt .
-      }`).then((res) => {
-        if (!res.results.bindings.length==0) return '';
-        return res.results.bindings[0].txt.value;
-      });
-    });
-    //$html.find('a').attr('data-tip', 'hello world');
     $html.html($html.html().replace(new RegExp(query,'gi'), '<strong>$&</strong>'));
     return $html.html();
   }
