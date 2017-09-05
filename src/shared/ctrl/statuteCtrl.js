@@ -39,16 +39,13 @@ class StatuteCtrl {
       new Sparql()
         .select(query)
         .then((data) => {
-          if (data.results.bindings.length==0)
+          if (data.results.bindings.length === 0)
             return resolve([]);
 
           // Select distinct by work URI
           const bindings = _.uniqBy(data.results.bindings, (item) => {
-            console.log(item.s.value);
             return item.s.value;
           });
-          console.log(bindings);
-
           return resolve(bindings);
         })
         .catch((err) => {

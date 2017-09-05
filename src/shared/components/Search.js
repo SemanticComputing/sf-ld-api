@@ -1,11 +1,11 @@
-import React                from 'react';
-import { Button, FormControl }           from 'react-bootstrap';
-import { map, debounce }    from 'lodash';
-import Promise              from 'bluebird';
-import Autocomplete         from 'react-autocomplete';
-import statuteCtrl          from '../ctrl/statuteCtrl';
-import conceptCtrl          from '../ctrl/conceptCtrl';
-import SearchResult         from './SearchResult';
+import React from 'react';
+import { Button, FormControl } from 'react-bootstrap';
+import { map, debounce } from 'lodash';
+import Promise from 'bluebird';
+import Autocomplete from 'react-autocomplete';
+import statuteCtrl from '../ctrl/statuteCtrl';
+import conceptCtrl from '../ctrl/conceptCtrl';
+import SearchResult from './SearchResult';
 
 export default class Search extends React.Component {
 
@@ -14,7 +14,9 @@ export default class Search extends React.Component {
 
     // Debounced so that a query isn't fired for each keystroke
     this._delayedQueryChanged = debounce(this._handleQueryChange.bind(this), 200);
+
     this.onQueryChange = this.onQueryChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
 
     this.handleDocCategoryChange = this.handleDocCategoryChange.bind(this);
 
@@ -29,6 +31,41 @@ export default class Search extends React.Component {
     };
   }
 
+  onQueryChange(event, value) {
+    event.persist();
+    const ts = new Date().getTime();
+    this.setState({
+      acQueryTs: ts,
+      value,
+      loading: true,
+      query: value
+    });
+    this._delayedQueryChanged(event, value, ts);
+  }
+
+  onSubmit(event) {
+    event.preventDefault();
+    return this.query().then((results) => {
+      const searchResults = map(results, (result, idx) => {
+        return <SearchResult
+          key={idx+'-'+new Date().getTime()}
+          title={result.title ? result.title.value : ''}
+          content={result.txt ? result.txt.value : ''}
+          query={this.state.query}
+          workUrl={result.s ? result.s.value : ''}
+          versionUrl={result.v ? result.v.value : ''}
+          statuteVersionUrl={result.st ? result.st.value : ''}
+          statuteTitle={result.stt ? result.stt.value : ''}
+          type={result.t ? result.t.value : ''}
+        >
+        </SearchResult>;
+      });
+      this.setState({searchResults: searchResults});
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
   getQueryHandler(docCategory = this.state.docCategory) {
     const handlers = {
       'sd': statuteCtrl.findByQuery,
@@ -41,18 +78,6 @@ export default class Search extends React.Component {
     this.setState({
       docCategory: event.target.value
     });
-  }
-
-  onQueryChange(event, value) {
-    event.persist();
-    const ts = new Date().getTime();
-    this.setState({
-      acQueryTs: ts,
-      value,
-      loading: true,
-      query: value
-    });
-    this._delayedQueryChanged(event, value, ts);
   }
 
   _handleQueryChange(event, value, ts) {
@@ -85,35 +110,11 @@ export default class Search extends React.Component {
     });
   }
 
-  onSubmit(event) {
-    event.preventDefault();
-    return this.query().then((results) => {
-      const searchResults = map(results, (result, idx) => {
-        console.log('res', result)
-        return <SearchResult
-          key={idx+'-'+new Date().getTime()}
-          title={result.title ? result.title.value : ''}
-          content={result.txt ? result.txt.value : ''}
-          query={this.state.query}
-          workUrl={result.s ? result.s.value : ''}
-          versionUrl={result.v ? result.v.value : ''}
-          statuteVersionUrl={result.st ? result.st.value : ''}
-          statuteTitle={result.stt ? result.stt.value : ''}
-          type={result.t ? result.t.value : ''}
-        >
-        </SearchResult>;
-      });
-      this.setState({searchResults: searchResults});
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
   // Autocomplete
   queryAc(query) {
     return new Promise((resolve, reject) => {
       if (!query) {
-        return reject();
+        return resolve([]);
       }
       conceptCtrl.find({
         query: query,
@@ -130,7 +131,7 @@ export default class Search extends React.Component {
       <div className="search">
         <h1>Haku</h1>
         <div className="search-bar">
-          <form onSubmit={(e) => this.onSubmit(e)}>
+          <form onSubmit={this.onSubmit}>
             <div className="query-doc-category" style={{display: 'inline-block'}}>
               <FormControl value={this.state.docCategory} onChange={this.handleDocCategoryChange} componentClass="select" placeholder="Valitse">
                 <option key={0} value="sd">Lainsäädäntö</option>

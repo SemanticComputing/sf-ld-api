@@ -15,7 +15,7 @@ class ConceptCtrl {
         .select(query)
         .then((data) => {
           if (data.results.bindings.length === 0)
-            return reject();
+            return resolve([]);
 
           const bindings = _.map(data.results.bindings, (val, key) => {
             return Object.assign(val, {id: key});

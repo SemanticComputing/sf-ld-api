@@ -1,14 +1,9 @@
-import React                                            from 'react';
-import { Button, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
-import _                                                from 'lodash';
-import Promise                                          from 'bluebird';
-import Autocomplete                                     from 'react-autocomplete';
-import $                                                from 'jquery';
-import ReactTooltip                                     from 'react-tooltip';
-import statuteCtrl                                      from '../ctrl/statuteCtrl';
-import conceptCtrl                                      from '../ctrl/conceptCtrl';
-import eli                                              from '../lib/eli';
-import Sparql                                           from '../lib/Sparql';
+import React from 'react';
+import _ from 'lodash';
+import $ from 'jquery';
+import ReactTooltip from 'react-tooltip';
+import eli from '../lib/eli';
+import { string } from 'prop-types';
 
 export default class SearchResult extends React.Component {
 
@@ -20,6 +15,7 @@ export default class SearchResult extends React.Component {
     super(props);
     this.sectionId = eli.getSectionOfALawLocalId(props.workUrl);
     this.statuteId = eli.getStatuteLocalId(props.workUrl);
+    this.statuteTitle = props.statuteTitle || '';
     this.heading = props.title;
     this.content = (_.indexOf(showContentTypes, props.type) > -1) ? this.sanitize(props.content, props.query) : '';
     this.versionUrl = props.versionUrl;
@@ -41,7 +37,7 @@ export default class SearchResult extends React.Component {
     return (
       <div className="search-result">
         <div className="search-result-statute-id"><a href={this.statuteVersionUrl ? this.statuteVersionUrl : this.versionUrl}>{this.statuteId}</a></div>
-        <div className="search-result-statute-title"><a href={this.statuteVersionUrl ? this.statuteVersionUrl : this.versionUrl}>{this.props.statuteTitle ? this.props.statuteTitle : ''}</a></div>
+        <div className="search-result-statute-title"><a href={this.statuteVersionUrl ? this.statuteVersionUrl : this.versionUrl}>{this.statuteTitle}</a></div>
         <div className="search-result-title"><a href={this.versionUrl}>{this.sectionId} {this.heading && this.sectionId ? '- '+this.heading : this.heading ? this.heading : ''}</a></div>
         <div className="search-result-text" dangerouslySetInnerHTML={{__html: this.content}}></div>
         <ReactTooltip />
@@ -51,3 +47,14 @@ export default class SearchResult extends React.Component {
   }
 
 }
+
+SearchResult.propTypes = {
+  workUrl: string,
+  content: string,
+  versionUrl: string,
+  statuteVersionUrl: string,
+  type: string,
+  query: string,
+  title: string,
+  statuteTitle: string
+};
