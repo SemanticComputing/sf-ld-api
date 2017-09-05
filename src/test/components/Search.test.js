@@ -3,6 +3,9 @@ import { shallow, mount, render } from 'enzyme';
 
 import Promise from 'bluebird';
 import Search from '../../shared/components/Search';
+import SearchResult from '../../shared/components/SearchResult';
+
+import { rikosSearchResult } from '../fixtures';
 
 import Autocomplete from 'react-autocomplete';
 
@@ -15,7 +18,7 @@ import statuteCtrl from '../../shared/ctrl/statuteCtrl';
 describe('<Search />', () => {
   beforeAll(() => {
     conceptCtrl.find.mockImplementation(() => new Promise(() => {}));
-    statuteCtrl.findByQuery.mockImplementation(() => new Promise(() => {}));
+    statuteCtrl.findByQuery.mockImplementation(() => new Promise((resolve) => resolve(rikosSearchResult)));
   });
   afterEach(() => {
     conceptCtrl.find.mockClear();
@@ -43,5 +46,13 @@ describe('<Search />', () => {
     const wrapper = shallow(<Search />);
     wrapper.find('form').simulate('submit', { preventDefault: () => undefined });
     expect(statuteCtrl.findByQuery).not.toHaveBeenCalled();
+  });
+
+  it('renders SearchResult components', () => {
+    const wrapper = mount(<Search />);
+    wrapper.setState({ query: 'rikos' });
+    wrapper.find('form').simulate('submit', { preventDefault: () => undefined });
+    expect(statuteCtrl.findByQuery).toHaveBeenCalledWith({query: 'rikos'});
+    expect(wrapper.find(SearchResult).length).toBe(3);
   });
 });

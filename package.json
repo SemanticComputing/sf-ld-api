@@ -31,7 +31,8 @@
     "setupTestFrameworkScriptFile": "./node_modules/jest-enzyme/lib/index.js",
     "testMatch": [
       "**/src/test/**/*"
-    ]
+    ],
+    "testPathIgnorePatterns": ["__snapshots__"]
   },
   "author": "apoksane <arttu.oksanen@aalto.fi>",
   "license": "MIT",
