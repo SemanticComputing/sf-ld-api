@@ -2,5 +2,5 @@
 	"bodyLimit": "500kb",
 	"corsHeaders": ["Link"],
   "endpoint": "http://data.finlex.fi/sparql",
-	"port": 3001 
+	"port": 3001
 }

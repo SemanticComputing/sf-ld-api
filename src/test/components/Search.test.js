@@ -8,7 +8,7 @@ import SearchResult from '../../shared/components/SearchResult';
 import { rikosSearchResult } from '../fixtures';
 
 import Autocomplete from 'react-autocomplete';
-
+jest.mock('../../shared/components/SearchResult', () => 'SearchResult');
 jest.mock('../../shared/ctrl/conceptCtrl');
 jest.mock('../../shared/ctrl/statuteCtrl');
 
