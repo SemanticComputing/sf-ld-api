@@ -32,7 +32,7 @@
     "testMatch": [
       "**/src/test/**/*"
     ],
-    "testPathIgnorePatterns": ["__snapshots__"]
+    "testPathIgnorePatterns": ["__snapshots__", "fixtures"]
   },
   "author": "apoksane <arttu.oksanen@aalto.fi>",
   "license": "MIT",

@@ -3,6 +3,7 @@ import { map, debounce } from 'lodash';
 import Promise from 'bluebird';
 import Autocomplete from 'react-autocomplete';
 import conceptCtrl from '../ctrl/conceptCtrl';
+import { func } from 'prop-types';
 
 export default class SearchBar extends React.Component {
 
@@ -89,5 +90,8 @@ export default class SearchBar extends React.Component {
       />
     );
   }
-
 }
+
+SearchBar.propTypes = {
+  onInputChange: func
+};

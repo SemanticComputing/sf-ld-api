@@ -3,7 +3,7 @@ import { map } from 'lodash';
 import SearchResult from './SearchResult';
 import { string, array } from 'prop-types';
 
-export default function SearchResulList(props) {
+export default function SearchResultList(props) {
 
   function renderResults(results, query) {
     return map(results, (result, idx) => {
@@ -29,7 +29,7 @@ export default function SearchResulList(props) {
   );
 }
 
-SearchResulList.propTypes = {
+SearchResultList.propTypes = {
   results: array,
   query: string
 };

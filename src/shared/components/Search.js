@@ -18,11 +18,8 @@ export default class Search extends React.Component {
     this.state = {
       query: '',
       docCategory: 'all',
-      autoComplete: [],
       loading: false,
-      searchResults: [],
-      queryTs: new Date().getTime(),
-      acQueryTs: new Date().getTime()
+      queryTs: new Date().getTime()
     };
   }
 
@@ -89,5 +86,4 @@ export default class Search extends React.Component {
       </div>
     );
   }
-
 }

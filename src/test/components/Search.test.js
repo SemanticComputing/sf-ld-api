@@ -3,12 +3,11 @@ import { shallow, mount, render } from 'enzyme';
 
 import Promise from 'bluebird';
 import Search from '../../shared/components/Search';
-import SearchResult from '../../shared/components/SearchResult';
+import SearchBar from '../../shared/components/SearchBar';
+import SearchResultList from '../../shared/components/SearchResultList';
 
 import { rikosSearchResult } from '../fixtures';
 
-import Autocomplete from 'react-autocomplete';
-jest.mock('../../shared/components/SearchResult', () => 'SearchResult');
 jest.mock('../../shared/ctrl/conceptCtrl');
 jest.mock('../../shared/ctrl/statuteCtrl');
 
@@ -25,9 +24,14 @@ describe('<Search />', () => {
     statuteCtrl.findByQuery.mockClear();
   });
 
-  it('renders a <Autocomplete /> component', () => {
+  it('renders a <SearchBar /> component', () => {
     const wrapper = shallow(<Search />);
-    expect(wrapper.find(Autocomplete).length).toBe(1);
+    expect(wrapper.find(SearchBar).length).toBe(1);
+  });
+
+  it('renders a <SearchResultList /> component', () => {
+    const wrapper = shallow(<Search />);
+    expect(wrapper.find(SearchResultList).length).toBe(1);
   });
 
   it('renders a submit button', () => {
@@ -46,13 +50,5 @@ describe('<Search />', () => {
     const wrapper = shallow(<Search />);
     wrapper.find('form').simulate('submit', { preventDefault: () => undefined });
     expect(statuteCtrl.findByQuery).not.toHaveBeenCalled();
-  });
-
-  it('renders SearchResult components', () => {
-    const wrapper = mount(<Search />);
-    wrapper.setState({ query: 'rikos' });
-    wrapper.find('form').simulate('submit', { preventDefault: () => undefined });
-    expect(statuteCtrl.findByQuery).toHaveBeenCalledWith({query: 'rikos'});
-    expect(wrapper.find(SearchResult).length).toBe(3);
   });
 });
