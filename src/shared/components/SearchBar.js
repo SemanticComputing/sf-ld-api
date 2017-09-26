@@ -26,7 +26,6 @@ export default class SearchBar extends React.Component {
   }
 
   onQueryChange(event, value) {
-    event.persist();
     const ts = new Date().getTime();
     this.setState({
       acQueryTs: ts,
@@ -34,11 +33,11 @@ export default class SearchBar extends React.Component {
       loading: true,
       query: value
     });
-    this.delayedQueryChanged(event, value, ts);
+    this.delayedQueryChanged(value, ts);
     this.props.onInputChange(value);
   }
 
-  _handleQueryChange(event, value, ts) {
+  _handleQueryChange(value, ts) {
     return this.queryAc(value)
       .then((items) => {
         const itemsMod = map(items, (item) => {
