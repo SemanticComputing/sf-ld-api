@@ -1,5 +1,5 @@
-import Router from 'express'
-import judgmentCtrl from '../../shared/ctrl/judgmentCtrl'
+import Router from 'express';
+import judgmentCtrl from '../../shared/ctrl/judgmentCtrl';
 
 let findData = (req, res, next, urlComponents = {}) => {
   const params = Object.assign(req.params, req.query, urlComponents);
@@ -39,4 +39,4 @@ let ecli = Router()
     return findData(req, res, next, Object.assign(res.locals.urlComponents, params));
   });
 
-export default ecli
+export default ecli;

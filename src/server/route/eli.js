@@ -1,5 +1,5 @@
-import Router from 'express'
-import statuteCtrl from '../../shared/ctrl/statuteCtrl'
+import Router from 'express';
+import statuteCtrl from '../../shared/ctrl/statuteCtrl';
 
 let findData = (req, res, next, urlComponents = {}) => {
   const params = Object.assign(req.params, req.query, urlComponents);
@@ -44,11 +44,11 @@ let eli = Router()
     if (req.params[0]) params.year = req.params[0].substring(1);
     if (req.params[1]) params.statuteId = req.params[1].substring(1);
     if (req.params[1] && req.params[2]) {
-      const arr = req.params[2].match(/(\/(osa|luku|pykala|momentti|kohta|alakohta|liite|valiotsikko|voimaantulo|johdanto|loppukappale|johtolause)\/*([0-9]+[a-z]{0,1})*)*/g)
+      const arr = req.params[2].match(/(\/(osa|luku|pykala|momentti|kohta|alakohta|liite|valiotsikko|voimaantulo|johdanto|loppukappale|johtolause)\/*([0-9]+[a-z]{0,1})*)*/g);
       console.log(arr);
       if (arr && arr.length > 0) params.sectionOfALaw = arr.join('').replace(/\/$/, '');
     }
     return findData(req, res, next, Object.assign(res.locals.urlComponents, params));
   });
 
-export default eli
+export default eli;

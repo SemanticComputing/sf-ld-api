@@ -6,7 +6,7 @@ let voidDesc = Router()
     res.status(200);
     res.set('Content-Type', 'text/turtle');
     res.sendFile(path.resolve(__dirname+'/../../shared/data/sf-void.ttl'));
-  })
+  });
 
 
-export default voidDesc
+export default voidDesc;

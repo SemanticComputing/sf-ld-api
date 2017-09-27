@@ -1,6 +1,6 @@
 import express                   from 'express';
 import React                     from 'react';
-import { renderToString }        from 'react-dom/server'
+import { renderToString }        from 'react-dom/server';
 import { createMemoryHistory }   from 'history';
 import * as jsonld               from 'jsonld';
 import App                       from '../../shared/App';
@@ -9,22 +9,22 @@ import accept                    from './accept';
 export default function toRes(req, res) {
 
   if (res.locals.err) {
-    res.status(500)
+    res.status(500);
     if (req.originalUrl.match(/(.html)((\?){1}|$)/))
-      return res.send('<!DOCTYPE html><html><body>SERVER ERROR</body></html>')
+      return res.send('<!DOCTYPE html><html><body>SERVER ERROR</body></html>');
     else if (req.originalUrl.match(/(.jsonld)((\?){1}|$)/))
-      return res.send({error: "Server error"})
+      return res.send({error: 'Server error'});
   }
 
   else if (!res.locals.data) {
-    res.status(400)
+    res.status(400);
     if (req.originalUrl.match(/(.html)((\?){1}|$)/))
-      return res.send('<!DOCTYPE html><html><body>NOT FOUND</body></html>')
-   else if (req.originalUrl.match(/(.jsonld)((\?){1}|$)/))
-      return res.send({error: "Not found"})
+      return res.send('<!DOCTYPE html><html><body>NOT FOUND</body></html>');
+    else if (req.originalUrl.match(/(.jsonld)((\?){1}|$)/))
+      return res.send({error: 'Not found'});
   }
 
-  res.status(200)
+  res.status(200);
   if (req.originalUrl.match(/(.html)((\?){1}|$)/)) {
 
     // Remove content from metadata
@@ -37,7 +37,7 @@ export default function toRes(req, res) {
         }
       }
       return obj;
-    }
+    };
 
     const history = createMemoryHistory(req.originalUrl);
 
@@ -73,13 +73,13 @@ export default function toRes(req, res) {
 
   // JSON-LD is the preferred format
   else if (req.originalUrl.match(/(.jsonld|.json|.rdf)((\?){1}|$)/))
-    return res.send(res.locals.data)
+    return res.send(res.locals.data);
 
   // Serialize other requests to N-Quads (RDF), for now
   else if (req.originalUrl.match(/(.nquads|.nq|.nt|.ttl)((\?){1}|$)/)) {
     jsonld.toRDF(JSON.parse(res.locals.data), {format: 'application/nquads'}, function(err, nquads) {
       res.set('Content-Type', 'application/nquads');
-      return res.send(nquads)
+      return res.send(nquads);
     });
   }
 
