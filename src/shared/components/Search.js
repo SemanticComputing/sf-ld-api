@@ -1,31 +1,40 @@
-import React                                            from 'react';
-import { Button, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
-import _                                                from 'lodash';
-import Promise                                          from 'bluebird';
-import Autocomplete                                     from 'react-autocomplete';
-import statuteCtrl                                      from '../ctrl/statuteCtrl';
-import conceptCtrl                                      from '../ctrl/conceptCtrl';
-import SearchResult                                     from './SearchResult';
+import React from 'react';
+import Promise from 'bluebird';
+import { Button, FormControl } from 'react-bootstrap';
+import statuteCtrl from '../ctrl/statuteCtrl';
+import SearchResultList from './SearchResultList';
+import SearchBar from './SearchBar';
 
 export default class Search extends React.Component {
 
-
   constructor(props) {
     super(props);
-    const data = this.props.route.data;
-    this.handleQueryChange = this.handleQueryChange.bind(this);
+
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
+
     this.handleDocCategoryChange = this.handleDocCategoryChange.bind(this);
+
     this.state = {
       query: '',
       docCategory: 'all',
-      autoComplete: [],
       loading: false,
-      searchResults: [],
-      queryTs: new Date().getTime(),
-      acQueryTs: new Date().getTime()
+      queryTs: new Date().getTime()
     };
   }
 
+  onSubmit(event) {
+    event.preventDefault();
+    return this.query().then((results) => {
+      this.setState({ results: results });
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  onInputChange(text) {
+    this.setState({ query: text });
+  }
 
   getQueryHandler(docCategory = this.state.docCategory) {
     const handlers = {
@@ -35,122 +44,46 @@ export default class Search extends React.Component {
     return handlers['sd'];
   }
 
-
-  handleDocCategoryChange(event) {
+  handleDocCategoryChange(category) {
     this.setState({
-      docCategory: event.target.value
+      docCategory: category
     });
   }
-
-
-  handleQueryChange(event, value) {
-    const ts = new Date().getTime();
-    this.setState({acQueryTs: new Date(ts).getTime()});
-    this.setState({ value, loading: true, query : value  });
-    this.queryAc(value)
-      .then((items) => {
-        const itemsMod = _.map(items, (item) => {
-          //if (item.st.value == 'narrower') item.label = item.cl.value+' ↳ '+item.sl.value;
-          //else if (item.st.value == 'related') item.label = item.cl.value+' → '+item.sl.value;
-          //else
-          item.label = item.sl.value;
-          return item;
-        });
-        console.log(items);
-        if (ts == this.state.acQueryTs)
-          this.setState({ autoComplete: itemsMod, loading: false });
-      })
-      .catch((err) => { console.log(err);});
-  }
-
 
   query() {
-    const query = this.state.query;
     const ts = new Date().getTime();
-    this.setState({queryTs: new Date(ts).getTime()});
-    this.getQueryHandler()({query: query})
-      .then((results) => {
-        if (ts == this.state.queryTs) {
-          const searchResults = _.map(results, (result, idx) => {
-            return <SearchResult
-              key={idx+'-'+new Date().getTime()}
-              title={result.title ? result.title.value : ''}
-              content={result.txt ? result.txt.value : ''}
-              query={query}
-              workUrl={result.s ? result.s.value : ''}
-              versionUrl={result.v ? result.v.value : ''}
-              statuteVersionUrl={result.st ? result.st.value : ''}
-              statuteTitle={result.stt ? result.stt.value : ''}
-              type={result.t ? result.t.value : ''}
-            >
-            </SearchResult>;
-          });
-          this.setState({searchResults: searchResults});
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-
-
-  // Autocomplete
-  queryAc(query) {
+    this.setState({queryTs: ts});
     return new Promise((resolve, reject) => {
-      if (!query) {
-        return reject();
+      if (!this.state.query) {
+        return;
       }
-      conceptCtrl.find({
-        query: query,
-        limit: 10
-      })
-        .then((items) => { return resolve(items); })
-        .catch((err) => { return reject(err); });
+      return this.getQueryHandler()({query: this.state.query}).then((results) => {
+        if (ts == this.state.queryTs) {
+          return resolve(results);
+        }
+        return reject(new Error('Old'));
+      });
     });
   }
-
 
   render() {
     return (
       <div className="search">
         <h1>Haku</h1>
         <div className="search-bar">
-          <form>
+          <form onSubmit={this.onSubmit}>
+            <SearchBar onInputChange={this.onInputChange}/>
             <div className="query-doc-category" style={{display: 'inline-block'}}>
               <FormControl value={this.state.docCategory} onChange={this.handleDocCategoryChange} componentClass="select" placeholder="Valitse">
                 <option key={0} value="sd">Lainsäädäntö</option>
                 <option key={1} value="oikeus">Oikeuskäytäntö</option>
               </FormControl>
             </div>
-            <Autocomplete
-              className="form-control"
-              placeholder="Nimi"
-              wrapperProps={{ className: 'query-wrapper' }}
-              inputProps={{ id: 'query-autocomplete', placeholder: 'Hakusana(t)', className: 'form-control' }}
-              ref="autocomplete"
-              value={this.state.value}
-              items={this.state.autoComplete}
-              getItemValue={(item) => item.sl.value}
-              onSelect={(value, item) => {
-                this.setState({ value, autoComplete: [item], query : item.sl.value });
-              }}
-              onChange={this.handleQueryChange}
-              renderItem={(item, isHighlighted) => (
-                <div
-                  style={{ background: isHighlighted ? 'lightgray' : 'white' }}
-                  key={item.id}
-                  id={item.id}
-                >{item.label}</div>
-              )}
-            />
-            <Button className="query-button" bsStyle="primary" onClick={() => this.query()}>Hae</Button>
+            <Button type="submit" className="query-button" bsStyle="primary">Hae</Button>
           </form>
         </div>
-        <div className="search-results">
-          {this.state.searchResults}
-        </div>
+        <SearchResultList results={this.state.results} query={this.state.query} />
       </div>
     );
   }
-
 }

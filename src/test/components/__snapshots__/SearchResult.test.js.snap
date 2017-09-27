@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchResult /> renders the given result 1`] = `
+<div
+  className="search-result"
+>
+  <div
+    className="search-result-statute-id"
+  >
+    <a
+      href="http://data.finlex.fi/eli/sd/2000/29/ajantasa/20160101"
+    >
+      29/2000
+    </a>
+  </div>
+  <div
+    className="search-result-statute-title"
+  >
+    <a
+      href="http://data.finlex.fi/eli/sd/2000/29/ajantasa/20160101"
+    >
+      Laki eläinlääkärinammatin harjoittamisesta
+    </a>
+  </div>
+  <div
+    className="search-result-title"
+  >
+    <a
+      href="http://data.finlex.fi/eli/sd/2000/29/luku/5/pykala/25/ajantasa/20060501"
+    >
+      5 luku 25 § 
+       
+      - Ammattitoiminnassa tehty rikos
+    </a>
+  </div>
+  <div
+    className="search-result-text"
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "<div class=\\"section\\"><h4 class=\\"item-identifier\\"></h4><span class=\\"reference reference-amendment\\"></span>
+      <h4 class=\\"heading\\"></h4>
+      <div class=\\"subsection\\"><p class=\\"text-element\\">Jos eläinlääkärinammatin harjoittaja on tuomittu vankeusrangaistukseen rikoksesta, jonka hän on tehnyt ammattitoiminnassaan, ja tuomioistuimen tuomio on saanut lainvoiman ja jos rikokseen liittyvistä asianhaaroista on havaittavissa, ettei hän ole sen luottamuksen arvoinen, jota hänen tulee nauttia, Elintarviketurvallisuusvirasto voi poistaa eläinlääkärinammatin harjoittajalta määräajaksi tai, jos asianhaarat ovat erittäin raskauttavat, lopullisesti ammatinharjoittamisoikeuden.</p>
+      </div>
+      <div class=\\"subsection\\"><p class=\\"text-element\\">Jos valtion tai kunnan taikka kuntayhtymän virassa oleva eläinlääkärinammatin harjoittaja on rikoksen johdosta tuomittu erotettavaksi virantoimituksesta tai viralta pantavaksi, noudatetaan vastaavasti, mitä 1 momentissa säädetään.</p>
+      </div>
+      <div class=\\"subsection\\"><p class=\\"text-element\\">Tuomioistuimen tulee viipymättä lähettää jäljennös 1 ja 2 momentissa tarkoitettua asiaa koskevasta pöytäkirjasta ja tuomiosta Elintarviketurvallisuusvirastolle.</p>
+      </div>
+      <div class=\\"subsection\\"><p class=\\"text-element\\">Jo ennen kuin tuomioistuimen tuomio, jolla eläinlääkärinammatin harjoittaja on tuomittu vankeusrangaistukseen taikka viralta pantavaksi tai virantoimituksesta erotettavaksi, on saanut lainvoiman, Elintarviketurvallisuusvirasto voi kieltää eläinlääkärinammatin harjoittajaa harjoittamasta ammattia.</p>
+      </div>
+      </div>",
+      }
+    }
+  />
+  <ReactTooltip
+    insecure={true}
+    resizeHide={true}
+    wrapper="div"
+  />
+  <hr />
+</div>
+`;

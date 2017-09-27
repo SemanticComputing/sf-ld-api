@@ -1,14 +1,9 @@
-import React                                            from 'react';
-import { Button, ControlLabel, FormControl, FormGroup } from 'react-bootstrap';
-import _                                                from 'lodash';
-import Promise                                          from 'bluebird';
-import Autocomplete                                     from 'react-autocomplete';
-import $                                                from 'jquery';
-import ReactTooltip                                     from 'react-tooltip';
-import statuteCtrl                                      from '../ctrl/statuteCtrl';
-import conceptCtrl                                      from '../ctrl/conceptCtrl';
-import eli                                              from '../lib/eli';
-import Sparql                                              from '../lib/Sparql';
+import React from 'react';
+import _ from 'lodash';
+import $ from 'jquery';
+import ReactTooltip from 'react-tooltip';
+import eli from '../lib/eli';
+import { string } from 'prop-types';
 
 export default class SearchResult extends React.Component {
 
@@ -20,6 +15,7 @@ export default class SearchResult extends React.Component {
     super(props);
     this.sectionId = eli.getSectionOfALawLocalId(props.workUrl);
     this.statuteId = eli.getStatuteLocalId(props.workUrl);
+    this.statuteTitle = props.statuteTitle || '';
     this.heading = props.title;
     this.content = (_.indexOf(showContentTypes, props.type) > -1) ? this.sanitize(props.content, props.query) : '';
     this.versionUrl = props.versionUrl;
@@ -28,26 +24,11 @@ export default class SearchResult extends React.Component {
   }
 
   sanitize(html, query) {
-    console.log(query);
     const $html = $('<div />', {html:html});
     $html.find('.item-identifier').html('');
     $html.find('.reference-amendment').html('');
     $html.find('.heading').html('');
     $html.find('.section-id').html('');
-    $html.find('a').attr('href', (i, href) => {
-      const self = this;
-      console.log(href);
-      new Sparql().select(`SELECT ?txt WHERE {
-        <${href}> eli:has_member ?v .
-        ?v eli:is_realized_by ?e .
-        ?e eli:is_embodied_by ?f .
-        ?f sfl:text ?txt .
-      }`).then((res) => {
-        if (!res.results.bindings.length==0) return '';
-        return res.results.bindings[0].txt.value;
-      });
-    });
-    //$html.find('a').attr('data-tip', 'hello world');
     $html.html($html.html().replace(new RegExp(query,'gi'), '<strong>$&</strong>'));
     return $html.html();
   }
@@ -56,7 +37,7 @@ export default class SearchResult extends React.Component {
     return (
       <div className="search-result">
         <div className="search-result-statute-id"><a href={this.statuteVersionUrl ? this.statuteVersionUrl : this.versionUrl}>{this.statuteId}</a></div>
-        <div className="search-result-statute-title"><a href={this.statuteVersionUrl ? this.statuteVersionUrl : this.versionUrl}>{this.props.statuteTitle ? this.props.statuteTitle : ''}</a></div>
+        <div className="search-result-statute-title"><a href={this.statuteVersionUrl ? this.statuteVersionUrl : this.versionUrl}>{this.statuteTitle}</a></div>
         <div className="search-result-title"><a href={this.versionUrl}>{this.sectionId} {this.heading && this.sectionId ? '- '+this.heading : this.heading ? this.heading : ''}</a></div>
         <div className="search-result-text" dangerouslySetInnerHTML={{__html: this.content}}></div>
         <ReactTooltip />
@@ -64,5 +45,15 @@ export default class SearchResult extends React.Component {
       </div>
     );
   }
-
 }
+
+SearchResult.propTypes = {
+  workUrl: string,
+  content: string,
+  versionUrl: string,
+  statuteVersionUrl: string,
+  type: string,
+  query: string,
+  title: string,
+  statuteTitle: string
+};
