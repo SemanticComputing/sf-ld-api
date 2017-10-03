@@ -7,7 +7,7 @@ let findData = (req, res, next, urlComponents = {}) => {
   if (req.originalUrl.match(/(.html((\?){1}|$))/)) {
     params.format = 'html';
   }
-  judgmentCtrl.find(params)
+  return judgmentCtrl.find(params)
     .then((data) => {
       res.locals.data = data;
       return next();
