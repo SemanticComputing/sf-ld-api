@@ -9,23 +9,23 @@ import accept                    from './accept';
 export default function toRes(req, res) {
 
   if (res.locals.err) {
-    res.status(500);
-    if (req.originalUrl.match(/(.html)((\?){1}|$)/))
-      return res.send('<!DOCTYPE html><html><body>SERVER ERROR</body></html>');
-    else if (req.originalUrl.match(/(.jsonld)((\?){1}|$)/))
+    res.status(503);
+    if (req.originalUrl.match(/(\.html)((\?){1}|$)/))
+      return res.send('<!DOCTYPE html><html><body>Error: service unavailable</body></html>');
+    else if (req.originalUrl.match(/(\.jsonld)((\?){1}|$)/))
       return res.send({error: 'Server error'});
   }
 
   else if (!res.locals.data) {
-    res.status(400);
-    if (req.originalUrl.match(/(.html)((\?){1}|$)/))
-      return res.send('<!DOCTYPE html><html><body>NOT FOUND</body></html>');
-    else if (req.originalUrl.match(/(.jsonld)((\?){1}|$)/))
-      return res.send({error: 'Not found'});
+    res.status(404);
+    if (req.originalUrl.match(/(\.html)((\?){1}|$)/))
+      return res.send('<!DOCTYPE html><html><body>Error: resource not found</body></html>');
+    else if (req.originalUrl.match(/(\.jsonld)((\?){1}|$)/))
+      return res.send({error: 'Resource not found'});
   }
 
   res.status(200);
-  if (req.originalUrl.match(/(.html)((\?){1}|$)/)) {
+  if (req.originalUrl.match(/(\.html)((\?){1}|$)/)) {
 
     // Remove content from metadata
     const removeContent = (obj) => {
@@ -72,11 +72,11 @@ export default function toRes(req, res) {
   }
 
   // JSON-LD is the preferred format
-  else if (req.originalUrl.match(/(.jsonld|.json|.rdf)((\?){1}|$)/))
+  else if (req.originalUrl.match(/(\.jsonld|\.json|\.rdf)((\?){1}|$)/))
     return res.send(res.locals.data);
 
-  // Serialize other requests to N-Quads (RDF), for now
-  else if (req.originalUrl.match(/(.nquads|.nq|.nt|.ttl)((\?){1}|$)/)) {
+  // N-Quads
+  else if (req.originalUrl.match(/(\.nquads|\.nq|\.nt|\.ttl)((\?){1}|$)/)) {
     jsonld.toRDF(JSON.parse(res.locals.data), {format: 'application/nquads'}, function(err, nquads) {
       res.set('Content-Type', 'application/nquads');
       return res.send(nquads);
