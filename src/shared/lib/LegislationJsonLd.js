@@ -63,9 +63,11 @@ export default class LegislationJsonLd {
   }
 
   sortTemporalVersions(versions) {
-    return _.sortBy(versions, (v) => {
-      return _.includes(v['@id'], '/alkup') ? Number.MAX_VALUE : v['@id'];
-    });
+    // Sort by @id (as it contains the date), except sort the original version
+    // on top, then reverse to get newest first.
+    return _.reverse(_.sortBy(versions, (v) => {
+      return _.includes(v['@id'], '/alkup') ? '' : v['@id'];
+    }));
   }
 
   convertStatuteBindings(results, pretty = true) {
