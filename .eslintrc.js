@@ -37,6 +37,7 @@ module.exports = {
       "error",
       "always"
     ],
-    "react/jsx-uses-vars": ["error"]
+    "react/jsx-uses-vars": ["error"],
+    "space-infix-ops": ["error", {"int32Hint": true}]
   }
 };

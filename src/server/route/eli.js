@@ -8,7 +8,7 @@ let findData = (req, res, next, urlComponents = {}) => {
     delete params['tree'];
     params.format = 'html';
   }
-  statuteCtrl.find(params)
+  return statuteCtrl.find(params)
     .then((data) => {
       res.locals.data = data;
       return next();

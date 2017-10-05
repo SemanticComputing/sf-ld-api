@@ -20,7 +20,6 @@ export default class SearchBar extends React.Component {
       autoComplete: [],
       loading: false,
       searchResults: [],
-      queryTs: new Date().getTime(),
       acQueryTs: new Date().getTime()
     };
   }
