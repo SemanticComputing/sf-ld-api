@@ -6,7 +6,7 @@ import prefix from './prefix';
 export default class {
 
   constructor(params = {}) {
-    this.endpoint = params.endpoint || config.endpoint;
+    this.endpoint = params.endpoint || config.finlexEndpoint;
     this.headers = params.headers || {
       'Content-Type': 'application/x-www-form-urlencoded',
       'Accept': 'application/sparql-results+json'
@@ -15,6 +15,7 @@ export default class {
 
   // make sparql select query
   select(query) {
+    console.log(query);
     return new Promise((resolve, reject) => {
       request.post(this.endpoint)
         .send({query: prefix.prefixesSparql+query})

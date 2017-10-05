@@ -1,9 +1,11 @@
 import React from 'react';
 import Promise from 'bluebird';
 import { Button, FormControl } from 'react-bootstrap';
+import LexicalAnalysis from '../lib/LexicalAnalysis';
 import statuteCtrl from '../ctrl/statuteCtrl';
 import SearchResultList from './SearchResultList';
 import SearchBar from './SearchBar';
+import textSearch from '../lib/textSearch';
 
 export default class Search extends React.Component {
 
@@ -36,14 +38,6 @@ export default class Search extends React.Component {
     this.setState({ query: text });
   }
 
-  getQueryHandler(docCategory = this.state.docCategory) {
-    const handlers = {
-      'sd': statuteCtrl.findByQuery,
-      'oikeus': 'oikeusHandler'
-    };
-    return handlers['sd'];
-  }
-
   handleDocCategoryChange(category) {
     this.setState({
       docCategory: category
@@ -57,12 +51,16 @@ export default class Search extends React.Component {
       if (!this.state.query) {
         return;
       }
-      return this.getQueryHandler()({query: this.state.query}).then((results) => {
+      return textSearch.search(this.state.docCategory, this.state.query).then((results) => {
         if (ts == this.state.queryTs) {
           return resolve(results);
         }
         return reject(new Error('Old'));
+      })
+      .catch((err) => {
+        return reject(err);
       });
+
     });
   }
 

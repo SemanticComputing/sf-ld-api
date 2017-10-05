@@ -22,7 +22,7 @@ export default class StatuteQuery {
     this.offset = params.offset ? 'OFFSET '+params.offset : '';
 
     // Statutes by year
-    this.statute = (params.year) ? '?statute a sfl:Statute . ?statute eli:id_local ?idLocal . FILTER regex(?idLocal, \"'+params.year+'$\", \"i\")' : '?statute a sfl:Statute .';
+    this.statute = (params.year) ? '?statute a sfl:Statute . ?statute eli:id_local ?idLocal . FILTER STRENDS(?idLocal, "'+params.year+'")' : '?statute a sfl:Statute .';
 
     // Statute by id
     this.statute = (params.statuteId) ? 'VALUES ?statute { sfsd:'+params.year+'\\/'+params.statuteId+' }' : this.statute;
@@ -47,15 +47,34 @@ export default class StatuteQuery {
     this.tree = (params.hasOwnProperty('tree')) ? '?statuteVersion eli:has_part* ?s .' : 'BIND(?statuteVersion AS ?s)';
     this.treeFilter = (params.hasOwnProperty('tree')) ? 'FILTER NOT EXISTS { ?s eli:has_part _:b . }' : '';
 
-    // One by id
-    this.selectVersion = (params.version == 'alkup') ?
-      // Find original versions
-      `
-        ${this.statute}
+    // Find original versions
+    if (params.version == 'alkup') {
+      this.selectVersion =
+        `
+          ${this.statute}
+          ?statute eli:has_member ?statuteVersion .
+          ?statuteVersion eli:version sfl:Original .
+        `
+    // Find many (optionally by year)
+    } else if (!params.statuteId) {
+      this.selectVersion = `
+        {
+          SELECT DISTINCT ?statute ?year ?number ?letter {
+            ?statute a sfl:Statute .
+            ?statute eli:has_member ?statuteVersion .
+            ?statuteVersion eli:date_document ?date_document .
+            BIND (YEAR(?date_document) AS ?year)
+            ${params.year ? `FILTER (?year = ${params.year})` : ''}
+            ?statute eli:id_local ?id_local .
+            BIND (xsd:integer(REPLACE(?id_local, "[^0-9]+[0-9]+", "")) AS ?number)
+            BIND (REPLACE(?id_local, "[^A-Z]", "") AS ?letter)
+          } ORDER BY ?year ?number ?letter ${this.limit} ${this.offset}
+        }
         ?statute eli:has_member ?statuteVersion .
-        ?statuteVersion eli:version sfl:Original .
-      ` :
-      // Find by version date
+      `
+    // Find one (optionally by version date)
+    } else {
+      this.selectVersion =
       `{
         SELECT DISTINCT ?statute (MAX(COALESCE(?vd, "")) AS ?versionDate) WHERE {
           ${this.statute}
@@ -77,27 +96,12 @@ export default class StatuteQuery {
         ?statuteVersion eli:version sfl:Original .
       }
       FILTER(BOUND(?statuteVersion))`;
-
-    // Many (by year)
-    this.selectVersion = (!params.statuteId) ?  `
-      {
-        SELECT DISTINCT ?statute ?year ?number ?letter {
-          ?statute a sfl:Statute .
-          ?statute eli:has_member ?statuteVersion .
-          ?statuteVersion eli:date_document ?date_document .
-          ${params.year ? `FILTER (year(?date_document) = ${params.year})` : ''}
-          BIND (YEAR(?date_document) AS ?year)
-          ?statute eli:id_local ?id_local .
-          BIND (xsd:integer(REPLACE(?id_local, "[^0-9]+[0-9]+", "")) AS ?number)
-          BIND (REPLACE(?id_local, "[^A-Z]", "") AS ?letter)
-        } ORDER BY ?year ?number ?letter ${this.limit} ${this.offset}
-      }
-      ?statute eli:has_member ?statuteVersion .
-    ` : this.selectVersion;
+    }
 
     // Find by query
     this.query = (params.query) ? params.query.replace(/[^a-zA-ZäöåÄÖÅ0-9*"\s]/gi,'').toLowerCase() : '';
-    this.regexQuery = (params.query) ? params.query.replace(/[^a-zA-ZäöåÄÖÅ0-9\s]/gi,'') : '';
+    this.queryRegex = (params.query) ? params.query.replace(/[^a-zA-ZäöåÄÖÅ0-9\s]/gi,'') : '';
+    this.queryBaseForm = (params.queryBaseForm) ? params.queryBaseForm : '';
   }
 
 
@@ -116,19 +120,7 @@ export default class StatuteQuery {
     }`;
   }
 
-  /*{
-   ?c a skos:Concept .
-   ?c skos:prefLabel ?l .
-   FILTER(regex(LCASE(str(?l)), LCASE(\'${this.regexQuery}\') ) )
-   FILTER(LANG(?l) = 'fi')
-   VALUES ?score {100}
-   VALUES ?matchType {'keyword'}
-   ?s eli:has_member ?v.
-   ?v eli:is_about ?c .
-   ?v eli:is_realized_by ?e .
-   ?e eli:language <http://publications.europa.eu/resource/authority/language/FIN>.
-   ?e eli:title ?title .
- } UNION */
+  /* */
   findManyByQuery() {
     return `
       SELECT DISTINCT ?c ?l ?v ?s ?st ?stt ?t ?title ?txt ?score ?matchType WHERE {
@@ -158,8 +150,52 @@ export default class StatuteQuery {
           VALUES ?matchType {'title'}
           ?s a ?t .
         } UNION {
+          (?f ?score) text:query (sfl:textLemmatized \'${this.queryBaseForm}\' 20) .
+          ?s eli:has_member ?v.
+          ?v eli:is_realized_by ?e .
+          ?e eli:is_embodied_by ?f .
+          ?e eli:is_embodied_by ?f2 .
+          ?f2 sfl:html ?txt .
+          VALUES ?matchType {'content'}
+          ?s a ?t .
+          FILTER (?t IN ( sfl:Subsection, sfl:Section ) )
+          OPTIONAL { ?e eli:title ?title } .
+          ?v eli:is_part_of+ ?st .
+          ?st eli:is_member_of ?stw .
+          ?stw a sfl:Statute .
+          FILTER NOT EXISTS {
+            ?stw eli:in_force eli:InForce-notInForce .
+          }
+          ?st eli:is_realized_by ?ste .
+          ?ste eli:title ?stt .
+          FILTER (LANG(?stt) = 'fi')
+        } UNION {
           (?f ?score) text:query (sfl:text \'${this.query}\' 20) .
           ?s eli:has_member ?v.
+          ?v eli:is_realized_by ?e .
+          ?e eli:is_embodied_by ?f .
+          ?e eli:is_embodied_by ?f2 .
+          ?f2 sfl:html ?txt .
+          VALUES ?matchType {'content'}
+          ?s a ?t .
+          FILTER (?t IN ( sfl:Subsection, sfl:Section ) )
+          OPTIONAL { ?e eli:title ?title } .
+          ?v eli:is_part_of+ ?st .
+          ?st eli:is_member_of ?stw .
+          ?stw a sfl:Statute .
+          FILTER NOT EXISTS {
+            ?stw eli:in_force eli:InForce-notInForce .
+          }
+          ?st eli:is_realized_by ?ste .
+          ?ste eli:title ?stt .
+          FILTER (LANG(?stt) = 'fi')
+        } UNION {
+          ?c a skos:Concept .
+          ?c skos:prefLabel ?l .
+          (?c ?score) text:query (skos:prefLabel \'${this.query}\' 20) .
+          VALUES ?matchType {'keyword'}
+          ?s eli:has_member ?v.
+          ?v eli:is_about ?c .
           ?v eli:is_realized_by ?e .
           ?e eli:is_embodied_by ?f .
           ?e eli:is_embodied_by ?f2 .
