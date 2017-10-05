@@ -16,12 +16,10 @@ const textSearch = {
     return new Promise((resolve, reject) => {
       new LexicalAnalysis().identifyLanguage(query)
         .then((data) => {
-          console.log(data.locale);
           if (data.locale == "fi") return new LexicalAnalysis().getBaseForm(query)
           return ""
         })
         .then((baseForm) => {
-          console.log(baseForm);
           const queryParam = {query: query};
           const params = (baseForm) ? Object.assign(queryParam, {queryBaseForm: baseForm}) : queryParam;
           return textSearch.getQueryHandler()(params);
