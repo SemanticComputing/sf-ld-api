@@ -8,20 +8,16 @@ import SearchResultList from '../../shared/components/SearchResultList';
 
 import { rikosSearchResult } from '../fixtures';
 
-jest.mock('../../shared/ctrl/conceptCtrl');
-jest.mock('../../shared/ctrl/statuteCtrl');
+jest.mock('../../shared/lib/textSearch');
 
-import conceptCtrl from '../../shared/ctrl/conceptCtrl';
-import statuteCtrl from '../../shared/ctrl/statuteCtrl';
+import textSearch from '../../shared/lib/textSearch';
 
 describe('<Search />', () => {
   beforeAll(() => {
-    conceptCtrl.find.mockImplementation(() => new Promise(() => {}));
-    statuteCtrl.findByQuery.mockImplementation(() => new Promise((resolve) => resolve(rikosSearchResult)));
+    textSearch.search.mockImplementation(() => new Promise((resolve) => resolve(rikosSearchResult)));
   });
   afterEach(() => {
-    conceptCtrl.find.mockClear();
-    statuteCtrl.findByQuery.mockClear();
+    textSearch.search.mockClear();
   });
 
   it('renders a <SearchBar /> component', () => {
@@ -41,14 +37,14 @@ describe('<Search />', () => {
 
   it('calls statuteCtrl.findByQuery at form submit if search terms are given', () => {
     const wrapper = shallow(<Search />);
-    wrapper.setState({ query: 'rikos' });
+    wrapper.setState({ query: 'rikos', docCategory: 'sd' });
     wrapper.find('form').simulate('submit', { preventDefault: () => undefined });
-    expect(statuteCtrl.findByQuery).toHaveBeenCalledWith({query: 'rikos'});
+    expect(textSearch.search).toHaveBeenCalledWith('sd', 'rikos');
   });
 
   it('does not call statuteCtrl.findByQuery at form submit if no search terms are given', () => {
     const wrapper = shallow(<Search />);
     wrapper.find('form').simulate('submit', { preventDefault: () => undefined });
-    expect(statuteCtrl.findByQuery).not.toHaveBeenCalled();
+    expect(textSearch.search).not.toHaveBeenCalled();
   });
 });

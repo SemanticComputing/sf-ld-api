@@ -56,4 +56,24 @@ export default class JudgmentQuery {
     }`;
   }
 
+  findManyByQuery() {
+    return `SELECT ${this.vars} WHERE {
+      {
+        ${this.judgment}
+        ?judgment dcterms:isVersionOf ?ecli .
+        ?judgment sfcl:isRealizedBy ?expression .
+        ${this.ecliLangFilter}
+        ?expression dcterms:title ?title .
+        ?expression a ?expressionType .
+        ?expression sfcl:isEmbodiedBy ?format .
+        ${this.content}
+      }
+      UNION {
+       ${this.judgmentBind}
+       ?judgment ?p ?o.
+       FILTER (?p != sfcl:isRealizedBy)
+      }
+    }`;
+  }
+
 }

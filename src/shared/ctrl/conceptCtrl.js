@@ -2,8 +2,13 @@ import Sparql from '../lib/Sparql';
 import ConceptQuery from '../query/ConceptQuery';
 import Promise from 'bluebird';
 import _ from 'lodash';
+import config from '../../config.json';
 
 class ConceptCtrl {
+
+  constructor(params = {}) {
+    this.endpoint = params.endpoint || config.conceptEndpoint;
+  }
 
   find(params) {
     return new Promise((resolve, reject) => {
@@ -11,7 +16,7 @@ class ConceptCtrl {
         new ConceptQuery(params).findOne() :
         new ConceptQuery(params).findMany();
 
-      new Sparql({endpoint: 'http://ldf.fi/onki-light/sparql'})
+      new Sparql({endpoint: this.endpoint})
         .select(query)
         .then((data) => {
           if (data.results.bindings.length === 0)

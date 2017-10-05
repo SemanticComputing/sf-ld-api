@@ -2,6 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import $ from 'jquery';
 import ReactTooltip from 'react-tooltip';
+import documentHighlighter from 'document-highlighter';
 import eli from '../lib/eli';
 import { string } from 'prop-types';
 
@@ -9,6 +10,7 @@ export default class SearchResult extends React.Component {
 
   constructor(props) {
     const showContentTypes = [
+      'http://data.finlex.fi/schema/sfl/Statute',
       'http://data.finlex.fi/schema/sfl/Section',
       'http://data.finlex.fi/schema/sfl/Subsection'
     ];
@@ -29,7 +31,7 @@ export default class SearchResult extends React.Component {
     $html.find('.reference-amendment').html('');
     $html.find('.heading').html('');
     $html.find('.section-id').html('');
-    $html.html($html.html().replace(new RegExp(query,'gi'), '<strong>$&</strong>'));
+    $html.html(documentHighlighter.html($html.html(), query).html);
     return $html.html();
   }
 

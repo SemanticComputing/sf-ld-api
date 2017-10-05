@@ -8,7 +8,7 @@ class Sfl {
         return 'sfl:html';
       case 'text':
       case 'txt':
-      default: {
+      default: { 
         return 'sfl:text';
       }
     }
