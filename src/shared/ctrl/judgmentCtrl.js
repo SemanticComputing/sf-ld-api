@@ -1,6 +1,6 @@
 import CaseLawJsonLd from '../lib/CaseLawJsonLd';
 import Sparql from '../lib/Sparql';
-import judgmentQuery from '../query/JudgmentQuery';
+import judgmentQuery from '../query/judgmentQuery';
 import Promise from 'bluebird';
 
 class JudgmentCtrl {
