@@ -1,6 +1,6 @@
 import LegislationJsonLd from '../lib/LegislationJsonLd';
 import Sparql from '../lib/Sparql';
-import statuteQuery from '../query/StatuteQuery';
+import statuteQuery from '../query/statuteQuery';
 import Promise from 'bluebird';
 import _ from 'lodash';
 
