@@ -146,8 +146,8 @@ const statuteQuery = {
     const format = eli.getFormatResource(params.format || 'text');
     const limit = params.year ? '' : `LIMIT ${params.limit || 10}`;
     const offset = params.offset ? `OFFSET ${params.offset}` : '';
-    const tree = params.tree ? '?statuteVersion eli:has_part* ?s .' : 'BIND(?statuteVersion AS ?s)';
-    const treeFilter = params.tree ? 'FILTER NOT EXISTS { ?s eli:has_part _:b . }' : '';
+    const tree = params.hasOwnProperty('tree') ? '?statuteVersion eli:has_part* ?s .' : 'BIND(?statuteVersion AS ?s)';
+    const treeFilter = params.hasOwnProperty('tree') ? 'FILTER NOT EXISTS { ?s eli:has_part _:b . }' : '';
     const contentProperty = sfl.getPropertyByFormat(params.format || 'text');
 
     return `SELECT * ${fromGraph} WHERE {
