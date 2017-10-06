@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { object, number } from 'prop-types';
+import { object } from 'prop-types';
 import prefix from '../lib/prefix';
 import LegislationJsonLd from '../lib/LegislationJsonLd';
 
