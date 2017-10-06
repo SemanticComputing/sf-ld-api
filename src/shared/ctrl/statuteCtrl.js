@@ -1,6 +1,6 @@
 import LegislationJsonLd from '../lib/LegislationJsonLd';
 import Sparql from '../lib/Sparql';
-import StatuteQuery from '../query/StatuteQuery';
+import statuteQuery from '../query/statuteQuery';
 import Promise from 'bluebird';
 import _ from 'lodash';
 
@@ -9,8 +9,8 @@ class StatuteCtrl {
   find(params) {
     return new Promise((resolve, reject) => {
       const query = (params.statuteId) ?
-        new StatuteQuery(params).findOne() :
-        new StatuteQuery(params).findMany();
+        statuteQuery.findOne(params) :
+        statuteQuery.findMany(params);
 
       new Sparql()
         .select(query)
@@ -34,7 +34,7 @@ class StatuteCtrl {
 
   findByQuery(params) {
     return new Promise((resolve, reject) => {
-      const query = new StatuteQuery(params).findManyByQuery();
+      const query = statuteQuery.findManyByQuery(params);
 
       new Sparql()
         .select(query)

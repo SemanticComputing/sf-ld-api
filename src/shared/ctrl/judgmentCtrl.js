@@ -1,6 +1,6 @@
 import CaseLawJsonLd from '../lib/CaseLawJsonLd';
 import Sparql from '../lib/Sparql';
-import JudgmentQuery from '../query/JudgmentQuery';
+import judgmentQuery from '../query/judgmentQuery';
 import Promise from 'bluebird';
 
 class JudgmentCtrl {
@@ -8,13 +8,13 @@ class JudgmentCtrl {
   find(params) {
     return new Promise((resolve, reject) => {
       const query = (params.judgmentId) ?
-        new JudgmentQuery(params).findOne() :
-        new JudgmentQuery(params).findMany();
+        judgmentQuery.findOne(params) :
+        judgmentQuery.findMany(params);
 
       new Sparql()
         .select(query)
         .then((data) => {
-          if (data.results.bindings.length==0)
+          if (data.results.bindings.length === 0)
             return reject();
 
           const jsonLd = new CaseLawJsonLd(params);
