@@ -1,5 +1,5 @@
 import Sparql from '../lib/Sparql';
-import ConceptQuery from '../query/ConceptQuery';
+import conceptQuery from '../query/ConceptQuery';
 import Promise from 'bluebird';
 import _ from 'lodash';
 import config from '../../config.json';
@@ -7,14 +7,14 @@ import config from '../../config.json';
 class ConceptCtrl {
 
   constructor(params = {}) {
-    this.endpoint = params.endpoint || config.conceptEndpoint;
+    this.endpoint = params.endpoint || config.conceptEndpoint;
   }
 
   find(params) {
     return new Promise((resolve, reject) => {
       const query = (params.statuteId) ?
-        new ConceptQuery(params).findOne() :
-        new ConceptQuery(params).findMany();
+        conceptQuery.findOne(params) :
+        conceptQuery.findMany(params);
 
       new Sparql({endpoint: this.endpoint})
         .select(query)
