@@ -2,130 +2,48 @@ import moment from 'moment';
 import eli from '../lib/eli';
 import sfl from '../lib/sfl';
 
-export default class StatuteQuery {
+const FREE_GRAPH = '<http://data.finlex.fi/eli/sd/alkup>';
 
+const statuteQuery = {
 
-  constructor(params = {}) {
+  findMany: (params) => {
+    const fromGraph = params.free ? `FROM ${FREE_GRAPH}` : '';
+    const yearFilter = params.year ? `FILTER STRENDS(?idLocal, "${params.year}")` : '';
+    const limit = params.year ? '' : `LIMIT ${params.limit || 10}`;
+    const offset = params.offset ? `OFFSET ${params.offset}` : '';
+    const lang = eli.getLangResource(params.lang || 'fi');
+    const original = params.version === 'alkup' ? '?statuteVersion eli:version sfl:Original .' : '';
 
-    this.vars = '*';
-
-    // Get only CC BY data
-    this.fromGraph = (params.hasOwnProperty('free')) ? ' FROM <http://data.finlex.fi/eli/sd/alkup>' : '';
-
-    // Get version valid at a certain point in time
-    this.versionDateFilter = params.pointInTime ?
-      'FILTER (\"'+moment(params.pointInTime, 'YYYYMMDD').format('YYYY-MM-DD')+'\"^^xsd:date >= ?vd)' : '';
-    // Default limit
-    this.limit = params.limit ? 'LIMIT '+params.limit : (params.year) ? '':'LIMIT 10';
-
-    // Offset
-    this.offset = params.offset ? 'OFFSET '+params.offset : '';
-
-    // Statutes by year
-    this.statute = (params.year) ? '?statute a sfl:Statute . ?statute eli:id_local ?idLocal . FILTER STRENDS(?idLocal, "'+params.year+'")' : '?statute a sfl:Statute .';
-
-    // Statute by id
-    this.statute = (params.statuteId) ? 'VALUES ?statute { sfsd:'+params.year+'\\/'+params.statuteId+' }' : this.statute;
-
-    // Section of a law by id
-    this.statute = (params.statuteId && params.sectionOfALaw) ? 'VALUES ?statute { sfsd:'+params.year+'\\/'+params.statuteId+params.sectionOfALaw.replace(/\//gi, '\\/')+' }' : this.statute;
-
-    // Bind statute to variable s
-    this.statuteBind = (params.statuteId) ? 'BIND(sfsd:'+params.year+'\\/'+params.statuteId+' AS ?s)' : '';
-
-    // Bind section of a law to variable s
-    this.statuteBind = (params.statuteId && params.sectionOfALaw) ? 'BIND(sfsd:'+params.year+'\\/'+params.statuteId+params.sectionOfALaw.replace(/\//gi, '\\/')+' AS ?s)' : this.statuteBind;
-
-    // Filter by lang
-    this.eliLangFilter = params.lang ? '?expression eli:language '+eli.getLangResource(params.lang)+'.' : '?expression eli:language '+eli.getLangResource('fi')+'.';
-
-    // Filter by format
-    this.formatFilter = '?format eli:format '+((params.format) ? eli.getFormatResource(params.format) : eli.getFormatResource('text'))+'.';
-    this.content = '?format '+((params.format) ? sfl.getPropertyByFormat(params.format) : sfl.getPropertyByFormat('text'))+' ?content .';
-
-    // Build document tree
-    this.tree = (params.hasOwnProperty('tree')) ? '?statuteVersion eli:has_part* ?s .' : 'BIND(?statuteVersion AS ?s)';
-    this.treeFilter = (params.hasOwnProperty('tree')) ? 'FILTER NOT EXISTS { ?s eli:has_part _:b . }' : '';
-
-    // Find original versions
-    if (params.version == 'alkup') {
-      this.selectVersion =
-        `
-          ${this.statute}
-          ?statute eli:has_member ?statuteVersion .
-          ?statuteVersion eli:version sfl:Original .
-        `
-    // Find many (optionally by year)
-    } else if (!params.statuteId) {
-      this.selectVersion = `
-        {
-          SELECT DISTINCT ?statute ?year ?number ?letter {
-            ?statute a sfl:Statute .
-            ?statute eli:has_member ?statuteVersion .
-            ?statuteVersion eli:date_document ?date_document .
-            BIND (YEAR(?date_document) AS ?year)
-            ${params.year ? `FILTER (?year = ${params.year})` : ''}
-            ?statute eli:id_local ?id_local .
-            BIND (xsd:integer(REPLACE(?id_local, "[^0-9]+[0-9]+", "")) AS ?number)
-            BIND (REPLACE(?id_local, "[^A-Z]", "") AS ?letter)
-          } ORDER BY ?year ?number ?letter ${this.limit} ${this.offset}
-        }
-        ?statute eli:has_member ?statuteVersion .
-      `
-    // Find one (optionally by version date)
-    } else {
-      this.selectVersion =
-      `{
-        SELECT DISTINCT ?statute (MAX(COALESCE(?vd, "")) AS ?versionDate) WHERE {
-          ${this.statute}
-          ?statute eli:has_member ?statuteVersion .
-          OPTIONAL {
-            ${this.versionDateFilter}
-            ?statuteVersion eli:version_date ?vd .
-          }
-        } GROUP BY ?statute ${this.limit}
+    return `SELECT * ${fromGraph} WHERE {
+      {
+        SELECT DISTINCT ?statute ?year ?number ?letter {
+          ${original}
+          ?statute a sfl:Statute .
+          ?statute eli:id_local ?idLocal .
+          ${yearFilter}
+          BIND(xsd:integer(REPLACE(?idLocal, "[^0-9]+[0-9]+", "")) AS ?number)
+          BIND(REPLACE(?idLocal, "[^A-Z]", "") AS ?letter)
+        } ORDER BY ?year ?number ?letter ${limit} ${offset}
       }
-      # Matching consolidated version
-      OPTIONAL {
-        ?statute eli:has_member ?statuteVersion .
-        ?statuteVersion eli:version_date ?versionDate .
-      }
-      # No matching consolidated version, find original
-      OPTIONAL {
-        ?statute eli:has_member ?statuteVersion .
-        ?statuteVersion eli:version sfl:Original .
-      }
-      FILTER(BOUND(?statuteVersion))`;
-    }
-
-    // Find by query
-    this.query = (params.query) ? params.query.replace(/[^a-zA-ZäöåÄÖÅ0-9*"\s]/gi,'').toLowerCase() : '';
-    this.queryRegex = (params.query) ? params.query.replace(/[^a-zA-ZäöåÄÖÅ0-9\s]/gi,'') : '';
-    this.queryBaseForm = (params.queryBaseForm) ? params.queryBaseForm : '';
-  }
-
-
-  findMany() {
-    return `SELECT ${this.vars}${this.fromGraph} WHERE {
-      ${this.selectVersion}
-      # Statute must be found at this point
       FILTER(BOUND(?statute))
+      ?statute eli:has_member ?statuteVersion .
       ?statute eli:id_local ?idLocal .
       ?statute sfl:statuteType ?statuteType .
       ?statuteVersion eli:is_realized_by ?expression .
       ?statuteVersion a ?statuteVersionType .
-      ${this.eliLangFilter}
+      ?expression eli:language ${lang} .
       ?expression eli:title ?title .
       ?expression a ?expressionType .
     }`;
-  }
+  },
 
-  /* */
-  findManyByQuery() {
+  findManyByQuery: (params) => {
+    const query = (params.query) ? params.query.replace(/[^a-zA-ZäöåÄÖÅ0-9*"\s]/gi,'').toLowerCase() : '';
+    const queryBaseForm = (params.queryBaseForm) ? params.queryBaseForm : '';
     return `
       SELECT DISTINCT ?c ?l ?v ?s ?st ?stt ?t ?title ?txt ?score ?matchType WHERE {
        {
-          ?e text:query (eli:title \'${this.query}\' 20) .
+          ?e text:query (eli:title \'${query}\' 20) .
           ?s eli:has_member ?v.
           ?v eli:is_realized_by ?e .
           ?e eli:is_embodied_by ?f .
@@ -150,7 +68,7 @@ export default class StatuteQuery {
           VALUES ?matchType {'title'}
           ?s a ?t .
         } UNION {
-          (?f ?score) text:query (sfl:textLemmatized \'${this.queryBaseForm}\' 20) .
+          (?f ?score) text:query (sfl:textLemmatized \'${queryBaseForm}\' 20) .
           ?s eli:has_member ?v.
           ?v eli:is_realized_by ?e .
           ?e eli:is_embodied_by ?f .
@@ -170,7 +88,7 @@ export default class StatuteQuery {
           ?ste eli:title ?stt .
           FILTER (LANG(?stt) = 'fi')
         } UNION {
-          (?f ?score) text:query (sfl:text \'${this.query}\' 20) .
+          (?f ?score) text:query (sfl:text \'${query}\' 20) .
           ?s eli:has_member ?v.
           ?v eli:is_realized_by ?e .
           ?e eli:is_embodied_by ?f .
@@ -216,16 +134,48 @@ export default class StatuteQuery {
         }
       } GROUP BY ?s ?v ?st ?stt ?c ?l ?t ?title ?txt ?score ?matchType ORDER BY DESC(?score) LIMIT 20
     `;
-  }
+  },
 
+  findOne: (params) => {
+    const sectionOfALaw = params.sectionOfALaw ? params.sectionOfALaw.replace(/\//gi, '\\/') : '';
+    const statuteUri = `sfsd:${params.year}\\/${params.statuteId}${sectionOfALaw}`;
+    const fromGraph = params.free ? `FROM ${FREE_GRAPH}` : '';
+    const versionDateFilter = params.pointInTime ?
+      `FILTER ("${moment(params.pointInTime, 'YYYYMMDD').format('YYYY-MM-DD')}"^^xsd:date >= ?vd)` : '';
+    const lang = eli.getLangResource(params.lang || 'fi');
+    const format = eli.getFormatResource(params.format || 'text');
+    const limit = params.year ? '' : `LIMIT ${params.limit || 10}`;
+    const offset = params.offset ? `OFFSET ${params.offset}` : '';
+    const tree = params.tree ? '?statuteVersion eli:has_part* ?s .' : 'BIND(?statuteVersion AS ?s)';
+    const treeFilter = params.tree ? 'FILTER NOT EXISTS { ?s eli:has_part _:b . }' : '';
+    const contentProperty = sfl.getPropertyByFormat(params.format || 'text');
 
-  findOne() {
-    return `SELECT ${this.vars} ${this.fromGraph} WHERE {
+    return `SELECT * ${fromGraph} WHERE {
       {
-        ${this.selectVersion}
-        ${this.tree}
+        {
+          SELECT DISTINCT ?statute (MAX(COALESCE(?vd, "")) AS ?versionDate) WHERE {
+            VALUES ?statute { ${statuteUri} }
+            ?statute eli:has_member ?statuteVersion .
+            OPTIONAL {
+              ?statuteVersion eli:version_date ?vd .
+              ${versionDateFilter}
+            }
+          } GROUP BY ?statute ${limit} ${offset}
+        }
+        # Matching consolidated version
+        OPTIONAL {
+          ?statute eli:has_member ?statuteVersion .
+          ?statuteVersion eli:version_date ?versionDate .
+        }
+        # No matching consolidated version, find original
+        OPTIONAL {
+          ?statute eli:has_member ?statuteVersion .
+          ?statuteVersion eli:version sfl:Original .
+        }
+        FILTER(BOUND(?statuteVersion))
+        ${tree}
         ?s eli:is_realized_by ?expression .
-        ${this.eliLangFilter}
+        ?expression eli:language ${lang} .
         OPTIONAL {
           ?s ?p ?o .
           FILTER (?p!=eli:is_part_of)
@@ -235,17 +185,17 @@ export default class StatuteQuery {
           ?expression eli:title ?title .
         }
         OPTIONAL {
-          ${this.treeFilter}
+          ${treeFilter}
           ?expression eli:is_embodied_by ?format .
-          ${this.formatFilter}
-          ${this.content}
+          ?format eli:format ${format} .
+          ?format ${contentProperty} ?content .
         }
       } UNION {
-        ${this.statuteBind}
+        BIND(${statuteUri} AS ?s)
         ?s ?p ?o.
       }
     }`;
   }
+};
 
-
-}
+export default statuteQuery;
