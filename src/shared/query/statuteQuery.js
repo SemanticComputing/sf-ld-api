@@ -43,7 +43,7 @@ const statuteQuery = {
     return `
       SELECT DISTINCT ?c ?l ?v ?s ?st ?stt ?t ?title ?txt ?score ?matchType WHERE {
        {
-          ?e text:query (eli:title \'${query}\' 20) .
+          ?e text:query (eli:title '${query}' 20) .
           ?s eli:has_member ?v.
           ?v eli:is_realized_by ?e .
           ?e eli:is_embodied_by ?f .
@@ -68,7 +68,7 @@ const statuteQuery = {
           VALUES ?matchType {'title'}
           ?s a ?t .
         } UNION {
-          (?f ?score) text:query (sfl:textLemmatized \'${queryBaseForm}\' 20) .
+          (?f ?score) text:query (sfl:textLemmatized '${queryBaseForm}' 20) .
           ?s eli:has_member ?v.
           ?v eli:is_realized_by ?e .
           ?e eli:is_embodied_by ?f .
@@ -88,7 +88,7 @@ const statuteQuery = {
           ?ste eli:title ?stt .
           FILTER (LANG(?stt) = 'fi')
         } UNION {
-          (?f ?score) text:query (sfl:text \'${query}\' 20) .
+          (?f ?score) text:query (sfl:text '${query}' 20) .
           ?s eli:has_member ?v.
           ?v eli:is_realized_by ?e .
           ?e eli:is_embodied_by ?f .
@@ -110,7 +110,7 @@ const statuteQuery = {
         } UNION {
           ?c a skos:Concept .
           ?c skos:prefLabel ?l .
-          (?c ?score) text:query (skos:prefLabel \'${this.query}\' 20) .
+          (?c ?score) text:query (skos:prefLabel '${query}' 20) .
           VALUES ?matchType {'keyword'}
           ?s eli:has_member ?v.
           ?v eli:is_about ?c .
