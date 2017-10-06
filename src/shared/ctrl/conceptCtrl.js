@@ -1,5 +1,5 @@
 import Sparql from '../lib/Sparql';
-import conceptQuery from '../query/ConceptQuery';
+import conceptQuery from '../query/conceptQuery';
 import Promise from 'bluebird';
 import _ from 'lodash';
 import config from '../../config.json';
