@@ -49,11 +49,6 @@ const statuteQuery = {
         ?s eli:is_realized_by ?expression .
         ?expression eli:language ${lang} .
         OPTIONAL {
-          ?s ?p ?o .
-          FILTER (?p!=eli:is_part_of)
-          FILTER (?p!=eli:is_realized_by)
-        }
-        OPTIONAL {
           ?expression eli:title ?title .
         }
         OPTIONAL {
@@ -65,6 +60,14 @@ const statuteQuery = {
       } UNION {
         BIND(${statuteUri} AS ?s)
         ?s ?p ?o.
+      } UNION {
+        VALUES ?statute { ${statuteUri} }
+        ?statute eli:has_member ?statuteVersion .
+        ${tree}
+        ?s eli:is_realized_by ?expression .
+        ?s ?p ?o .
+        FILTER (?p!=eli:is_part_of)
+        FILTER (?p!=eli:is_realized_by)
       }
     }`;
   },
