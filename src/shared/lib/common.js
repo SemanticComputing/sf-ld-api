@@ -4,6 +4,8 @@ class Common {
     switch (name) {
       case 'kko':
         return 'common:KKO';
+      case 'kho':
+        return 'common:KHO';
       default:
         return '';
     }

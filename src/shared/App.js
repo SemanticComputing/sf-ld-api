@@ -3,6 +3,8 @@ import { Router, Route }       from 'react-router';
 import Search                  from './components/Search';
 import StatuteList             from './components/StatuteList';
 import Statute                 from './components/Statute';
+import JudgmentList             from './components/JudgmentList';
+import Judgment                 from './components/Judgment';
 
 export default class App extends React.Component {
   render() {
@@ -22,6 +24,12 @@ export default class App extends React.Component {
             <Route data={this.props.data} path="/eli/sd/:year" component={StatuteList} />
             <Route data={this.props.data} path="/eli/sd/*" component={Statute} />
             <Route data={this.props.data} path="/eli/sd*" component={StatuteList} />
+            <Route data={this.props.data} path="/ecli/kko/:year" component={JudgmentList} />
+            <Route data={this.props.data} path="/ecli/kho/:year" component={JudgmentList} />
+            <Route data={this.props.data} path="/ecli/kko/*" component={Judgment} />
+            <Route data={this.props.data} path="/ecli/kho/*" component={Judgment} />
+            <Route data={this.props.data} path="/ecli/kko*" component={JudgmentList} />
+            <Route data={this.props.data} path="/ecli/kho*" component={JudgmentList} />
           </Router>
         </div>
       </div>

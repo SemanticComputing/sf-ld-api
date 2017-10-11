@@ -16,7 +16,7 @@ const judgmentQuery = {
       judgment += `?judgment dcterms:creator ${common.getCourtByName(params.court)} . `;
     }
     if (params.year) {
-      judgment += `?judgment dcterms:date ?date . FILTER(YEAR(?date) = ${parseInt(params.year)})`;
+      judgment += `?judgment sfcl:year ?year . FILTER(YEAR(?year) = ${parseInt(params.year)})`;
     }
 
     return `SELECT DISTINCT * WHERE {
@@ -29,7 +29,8 @@ const judgmentQuery = {
       ?expression a ?expressionType .
       ?expression sfcl:isEmbodiedBy ?format .
       ?format a sfcl:Format .
-      ?format ${contentProperty} ?content .
+      # Judgment might not have content
+      OPTIONAL { ?format ${contentProperty} ?content . }
       ?judgment a ?judgmentType .
     } ${limit}`;
   },
