@@ -52,7 +52,7 @@ const statuteQuery = {
 
   findMany: (params) => {
     const fromGraph = params.free ? `FROM ${FREE_GRAPH}` : '';
-    const yearFilter = params.year ? `FILTER STRENDS(?idLocal, "${params.year}")` : '';
+    const yearFilter = params.year ? `FILTER(?year = "${params.year}"^^xsd:gYear)` : '';
     const original = params.version === 'alkup' ? '?statuteVersion eli:version sfl:Original .' : '';
     const lang = eli.getLangResource(params.lang || 'fi');
 
@@ -74,9 +74,6 @@ const statuteQuery = {
       {
         SELECT DISTINCT ?statute ?score {
           ${resultset}
-          BIND(xsd:integer(REPLACE(?idLocal, ".*/([0-9]+).?$", "$1")) AS ?year)
-          BIND(xsd:integer(REPLACE(?idLocal, "[^0-9]+[0-9]+", "")) AS ?number)
-          BIND(REPLACE(?idLocal, "[^A-Z]", "") AS ?letter)
         } ORDER BY DESC(?score) ?year ?number ?letter ${limit} ${offset}
       }
       FILTER(BOUND(?statute))
@@ -94,9 +91,12 @@ const statuteQuery = {
 
 function getFindManyResultset(params) {
   return `
-    ${params.original}
-    ?statute eli:id_local ?idLocal .
+    ?statute sfl:year ?year .
     ${params.yearFilter}
+    ${params.original}
+    ?statute sfl:statuteNumber ?number .
+    ?statute eli:id_local ?idLocal .
+    BIND(REPLACE(?number, "[^A-Z]", "") AS ?letter)
     ?statute a sfl:Statute .
     ?statute eli:has_member ?statuteVersion .
     ?statuteVersion eli:is_realized_by ?expression .
@@ -122,7 +122,10 @@ function getFindManyByQueryResultset(params) {
     ?statute eli:has_member ?statuteVersion .
     ?statute a sfl:Statute .
     ?statute eli:id_local ?idLocal .
+    ?statute sfl:year ?year .
     ${params.yearFilter}
+    ?statute sfl:statuteNumber ?number .
+    BIND(REPLACE(?number, "[^A-Z]", "") AS ?letter)
     ?expression eli:language ${params.lang} .`;
 }
 
