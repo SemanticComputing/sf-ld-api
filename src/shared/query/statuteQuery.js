@@ -2,7 +2,7 @@ import moment from 'moment';
 import eli from '../lib/eli';
 import sfl from '../lib/sfl';
 
-const FREE_GRAPH = '<http://data.finlex.fi/eli/sd/alkup>';
+const FREE_GRAPH = '<http://data.finlex.fi/eli/sd/alkup/>';
 const DEFAULT_LIMIT = 10;
 const PART_PROPERTIES = `
   OPTIONAL { ?part a ?type .  }
