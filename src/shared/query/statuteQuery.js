@@ -3,7 +3,7 @@ import eli from '../lib/eli';
 import sfl from '../lib/sfl';
 
 const FREE_GRAPH = '<http://data.finlex.fi/eli/sd/alkup/>';
-const DEFAULT_LIMIT = 10;
+const DEFAULT_LIMIT = 100;
 const PART_PROPERTIES = `
   OPTIONAL { ?part a ?type .  }
   OPTIONAL { ?part eli:amended_by ?amendedBy .  }

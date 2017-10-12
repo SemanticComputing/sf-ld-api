@@ -6,13 +6,12 @@ import { string, array } from 'prop-types';
 export default function SearchResultList(props) {
 
   function renderResults(results, query) {
-    console.log(results)
     return map(results, (result, idx) => {
       let title;
-      if (result.title && result.statuteTitle && result.title.value === result.statuteTitle.value)
+      if (!result.title || (result.title && result.statuteTitle && result.title.value === result.statuteTitle.value))
         title = '';
       else
-        title = result.title.value;
+        title = result.title;
       return <SearchResult
         key={idx + '-' + new Date().getTime()}
         title={title}
