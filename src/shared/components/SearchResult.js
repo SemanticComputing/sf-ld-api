@@ -9,17 +9,15 @@ import { string } from 'prop-types';
 export default class SearchResult extends React.Component {
 
   constructor(props) {
-    const showContentTypes = [
+    const hideContentTypes = [
       'http://data.finlex.fi/schema/sfl/Statute',
-      'http://data.finlex.fi/schema/sfl/Section',
-      'http://data.finlex.fi/schema/sfl/Subsection'
     ];
     super(props);
     this.sectionId = eli.getSectionOfALawLocalId(props.workUrl);
     this.statuteId = eli.getStatuteLocalId(props.workUrl);
     this.statuteTitle = props.statuteTitle || '';
     this.heading = props.title;
-    this.content = (_.indexOf(showContentTypes, props.type) > -1) ? this.sanitize(props.content, props.query) : '';
+    this.content = (!_.includes(hideContentTypes, props.type)) ? this.sanitize(props.content, props.query) : '';
     this.versionUrl = props.versionUrl;
     this.workUrl = props.workUrl;
     this.statuteVersionUrl = props.statuteVersionUrl;
@@ -40,7 +38,7 @@ export default class SearchResult extends React.Component {
       <div className="search-result">
         <div className="search-result-statute-id"><a href={this.statuteVersionUrl ? this.statuteVersionUrl : this.versionUrl}>{this.statuteId}</a></div>
         <div className="search-result-statute-title"><a href={this.statuteVersionUrl ? this.statuteVersionUrl : this.versionUrl}>{this.statuteTitle}</a></div>
-        <div className="search-result-title"><a href={this.versionUrl}>{this.sectionId} {this.heading && this.sectionId ? '- '+this.heading : this.heading ? this.heading : ''}</a></div>
+        <div className="search-result-title"><a href={this.versionUrl}>{this.sectionId} {this.heading && this.sectionId ? '- ' + this.heading : this.heading ? this.heading : ''}</a></div>
         <div className="search-result-text" dangerouslySetInnerHTML={{__html: this.content}}></div>
         <ReactTooltip />
         <hr/>

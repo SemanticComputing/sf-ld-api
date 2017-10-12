@@ -6,17 +6,23 @@ import { string, array } from 'prop-types';
 export default function SearchResultList(props) {
 
   function renderResults(results, query) {
+    console.log(results)
     return map(results, (result, idx) => {
+      let title;
+      if (result.title && result.statuteTitle && result.title.value === result.statuteTitle.value)
+        title = '';
+      else
+        title = result.title.value;
       return <SearchResult
         key={idx + '-' + new Date().getTime()}
-        title={result.title ? result.title.value : ''}
-        content={result.txt ? result.txt.value : ''}
+        title={title}
+        content={result.content ? result.content.value : ''}
         query={query}
-        workUrl={result.s ? result.s.value : ''}
-        versionUrl={result.v ? result.v.value : ''}
-        statuteVersionUrl={result.st ? result.st.value : ''}
-        statuteTitle={result.stt ? result.stt.value : ''}
-        type={result.t ? result.t.value : ''}
+        workUrl={result.statute ? result.statute.value : ''}
+        versionUrl={result.statuteVersion ? result.statuteVersion.value : ''}
+        statuteVersionUrl={result.lawVersion ? result.lawVersion.value : ''}
+        statuteTitle={result.statuteTitle ? result.statuteTitle.value : ''}
+        type={result.statuteType ? result.statuteType.value : ''}
       >
       </SearchResult>;
     });
