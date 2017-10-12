@@ -51,7 +51,7 @@ class Eli {
   getFormatResource(format) {
     switch(format) {
       case 'xml': {
-        return '<	http://www.iana.org/assignments/media-types/application/xml>';
+        return '<http://www.iana.org/assignments/media-types/application/xml>';
       }
       case 'html': {
         return '<http://www.iana.org/assignments/media-types/text/html>';
