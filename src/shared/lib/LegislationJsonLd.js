@@ -1,6 +1,35 @@
 import _ from 'lodash';
 import prefix from './prefix';
 
+const PART_PROPERTIES = {
+  type: 'rdf:type',
+  statuteType: 'sfl:statuteType',
+  idLocal: 'eli:id_local',
+  inForce: 'eli:in_force',
+  temporalVersions: 'eli:has_member',
+  amendedBy: 'eli:amended_by',
+  amends: 'eli:amends',
+  basedOn: 'eli:based_on',
+  cites: 'eli:cites',
+  typeDocument: 'eli:type_document',
+  dateDocument: 'eli:date_document',
+  datePublication: 'eli:date_publication',
+  firstDateEntryInForce: 'eli:first_date_entry_in_force',
+  hasPart: 'eli:has_part',
+  isAbout: 'eli:is_about',
+  isMemberOf: 'eli:is_member_of',
+  isPartOf: 'eli:is_part_of',
+  isRealizedBy: 'eli:is_realized_by',
+  passedBy: 'eli:passed_by',
+  relatedTo: 'eli:related_to',
+  repealedBy: 'eli:repealed_by',
+  repeals: 'eli:repeals',
+  responsibilityOf: 'eli:responsibility_of',
+  version: 'eli:version',
+  versionDate: 'eli:version_date',
+  followedBy: 'sfl:followedBy',
+};
+
 export default class LegislationJsonLd {
 
   constructor(params = {}) {
@@ -41,7 +70,10 @@ export default class LegislationJsonLd {
       }
       const statute = statutes[binding.statute.value];
       addProp(statute, 'idLocal', binding.idLocal.value);
-      const statuteVersion = {'@id':prefix.shorten(binding.statuteVersion.value), '@type':prefix.shorten(binding.statuteVersionType.value)};
+      const statuteVersion = {
+        '@id': prefix.shorten(binding.statuteVersion.value),
+        '@type': prefix.shorten(binding.statuteVersionType.value)
+      };
       addProp(statute, 'temporalVersions', statuteVersion);
       const expression = {'@id':prefix.shorten(binding.expression.value), '@type':prefix.shorten(binding.expressionType.value)};
       addProp(statuteVersion, 'languageVersion', expression);
@@ -82,40 +114,37 @@ export default class LegislationJsonLd {
     let workLevel = {};
     results.results.bindings.forEach(function(binding) {
       let currentSubject;
-      if (!binding.s.value.match(/\/ajantasa|\/alkup/)) {
+      if (!binding.part.value.match(/\/ajantasa|\/alkup/)) {
         if (!workLevel['@id']) {
-          workLevel['@id'] = prefix.shorten(binding.s.value);
+          workLevel['@id'] = prefix.shorten(binding.part.value);
         }
         currentSubject = workLevel;
       } else {
-        if (!itemMap[binding.s.value]) {
-          itemMap[binding.s.value] = {'@id':prefix.shorten(binding.s.value)};
+        if (!itemMap[binding.part.value]) {
+          itemMap[binding.part.value] = {'@id':prefix.shorten(binding.part.value)};
         }
-        currentSubject = itemMap[binding.s.value];
+        currentSubject = itemMap[binding.part.value];
       }
-      if (binding.p) {
-        var prop = _.camelCase(binding.p.value.replace(/.*[\/#]/,'')) +
-          (binding.o['xml:lang'] ? '_' + binding.o['xml:lang'] : '');
-        var pprop = prefix.shorten(binding.p.value);
+      for (let prop in PART_PROPERTIES) {
+        const value = binding[prop];
+        if (value && value.value) {
+          var pprop = PART_PROPERTIES[prop];
 
-        switch(prop) {
-          case 'type':
+          if (prop === 'type')
             prop = '@type';
-            break;
-          case 'hasMember':
-            prop = 'temporalVersions';
-            break;
-        }
 
-        if (!currentSubject[prop]) currentSubject[prop] = [];
-        currentSubject[prop].push(binding.o.value);
-        if (!context[prop]) {
-          if (binding.o.type === 'uri')
-            context[prop] = { '@id': pprop, '@type': '@id' };
-          else if (binding.o['xml:lang'])
-            context[prop + '_' + binding.o['xml:lang']] = { '@id': pprop, '@language': binding.o['xml:lang'] };
-          else if (binding.o['datatype'])
-            context[prop] = { '@id': pprop, '@type': prefix.shorten(binding.o['datatype']) };
+          if (!currentSubject[prop])
+            currentSubject[prop] = [];
+          if (!_.includes(currentSubject[prop], value.value))
+            currentSubject[prop].push(value.value);
+          if (!context[prop]) {
+            if (value.type === 'uri')
+              context[prop] = { '@id': pprop, '@type': '@id' };
+            else if (value['xml:lang'])
+              context[prop + '_' + value['xml:lang']] = { '@id': pprop, '@language': value['xml:lang'] };
+            else if (value['datatype'])
+              context[prop] = { '@id': pprop, '@type': prefix.shorten(value['datatype']) };
+          }
         }
       }
       if (binding.title) {
@@ -162,7 +191,7 @@ export default class LegislationJsonLd {
     for (var ns in prefix.prefixes) {
       context[prefix.prefixes[ns]] = ns;
     }
-    workLevel.temporalVersion = itemMap[results.results.bindings[0].s.value];
+    workLevel.temporalVersion = itemMap[results.results.bindings[0].part.value];
     var response = workLevel;
     response['@context'] = context;
     response = (pretty) ? JSON.stringify(response, null, 2) : response;
