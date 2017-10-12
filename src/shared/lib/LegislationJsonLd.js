@@ -84,14 +84,14 @@ export default class LegislationJsonLd {
         '@type': prefix.shorten(binding.expressionType.value)
       };
       addProp(statuteVersion, 'languageVersion', expression);
-      addProp(expression, 'title_' + this.lang, binding.title.value);
+      if (binding.title)
+        addProp(expression, 'title_' + this.lang, binding.title.value);
     });
 
     _.each(statutes, (statute) => {
       statute.temporalVersions = self.sortTemporalVersions(statute.temporalVersions);
       statute.temporalVersion = statute.temporalVersions[0];
     });
-    // Sort response by statute year and id
     const response = {
       '@graph': _.map(statutes),
       '@context': Object.assign(_.invert(prefix.prefixes), context)
