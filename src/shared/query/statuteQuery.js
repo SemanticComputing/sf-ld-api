@@ -104,7 +104,7 @@ const statuteQuery = {
 };
 
 function getFindManyResultset(params) {
-  return `SELECT DISTINCT ?statute ${params.fromGraph} WHERE {
+  return `SELECT DISTINCT ?statute WHERE {
     ?statute sfl:year ?year .
     ${params.yearFilter}
     ${params.original}
@@ -126,7 +126,7 @@ function getFindManyByQueryResultset(params) {
     query = query + '||' + sanitize(params.queryBaseForm);
   }
 
-  return `SELECT DISTINCT ?statute (MAX(?sc) AS ?score) ${params.fromGraph} WHERE {
+  return `SELECT DISTINCT ?statute (MAX(?sc) AS ?score) WHERE {
     {
       (?format ?score_) text:query (sfl:text '${query}') .
       BIND(1.5 * ?score_ AS ?sc)
