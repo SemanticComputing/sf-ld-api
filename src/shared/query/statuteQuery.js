@@ -32,7 +32,7 @@ const statuteQuery = {
 
     refinedParams.sectionOfALaw = params.sectionOfALaw ? params.sectionOfALaw.replace(/\//gi, '\\/') : '';
     refinedParams.statuteUri = `sfsd:${params.year}\\/${params.statuteId}${refinedParams.sectionOfALaw}`;
-    refinedParams.fromGraph = params.free ? `FROM ${FREE_GRAPH}` : '';
+    refinedParams.fromGraph = params.hasOwnProperty('free') ? `FROM ${FREE_GRAPH}` : '';
     refinedParams.versionDateFilter = params.pointInTime ?
         `FILTER ("${moment(params.pointInTime, 'YYYYMMDD').format('YYYY-MM-DD')}"^^xsd:date >= ?vd)` : '';
     refinedParams.lang = eli.getLangResource(params.lang || 'fi');
@@ -51,7 +51,7 @@ const statuteQuery = {
   },
 
   findMany: (params) => {
-    const fromGraph = params.free ? `FROM ${FREE_GRAPH}` : '';
+    const fromGraph = params.hasOwnProperty('free') ? `FROM ${FREE_GRAPH}` : '';
     const yearFilter = params.year ? `FILTER(?year = "${params.year}"^^xsd:gYear)` : '';
     const original = params.version === 'alkup' ? '?statuteVersion eli:version sfl:Original .' : '';
     const lang = eli.getLangResource(params.lang || 'fi');
