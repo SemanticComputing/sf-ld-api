@@ -19,9 +19,12 @@ class StatuteCtrl {
             return reject();
 
           const jsonLd = new LegislationJsonLd(params);
+
+          const pretty = (params.hasOwnProperty('pretty'));
+
           const dataFormatted = (params.statuteId) ?
-            jsonLd.convertStatuteBindings(data) :
-            jsonLd.convertStatuteListBindings(data);
+            jsonLd.convertStatuteBindings(data, pretty) :
+            jsonLd.convertStatuteListBindings(data, pretty);
 
           return resolve(dataFormatted);
         })

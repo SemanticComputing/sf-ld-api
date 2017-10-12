@@ -17,6 +17,8 @@ class JudgmentCtrl {
           if (data.results.bindings.length === 0)
             return reject();
 
+          const pretty = (params.hasOwnProperty('pretty'));
+
           const jsonLd = new CaseLawJsonLd(params);
           const dataFormatted = (params.judgmentId) ?
             jsonLd.convertJudgmentBindings(data) :
