@@ -9,7 +9,7 @@ export default class StatuteList extends React.Component {
   constructor(props) {
     super(props);
 
-    const data = JSON.parse(props.route.data)['@graph'];
+    const data = (typeof props.route.data === 'object' ? props.route.data : JSON.parse(props.route.data))['@graph'];
 
     this.handlePageChange = this.handlePageChange.bind(this);
 

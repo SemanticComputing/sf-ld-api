@@ -53,7 +53,7 @@ export default class LegislationJsonLd {
     let context = Object.assign({}, this.context);
     let statutes = {};
     // Add property utility function
-    let addProp = (subj, prop, value) => {
+    const addProp = (subj, prop, value) => {
       subj[prop] = subj[prop] || [];
       if (value['@id'] && !_.some(subj[prop], {'@id': value['@id']})) {
         // Object value
@@ -66,16 +66,23 @@ export default class LegislationJsonLd {
     // Collect values
     _.each(results.results.bindings, (binding) => {
       if (!statutes[binding.statute.value]) {
-        statutes[binding.statute.value] = {'@id':prefix.shorten(binding.statute.value), '@type':prefix.shorten(binding.statuteType.value)};
+        statutes[binding.statute.value] = {
+          '@id':prefix.shorten(binding.statute.value),
+          '@type':prefix.shorten(binding.statuteType.value)
+        };
       }
       const statute = statutes[binding.statute.value];
-      addProp(statute, 'idLocal', binding.idLocal.value);
+      if (binding.idLocal)
+        addProp(statute, 'idLocal', binding.idLocal.value);
       const statuteVersion = {
         '@id': prefix.shorten(binding.statuteVersion.value),
         '@type': prefix.shorten(binding.statuteVersionType.value)
       };
       addProp(statute, 'temporalVersions', statuteVersion);
-      const expression = {'@id':prefix.shorten(binding.expression.value), '@type':prefix.shorten(binding.expressionType.value)};
+      const expression = {
+        '@id': prefix.shorten(binding.expression.value),
+        '@type': prefix.shorten(binding.expressionType.value)
+      };
       addProp(statuteVersion, 'languageVersion', expression);
       addProp(expression, 'title_' + this.lang, binding.title.value);
     });
@@ -86,9 +93,7 @@ export default class LegislationJsonLd {
     });
     // Sort response by statute year and id
     const response = {
-      '@graph': _.sortBy(_.map(_.filter(statutes, (statute) => {return statute.idLocal[0].match(/^(\d+)/) != null;})), (statute) => {
-        return parseInt(statute.idLocal[0].match(/\d{4}$/) + ((statuteId) => {while(statuteId.length < 4) statuteId = '0' + statuteId; return statuteId;})(statute.idLocal[0].match(/^(\d+)/)[0]));
-      }),
+      '@graph': _.map(statutes),
       '@context': Object.assign(_.invert(prefix.prefixes), context)
     };
     return (pretty) ? JSON.stringify(response, null, 2) : response;

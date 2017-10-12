@@ -27,18 +27,6 @@ export default function toRes(req, res) {
   res.status(200);
   if (req.originalUrl.match(/(\.html)((\?){1}|$)/)) {
 
-    // Remove content from metadata
-    const removeContent = (obj) => {
-      for (let [prop, value] of Object.entries(obj)) {
-        if (prop === 'content_fi' || prop === 'content_sv')
-          delete obj[prop];
-        else if (typeof obj[prop] === 'object') {
-          removeContent(obj[prop]);
-        }
-      }
-      return obj;
-    };
-
     const history = createMemoryHistory(req.originalUrl);
 
     const InitialView = (
@@ -58,7 +46,7 @@ export default function toRes(req, res) {
           <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
           <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
           <script id="data" type="application/ld+json">
-            ${JSON.stringify(removeContent(res.locals.data), null , 2)}
+            ${JSON.stringify(res.locals.data, null , 2)}
           </script>
         </head>
         <body>

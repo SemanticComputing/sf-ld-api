@@ -37,7 +37,8 @@ class StatuteCtrl {
 
   findByQuery(params) {
     return new Promise((resolve, reject) => {
-      const query = statuteQuery.findManyByQuery(params);
+      params.format = params.format || 'html';
+      const query = statuteQuery.findMany(params);
 
       new Sparql()
         .select(query)
@@ -47,7 +48,7 @@ class StatuteCtrl {
 
           // Select distinct by work URI
           const bindings = _.uniqBy(data.results.bindings, (item) => {
-            return item.s.value;
+            return item.statute.value;
           });
           return resolve(bindings);
         })
