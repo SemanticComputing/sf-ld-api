@@ -11,7 +11,7 @@ export default function SearchResultList(props) {
       if (!result.title || (result.title && result.statuteTitle && result.title.value === result.statuteTitle.value))
         title = '';
       else
-        title = result.title;
+        title = result.title.value;
       return <SearchResult
         key={idx + '-' + new Date().getTime()}
         title={title}
