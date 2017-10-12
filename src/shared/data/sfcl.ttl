@@ -80,3 +80,15 @@
   rdfs:domain ( :Format ) ;
   rdfs:range rdf:XMLLiteral ;
 .
+:textLemmatized
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "Text content lemmatized into its base form"@en, "Perusmuotoistettu tekstisisältö"@fi ;
+  rdfs:domain ( :Format ) ;
+  rdfs:range rdfs:Literal ;
+.
+:abstractLemmatized
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "Abstract lemmatized into its base form"@en, "Perusmuotoistettu tiivistelmä"@fi ;
+  rdfs:domain ( :Format ) ;
+  rdfs:range rdfs:Literal ;
+.

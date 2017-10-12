@@ -7,8 +7,8 @@ export default class CaseLawJsonLd {
     this.lang = (params.lang) ? params.lang : 'fi';
     this.format = (params.format=='text'||!params.format) ? 'text' : params.format;
     this.context = {
-      'isRealizedBy': { '@id': 'sfcl:isRealizedBy', '@type':'@id'},
-      'isEmbodiedBy': { '@id': 'sfcl:isEmbodiedBy', '@type':'@id'},
+      'languageVersion': { '@id': 'sfcl:isRealizedBy', '@type':'@id'},
+      'hasFormat': { '@id': 'sfcl:isEmbodiedBy', '@type':'@id'},
       'ecli': 'dcterms:isVersionOf',
       'title_fi': {'@id': 'dcterms:title', '@language': 'fi'},
       'title_sv': {'@id': 'dcterms:title', '@language': 'sv'},
@@ -34,12 +34,12 @@ export default class CaseLawJsonLd {
       const judgment = judgments[binding.judgment.value];
       addProp(judgment, 'ecliIdentifier', binding.ecli.value);
       const expression = {'@id':prefix.shorten(binding.expression.value), '@type':prefix.shorten(binding.expressionType.value)};
-      addProp(judgment, 'isRealizedBy', expression);
+      addProp(judgment, 'languageVersion', expression);
       addProp(expression, 'title_'+this.lang, binding.title.value);
     });
     // Sort response by judgment year and id
     const response = {
-      '@graph': judgments,
+      '@graph': _.map(judgments),
       '@context': Object.assign(_.invert(prefix.prefixes), context)
     };
     return (pretty) ? JSON.stringify(response, null, 2) : response;
@@ -70,17 +70,17 @@ export default class CaseLawJsonLd {
         }
       }
       if (binding.title) {
-        currentSubject['isRealizedBy'] = [binding.expression.value];
+        currentSubject['languageVersion'] = [binding.expression.value];
         context['title_'+binding.title['xml:lang']]= { '@id': 'dcterms:title', '@language': binding.title['xml:lang'] };
         if (!itemMap[binding.expression.value]) itemMap[binding.expression.value]={'@id':prefix.shorten(binding.expression.value)};
         itemMap[binding.expression.value]['title_'+binding.title['xml:lang']]=[binding.title.value];
       }
       if (binding.content) {
-        currentSubject['isRealizedBy'] = [binding.expression.value];
+        currentSubject['languageVersion'] = [binding.expression.value];
         var formatProp = (binding.format.value.substring(binding.format.value.length-4, binding.format.value.length) == 'html') ? 'html' : 'text';
         context['content_'+binding.content['xml:lang']]= { '@id': 'sfcl:'+formatProp, '@language': binding.content['xml:lang'] };
         if (!itemMap[binding.expression.value]) itemMap[binding.expression.value]={'@id':prefix.shorten(binding.expression.value)};
-        itemMap[binding.expression.value]['isEmbodiedBy']=[binding.format.value];
+        itemMap[binding.expression.value]['hasFormat']=[binding.format.value];
         itemMap[binding.format.value]={'@id':prefix.shorten(binding.format.value)};
         itemMap[binding.format.value]['content_'+binding.content['xml:lang']]=[binding.content.value];
       }
@@ -88,14 +88,28 @@ export default class CaseLawJsonLd {
     delete context['@type'];
     for (var ns in prefix.prefixes)
       context[prefix.prefixes[ns]] = ns;
-    const idx = workLevel.isRealizedBy.indexOf(results.results.bindings[0].expression.value);
-    workLevel.isRealizedBy[idx] = itemMap[results.results.bindings[0].expression.value];
-    workLevel.isRealizedBy[idx]['isEmbodiedBy'] = itemMap[results.results.bindings[0].format.value];
+    const idx = workLevel.languageVersion.indexOf(results.results.bindings[0].expression.value);
+    workLevel.languageVersion[idx] = itemMap[results.results.bindings[0].expression.value];
+    workLevel.languageVersion[idx]['hasFormat'] = itemMap[results.results.bindings[0].format.value];
 
     var response = workLevel;
     response['@context']=context;
     response = (pretty) ? JSON.stringify(response, null, 2) : response;
     return response;
+  }
+
+  getJudgmentTitle(judgment, lang = 'fi') {
+    if (judgment) {
+      return (lang == 'fi') ? judgment.languageVersion[0].title_fi[0] : judgment.languageVersion[0].title_sv[0];
+    }
+    return '';
+  }
+
+  getJudgmentEcliIdentifier(judgment, lang = 'fi') {
+    if (judgment) {
+      return judgment['ecliIdentifier'][0];
+    }
+    return '';
   }
 
 }

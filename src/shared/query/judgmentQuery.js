@@ -3,12 +3,16 @@ import common from '../lib/common';
 
 const judgmentQuery = {
 
+  findYears: (params) => {
+
+  },
+
   findMany: (params) => {
     if (!(params.court || params.year || params.query)) {
       throw Error('At least one of court, year or query is required');
     }
     const lang = common.get2LetterLangCode(params.lang || 'fi');
-    const limit = params.limit ? 'LIMIT ' + params.limit : (params.year) ? '' : 'LIMIT 10';
+    const limit = params.limit ? 'LIMIT ' + params.limit : (params.year) ? '' : 'LIMIT 100';
     const contentProperty = sfcl.getPropertyByFormat(params.format || 'text');
     const query = params.query ? getQueryQuery(params.query, sfcl.getPropertyByFormat('text')) : '';
     let judgment = '';
@@ -16,7 +20,7 @@ const judgmentQuery = {
       judgment += `?judgment dcterms:creator ${common.getCourtByName(params.court)} . `;
     }
     if (params.year) {
-      judgment += `?judgment dcterms:date ?date . FILTER(YEAR(?date) = ${parseInt(params.year)})`;
+      judgment += `?judgment sfcl:year ?year . FILTER(YEAR(?year) = ${parseInt(params.year)})`;
     }
 
     return `SELECT DISTINCT * WHERE {
@@ -29,7 +33,8 @@ const judgmentQuery = {
       ?expression a ?expressionType .
       ?expression sfcl:isEmbodiedBy ?format .
       ?format a sfcl:Format .
-      ?format ${contentProperty} ?content .
+      # Judgment might not have content
+      OPTIONAL { ?format ${contentProperty} ?content . }
       ?judgment a ?judgmentType .
     } ${limit}`;
   },

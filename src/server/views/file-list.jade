@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  .container
+    h3= title
+    ul
+      each value in files
+        li
+          a(href='/data/xml/#{dataset}/#{value.name }')= value.name
+          span= ' (päivitetty '+value.mtime+')'
