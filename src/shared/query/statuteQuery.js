@@ -32,6 +32,7 @@ const statuteQuery = {
 
     refinedParams.sectionOfALaw = params.sectionOfALaw ? params.sectionOfALaw.replace(/\//gi, '\\/') : '';
     refinedParams.statuteUri = `sfsd:${params.year}\\/${params.statuteId}${refinedParams.sectionOfALaw}`;
+    refinedParams.law = `sfsd:${params.year}\\/${params.statuteId}`;
     refinedParams.fromGraph = params.hasOwnProperty('free') ? `FROM ${FREE_GRAPH}` : '';
     refinedParams.versionDateFilter = params.pointInTime ?
         `FILTER ("${moment(params.pointInTime, 'YYYYMMDD').format('YYYY-MM-DD')}"^^xsd:date >= ?vd)` : '';
@@ -90,10 +91,10 @@ const statuteQuery = {
       ?statuteVersion a ?statuteVersionType .
       ?statuteVersion eli:is_realized_by ?expression .
       ?expression eli:language ${lang} .
-      ?expression eli:title ?title .
       ?expression a ?expressionType .
       ?expression eli:is_embodied_by ?format .
       ?format eli:format ${format} .
+      OPTIONAL { ?expression eli:title ?title . }
       OPTIONAL {
         FILTER NOT EXISTS { ?statute a sfl:Statute . }
         ?format ${contentProperty} ?content .
@@ -108,15 +109,10 @@ function getFindManyResultset(params) {
     ?statute sfl:year ?year .
     ${params.yearFilter}
     ${params.original}
-    ?statute sfl:statuteNumber ?num .
-    BIND(xsd:integer(REPLACE(?num, "[A-Z]", "")) AS ?number)
-    BIND(REPLACE(?num, "[^A-Z]", "") AS ?letter)
+    ?statute sfl:statuteNumber ?number .
     ?statute a sfl:Statute .
-    ?statute eli:has_member ?statuteVersion .
-    ?statuteVersion eli:is_realized_by ?expression .
-    ?expression eli:language ${params.lang} .
-    ?expression eli:title ?title .
-  } ORDER BY ?year ?number ?letter ${params.limit} ${params.offset}`;
+    FILTER EXISTS { ?statute eli:has_member/eli:is_realized_by/eli:language ${params.lang} . }
+  } ORDER BY ?year ?number ${params.limit} ${params.offset}`;
 }
 
 function getFindManyByQueryResultset(params) {
@@ -149,14 +145,14 @@ function getFindManyByQueryResultset(params) {
     ${params.original}
     ?statute a ?statuteType .
     ?statuteVersion a ?statuteVersionType .
-    ?expression a ?expressionType .
-    ?expression eli:title ?title .
+    ?statuteVersion eli:is_part_of*/eli:is_member_of [
+      sfl:year ?year ;
+      sfl:statuteNumber ?number
+    ] .
     ${params.yearFilter}
-    BIND(xsd:integer(REPLACE(?num, "[A-Z]", "")) AS ?number)
-    BIND(REPLACE(?num, "[^A-Z]", "") AS ?letter)
   }
   GROUP BY ?statute
-  ORDER BY DESC(?score) ?year ?number ?letter
+  ORDER BY DESC(?score) ?year ?number
   ${params.limit} ${params.offset}
   `;
 }
@@ -180,8 +176,12 @@ function getOriginal(params) {
         ?format ${params.contentProperty} ?content .
       }
     } UNION {
-      VALUES ?part { ${params.statuteUri} }
-      ?part ?p ?o.
+      VALUES ?part { ${params.law} }
+      ?part eli:id_local ?idLocal .
+      ?part eli:type_document ?typeDocument .
+      ?part sfl:statuteType ?type .
+      OPTIONAL { ?part eli:has_member ?temporalVersions . }
+      OPTIONAL { ?part eli:in_force ?inForce . }
     } UNION {
       VALUES ?statute { ${params.statuteUri} }
       ?statute eli:has_member ?statuteVersion .
@@ -222,7 +222,7 @@ function getShallow(params) {
       BIND(?statuteVersion AS ?part)
       ${PART_PROPERTIES}
     } UNION {
-      BIND(${params.statuteUri} AS ?part)
+      BIND(${params.law} AS ?part)
       ?part eli:id_local ?idLocal .
       ?part eli:type_document ?typeDocument .
       ?part sfl:statuteType ?type .
@@ -256,10 +256,10 @@ function getShallow(params) {
       BIND(?statuteVersion AS ?part)
       ?statuteVersion eli:is_realized_by ?expression .
       ?expression eli:language ${params.lang} .
-      ?expression eli:title ?title .
       ?expression eli:is_embodied_by ?format .
       ?format eli:format ${params.format} .
       ?format ${params.contentProperty} ?content .
+      OPTIONAL { ?expression eli:title ?title . }
     }
   }`;
 }
@@ -292,9 +292,7 @@ function getDeep(params) {
       ?statuteVersion eli:has_part* ?part .
       ?part eli:is_realized_by ?expression .
       ?expression eli:language ${params.lang} .
-      OPTIONAL {
-        ?expression eli:title ?title .
-      }
+      OPTIONAL { ?expression eli:title ?title .  }
       OPTIONAL {
         FILTER NOT EXISTS { ?part eli:has_part [] . }
         ?expression eli:is_embodied_by ?format .
@@ -303,7 +301,7 @@ function getDeep(params) {
       }
       ${PART_PROPERTIES}
     } UNION {
-      BIND(${params.statuteUri} AS ?part)
+      BIND(${params.law} AS ?part)
       ?part eli:id_local ?idLocal .
       ?part eli:type_document ?typeDocument .
       ?part sfl:statuteType ?type .
