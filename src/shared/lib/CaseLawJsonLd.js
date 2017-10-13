@@ -112,4 +112,8 @@ export default class CaseLawJsonLd {
     return '';
   }
 
+  getJudgmentContent(judgment, lang = 'fi') {
+    return _.get(judgment, `languageVersion[0].hasFormat.content_${lang}[0]`, '');
+  }
+
 }
