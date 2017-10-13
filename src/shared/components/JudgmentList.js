@@ -49,7 +49,7 @@ export default class JudgmentList extends React.Component {
         initialPage={0}
         previousLabel={'Edellinen'}
         nextLabel={'Seuraava'}
-        breakLabel={<a href=''>...</a>}
+        breakLabel={<a href='#'>...</a>}
         breakClassName={'break-me'}
         containerClassName={'pagination'}
         subContainerClassName={'pages pagination'}
