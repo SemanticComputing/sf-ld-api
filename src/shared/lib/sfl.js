@@ -8,7 +8,7 @@ class Sfl {
         return 'sfl:html';
       case 'text':
       case 'txt':
-      default: {
+      default: { 
         return 'sfl:text';
       }
     }
@@ -16,6 +16,6 @@ class Sfl {
 
 }
 
-const sfl = new Sfl()
+const sfl = new Sfl();
 
-export default sfl
+export default sfl;

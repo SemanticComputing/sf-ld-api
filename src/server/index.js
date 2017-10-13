@@ -6,6 +6,7 @@ import bodyParser from 'body-parser';
 import path from 'path';
 import favicon from 'serve-favicon';
 import redirect from './middleware/redirect';
+import reqValidator from './middleware/reqValidator'
 import redirectLegacyEcli from './route/ecliLegacy';
 import route from './route';
 import common from './route/common';
@@ -13,6 +14,7 @@ import schema from './route/schema';
 import voidDesc from './route/void';
 import Router from 'react-router';
 import config from '../config.json';
+import fileCtrl from './ctrl/fileCtrl'
 
 let app = express();
 app.server = http.createServer(app);
@@ -29,45 +31,8 @@ app.use(function(req, res, next) {
   next();
 });
 app.use(bodyParser.json({limit: config.bodyLimit}));
-app.use(require('express-validator')({
-  customValidators: {
-    isContentType: function(value) {
-       return (["txt", "xml", "html"].indexOf(value) > -1)
-    },
-    isCourt: function(value) {
-      return (["kko", "kho"].indexOf(value) > -1)
-    },
-    isECLI: function(value) {
-       var matches = value.match(/ECLI:FI:(KKO|KHO):[0-9]{4}:(I|B|T){0,2}[0-9]{1,4}/g);
-       var filtered = (matches != null) ? matches.join("") : "";
-       return (value == filtered)
-    },
-    isFormat: function(value) {
-      return (["json-ld", "n-triples", "rdf-json", "rdf-xml", "csv", "json", "xml"].indexOf(value) > -1)
-    },
-    isLanguage: function(value) {
-      return (["fi", "sv"].indexOf(value) > -1)
-    },
-    isPointInTime: function(value) {
-      var matches = value.match(/[0-9]{8}/g);
-      var filtered = (matches != null) ? matches.join("") : "";
-      return (value == filtered)
-    },
-    isStatuteIdentifier: function(value) {
-      return (value.match(/^[0-9]{1,4}[A-Za-z]{0,1}$/) != null)
-    },
-    isStatuteItem: function(value) {
-      var matches = value.match(/(\/(osa|luku|pykala|momentti|kohta|alakohta|liite|voimaantulo|valiotsikko|johdanto|loppukappale|johtolause)\/*([0-9]+[a-z]{0,1})*)/g);
-      var filtered = (matches != null) ? matches.join("") : "";
-      return (value == filtered)
-    },
-    isStatuteVersion: function(value) {
-      var matches = value.match(/(ajantasa|alkup)/g);
-      var filtered = (matches != null) ? matches.join("") : "";
-      return (value == filtered)
-    }
-  }
-}));
+// Validate request
+app.use(reqValidator);
 
 // legacy search
 app.use('/api/v1', require('../legacy/routes/api'));
@@ -77,6 +42,7 @@ app.use('/schema', schema);
 app.use('/common', common);
 app.use('/void', voidDesc);
 
+app.get('/data/xml/:dataset\.html', fileCtrl.findZipFilesByDataset);
 app.get('/', (req, res) => {return res.sendFile(path.resolve(__dirname+'/../sf-docs/index.html'));});
 
 // internal middleware
@@ -85,22 +51,21 @@ app.use('/oikeus', redirectLegacyEcli);
 app.use('/', redirect);
 
 // legacy routes, static files
-app.use('/', function(req,res,next) {console.log(req.originalUrl);next();}, require('../legacy/routes/index'));
+//app.use('/', function(req,res,next) {console.log(req.originalUrl);next();}, require('../legacy/routes/index'));
 app.set('view engine', 'jade')
-app.set('views', path.join(__dirname, '/../legacy/views'));
+app.set('views', path.join(__dirname, './views'));
+
+// static files
 app.use('/legacy/images', express.static(path.join(__dirname, '../legacy/public/images')));
 app.use('/legacy/bower_components', express.static(path.join(__dirname, '../legacy/public/bower_components')));
 app.use('/legacy/stylesheets', express.static(path.join(__dirname, '../legacy/public/stylesheets')));
-app.use('/legacy/scripts', express.static(path.join(__dirname, '../legacy/public/scripts')));
-app.use('/legacy/json', express.static(path.join(__dirname, '../legacy/public/json')));
-
-// static files
 app.use('/images', express.static(path.join(__dirname, '../shared/images')));
 app.use('/public', express.static(__dirname+'/../../dist/public'));
 app.use('/sf-docs/partials', express.static(__dirname+'/../sf-docs/partials'));
 app.use('/sf-docs/images', express.static(__dirname+'/../sf-docs/images'));
 app.use('/sf-docs', express.static(__dirname+'/../sf-docs/dist'));
 app.use('/tagclouds', express.static(__dirname+'/../../tagclouds'));
+app.use('/data/rdf', express.static(__dirname+'/../data/rdf'));
 app.use('/data/xml/asd', express.static(__dirname+'/../data/xml/asd'));
 app.use('/data/xml/kko', express.static(__dirname+'/../data/xml/kko'));
 app.use('/data/xml/kho', express.static(__dirname+'/../data/xml/kho'));

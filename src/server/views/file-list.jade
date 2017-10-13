@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  .container
+    h3= title
+    ul
+      each value in files
+        li
+          a(href='#{value.link}')= value.name
+          span= ' (updated '+value.mtime+')'

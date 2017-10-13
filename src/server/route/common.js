@@ -6,7 +6,7 @@ let common = Router()
     res.status(200);
     res.set('Content-Type', 'text/turtle');
     res.sendFile(path.resolve(__dirname+'/../../shared/data/common.ttl'));
-  })
+  });
 
 
-export default common
+export default common;

@@ -7,11 +7,11 @@
 @prefix ssd: <http://www.w3.org/ns/sparql-service-description#> .
 @prefix void: <http://rdfs.org/ns/void#> .
 @prefix eli: <http://data.europa.eu/eli/ontology#> .
+@prefix sf: <http://data.finlex.fi/> .
 @prefix sfl: <http://data.finlex.fi/schema/sfl> .
 @prefix sfcl: <http://data.finlex.fi/schema/sfcl> .
-@prefix sf: <http://data.finlex.fi/> .
 @prefix sf-sd: <http://data.finlex.fi/eli/sd/> .
-@prefix sf-oikeus: <http://data.finlex.fi/oikeus/> .
+@prefix sf-ecli: <http://data.finlex.fi/ecli/> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 
 
@@ -38,12 +38,11 @@
             ssd:graph sf-sd:ajantasa ;
             ssd:name sf-sd:ajantasa ],
         [ a ssd:NamedGraph ;
-            ssd:graph sf-oikeus:kho ;
-            ssd:name sf-oikeus:kho ],
+            ssd:graph sf-ecli:kho ;
+            ssd:name sf-ecli:kho ],
         [ a ssd:NamedGraph ;
-            ssd:graph sf-oikeus:kko ;
-            ssd:name sf-oikeus:kko ],
-
+            ssd:graph sf-ecli:kko ;
+            ssd:name sf-ecli:kko ];
     foaf:homepage <http://data.finlex.fi> .
 
 <http://seco.cs.aalto.fi> a foaf:Organization ;
@@ -55,55 +54,55 @@
 <http://www.editapublishing.fi> a foaf:Organization ;
     skos:prefLabel "Edita Publishing Ltd"@en , "Edita Publishing Oy"@fi .
 
-sf-sd:alkup a ssd:Graph ;
-    ldf-schema:dataDocumentation <http://latest.vocab.at?uri=http://data.finlex.fi/sparql&graph=http://data.finlex.fi/eli/sd/alkup> ;
+<http://data.finlex.fi/eli/sd/alkup/> a ssd:Graph ;
+    ldf-schema:dataDocumentation <http://latest.vocab.at?uri=http://data.finlex.fi/sparql&graph=http://data.finlex.fi/eli/sd/alkup/> ;
     dct:description "Original versions of Finnish statutes as they first appeared in the Statutes of Finland"@en ;
     dct:license <http://creativecommons.org/licenses/by/4.0/> ;
     dct:rightsHolder <http://seco.cs.aalto.fi> ;
     dct:source <http://finlex.fi/fi/laki/alkup/> ;
     dct:title "Original versions of Finnish statutes"@en ;
-    void:dataDump <http://ldf.fi/finlex/data?graph=http://data.finlex.fi/eli/sd/alkup> ;
+    void:dataDump <http://ldf.fi/finlex/data?graph=http://data.finlex.fi/eli/sd/alkup/> ;
     void:exampleResource <http://data.finlex.fi/eli/sd/2008/521/alkup> ;
     void:uriSpace "http://data.finlex.fi/eli/sd/" ;
     void:vocabulary eli: , sfl: .
 
-sf-sd:ajantasa a ssd:Graph ;
-    ldf-schema:dataDocumentation <http://latest.vocab.at?uri=http://data.finlex.fi/sparql&graph=http://data.finlex.fi/eli/sd/ajantasa> ;
+<http://data.finlex.fi/eli/sd/ajantasa/> a ssd:Graph ;
+    ldf-schema:dataDocumentation <http://latest.vocab.at?uri=http://data.finlex.fi/sparql&graph=http://data.finlex.fi/eli/sd/ajantasa/> ;
     dct:description "Updated texts of Finnish acts and decrees"@en ;
     dct:license <http://creativecommons.org/licenses/by-nc/4.0/> ;
     dct:rightsHolder <http://seco.cs.aalto.fi> ;
     dct:source <http://finlex.fi/fi/laki/ajantasa/> ;
     dct:title "Consolidated versions of Finnish statutes"@en ;
-    void:dataDump <http://ldf.fi/finlex/data?graph=http://data.finlex.fi/eli/sd/ajantasa> ;
+    void:dataDump <http://ldf.fi/finlex/data?graph=http://data.finlex.fi/eli/sd/ajantasa/> ;
     void:exampleResource <http://data.finlex.fi/eli/sd/2008/521/ajantasa/20160101> ;
     void:uriSpace "http://data.finlex.fi/eli/sd/" ;
     void:vocabulary eli: , sfl: .
 
-sf-oikeus:kko a ssd:Graph ;
-    ldf-schema:dataDocumentation <http://latest.vocab.at?uri=http://data.finlex.fi/sparql&graph=http://data.finlex.fi/oikeus/kko> ;
+<http://data.finlex.fi/ecli/kko/> a ssd:Graph ;
+    ldf-schema:dataDocumentation <http://latest.vocab.at?uri=http://data.finlex.fi/sparql&graph=http://data.finlex.fi/oikeus/kko/> ;
     dct:description "Judgments of the Supreme Court"@en ;
     dct:license <http://creativecommons.org/licenses/by/4.0/> ;
     dct:rightsHolder <http://seco.cs.aalto.fi> ;
     dct:source <http://finlex.fi/fi/oikeus/kko> ;
     dct:title "Judgments of the Supreme Court"@en ;
-    void:dataDump <http://ldf.fi/finlex/data?graph=http://data.finlex.fi/oikeus/kko> ;
+    void:dataDump <http://ldf.fi/finlex/data?graph=http://data.finlex.fi/oikeus/kko/> ;
     void:exampleResource <http://data.finlex.fi/ecli/kko/2014/1> ;
-    void:uriSpace "http://data.finlex.fi/oikeus/" ;
+    void:uriSpace "http://data.finlex.fi/ecli/kko/" ;
     void:vocabulary dct: , sfcl: .
 
-sf-oikeus:kho a ssd:Graph ;
-    ldf-schema:dataDocumentation <http://latest.vocab.at?uri=http://data.finlex.fi/sparql&graph=http://data.finlex.fi/oikeus/kho> ;
+<http://data.finlex.fi/ecli/kho/> a ssd:Graph ;
+    ldf-schema:dataDocumentation <http://latest.vocab.at?uri=http://data.finlex.fi/sparql&graph=http://data.finlex.fi/oikeus/kho/> ;
     dct:description "Judgments of the Supreme Administrative Court"@en ;
     dct:license <http://creativecommons.org/licenses/by/4.0/> ;
     dct:rightsHolder <http://seco.cs.aalto.fi> ;
     dct:source <http://finlex.fi/fi/oikeus/kho> ;
     dct:title "Judgments of the Supreme Administrative Court"@en ;
-    void:dataDump <http://ldf.fi/finlex/data?graph=http://data.finlex.fi/oikeus/kho> ;
+    void:dataDump <http://ldf.fi/finlex/data?graph=http://data.finlex.fi/oikeus/kho/> ;
     void:exampleResource <http://data.finlex.fi/ecli/kko/2011/50> ;
-    void:uriSpace "http://data.finlex.fi/oikeus/" ;
+    void:uriSpace "http://data.finlex.fi/ecli/kho/" ;
     void:vocabulary dct: , sfcl: .
 
-sf:sparql a ssd:Service ;
+<http://data.finlex.fi/sparql>  a ssd:Service ;
     ssd:defaultDataset <http://data.finlex.fi> ;
     ssd:defaultEntailmentRegime <http://www.w3.org/ns/entailment/Simple> ;
     ssd:endpoint sf:sparql ;

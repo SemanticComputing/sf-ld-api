@@ -90,9 +90,19 @@ One of the key publication principles of Linked Data is to provide unique URI id
   </thead>
   <tbody>
     <tr>
+      <td>http://data.finlex.fi/ecli</td>
+      <td>List of judgments</td>
+      <td></td>
+    </tr>
+    <tr>
       <td>http://data.finlex.fi/ecli/{court}</td>
       <td>List of judgments by court</td>
       <td><a href="http://data.finlex.fi/ecli/kko">Example</a></td>
+    </tr>
+    <tr>
+      <td>http://data.finlex.fi/ecli/{court}/{year}</td>
+      <td>List of judgments by court and year</td>
+      <td><a href="http://data.finlex.fi/ecli/kko/2000">Example</a></td>
     </tr>
     <tr>
       <td>http://data.finlex.fi/ecli/{court)/{year}/{id}</td>
@@ -125,12 +135,12 @@ One of the key publication principles of Linked Data is to provide unique URI id
   </thead>
   <tbody>
     <tr>
-      <td>http://data.finlex.fi/eli/sd/alkup</td>
+      <td>http://data.finlex.fi/eli/sd/alkup/</td>
       <td>Contains the <i>original</i> versions of the statutes</td>
     </tr>
     <tr>
-      <td>http://data.finlex.fi/eli/sd/ajantasa</td>
-      <td>Contains the <i>consolidated</i> (amended) versions of the statutes (Note: CC-BY-NC license)</td>
+      <td>http://data.finlex.fi/eli/sd/ajantasa/</td>
+      <td>Contains the <i>consolidated</i> versions of the statutes (Note: CC-BY-NC license)</td>
     </tr>
   </tbody>
 </table>
@@ -147,11 +157,11 @@ One of the key publication principles of Linked Data is to provide unique URI id
   </thead>
   <tbody>
     <tr>
-      <td>http://data.finlex.fi/oikeus/kho</td>
+      <td>http://data.finlex.fi/ecli/kho/</td>
       <td>Judgments of the Supreme Administrative Court</td>
     </tr>
     <tr>
-      <td>http://data.finlex.fi/oikeus/kko</td>
+      <td>http://data.finlex.fi/ecli/kko/</td>
       <td>Judgments of the Supreme Court</td>
     </tr>
   </tbody>
@@ -169,9 +179,8 @@ The graph contains for example RDF resources representing the Parliament and the
 </ul>
 <h3>RDF schemas</h3>
 <ul>
-  <li><b>SFL (Semantic Finlex Legislation)</b>: http://data.finlex.fi/schema/sfl</li>
-  <li><b>SFCL (Semantic Finlex Case Law)</b>: http://data.finlex.fi/schema/sfcl</li>
-  <li><b>SFL (Semantic Finlex Legislation)</b>: http://data.finlex.fi/schema/common</li>
+  <li><b>SFL (Semantic Finlex Legislation)</b>: http://data.finlex.fi/schema/sfl/</li>
+  <li><b>SFCL (Semantic Finlex Case Law)</b>: http://data.finlex.fi/schema/sfcl/</li>
 </ul>
 
 <hr/>

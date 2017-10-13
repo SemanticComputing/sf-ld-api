@@ -5,6 +5,7 @@
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
 <http://data.finlex.fi/schema/sfl/>
   a owl:Ontology ;
@@ -260,4 +261,28 @@
   rdfs:label "XML"@en, "XML"@fi ;
   rdfs:domain ( eli:Format ) ;
   rdfs:range rdf:XMLLiteral ;
+.
+:statuteNumber
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "Number of the statute in the Collection of Acts of Finland"@en, "Säädöksen numero säädöskokoelmassa"@fi ;
+  rdfs:domain ( eli:Format ) ;
+  rdfs:range rdfs:Literal ;
+.
+:year
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "Year of the Collection of Acts of Finland"@en, "Säädöskokoelman vuosi"@fi ;
+  rdfs:domain ( eli:Format ) ;
+  rdfs:range xsd:gYear ;
+.
+:textLemmatized
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "Text content lemmatized into its base form"@en, "Perusmuotoistettu tekstisisältö"@fi ;
+  rdfs:domain ( eli:Format ) ;
+  rdfs:range rdfs:Literal ;
+.
+:titleLemmatized
+  rdf:type owl:DatatypeProperty ;
+  rdfs:label "Title lemmatized into its base form"@en, "Perusmuotoistettu nimike/otsikko"@fi ;
+  rdfs:domain ( eli:Format ) ;
+  rdfs:range rdfs:Literal ;
 .

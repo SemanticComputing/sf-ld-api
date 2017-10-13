@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title= title
+    link(rel='stylesheet', href='/legacy/bower_components/bootstrap/dist/css/bootstrap.min.css')
+    link(rel='stylesheet', href='/legacy/stylesheets/style.css')
+    link(rel='stylesheet', href='//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css')
+    script(type='text/javascript', src='/legacy/bower_components/jquery/dist/jquery.min.js')
+    script(type='text/javascript', src='/legacy/bower_components/bootstrap/dist/js/bootstrap.min.js')
+    script(type='text/javascript', src='/legacy/bower_components/lodash/dist/lodash.min.js')
+    script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
+
+  body
+    header
+      nav.navbar.navbar-default
+        .navbar-brand
+          a(href='/')
+            img.logo(src='/legacy/images/sf-logo2.png')
+          h1 Semanttinen Finlex
+    block content

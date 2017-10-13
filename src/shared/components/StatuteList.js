@@ -1,28 +1,66 @@
-import React                  from 'react';
-import { Link }               from 'react-router'
-import _                      from 'lodash';
-import { connect }            from 'react-redux';
-import prefix                 from '../lib/prefix'
-
-//@connect(state => ({ data: state.data }))
+import { object } from 'prop-types';
+import React from 'react';
+import ReactPaginate from 'react-paginate';
+import _ from 'lodash';
+import StatuteListItem from './StatuteListItem';
 
 export default class StatuteList extends React.Component {
 
-  render() {
-    const data = JSON.parse(this.props.data);
-    //console.log(data);
-    const statuteList = _.map(data['@graph'], (statute, i) => {
-      const id = statute.idLocal
-      var title = '';
-      if (statute.hasMember && statute.hasMember[0] && statute.hasMember[0].isRealizedBy && statute.hasMember[0].isRealizedBy[0]) {
-        console.log(statute.hasMember[0].isRealizedBy[0].title_fi);
-        title = (statute.hasMember[0].isRealizedBy[0].title_fi) ? statute.hasMember[0].isRealizedBy[0].title_fi[0] : statute.hasMember[0].isRealizedBy[0].title_sv[0];
-      }
-      return <li className="statute-list-item" key={i}><Link to={prefix.lengthen(statute['@id'])}>{statute.idLocal} - {title}</Link></li>
-    })
-    return (
-      <ul className="statute-list" >{statuteList}</ul>
-    )
+  constructor(props) {
+    super(props);
+
+    const data = (typeof props.route.data === 'object' ? props.route.data : JSON.parse(props.route.data))['@graph'];
+
+    this.handlePageChange = this.handlePageChange.bind(this);
+
+    this.state = {
+      data: data,
+      year: (this.props.params.year) ? this.props.params.year.replace(/[^0-9]+/g, '') : undefined,
+      pageCount: Math.ceil(data.length / 10),
+      pageSize: 10,
+      statuteList: this.getStatuteList(data, 0, 10)
+    };
   }
 
+  handlePageChange(data) {
+    this.setState({
+      statuteList: this.getStatuteList(this.state.data, data.selected, this.state.pageSize)
+    });
+  }
+
+  getStatuteList(data, page, pageSize) {
+    const offset = page * pageSize;
+    return _.map(data.slice(offset, offset + pageSize), (statute, i) => {
+      return <StatuteListItem statute={statute} key={i} />;
+    });
+  }
+
+  render() {
+    return (
+      <div className="statutes">
+      <h1>{(this.state.year) ? 'Säädökset (' + this.state.year + ')' : 'Säädökset'}</h1>
+      <ul className="statute-list" >{this.state.statuteList}</ul>
+      <ReactPaginate
+        id="react-paginate"
+        pageCount={this.state.pageCount}
+        pageRangeDisplayed={5}
+        marginPagesDisplayed={2}
+        onPageChange={this.handlePageChange}
+        initialPage={0}
+        previousLabel={'Edellinen'}
+        nextLabel={'Seuraava'}
+        breakLabel={<a href=''>...</a>}
+        breakClassName={'break-me'}
+        containerClassName={'pagination'}
+        subContainerClassName={'pages pagination'}
+        activeClassName={'active'} />
+      </div>
+    );
+  }
 }
+
+StatuteList.propTypes = {
+  // From React Router
+  params: object,
+  route: object
+};
