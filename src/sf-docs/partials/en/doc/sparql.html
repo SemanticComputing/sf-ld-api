@@ -194,7 +194,7 @@
 
   # Query : Find latest versions of statutes that are in force
   SELECT ?statuteVersion ?title WHERE {
-    GRAPH &lt;http://data.finlex.fi/eli/sd/ajantasa&gt; {
+    GRAPH &lt;http://data.finlex.fi/eli/sd/ajantasa/&gt; {
       ?statute a sfl:Statute ;
                eli:has_member ?statuteVersion .
       FILTER NOT EXISTS {

@@ -7,6 +7,8 @@
 <pre>http://data.finlex.fi/eli/sd/(YYYY)</pre>
 <p>Find a statute by year (YYYY) and id (#) :</p>
 <pre>http://data.finlex.fi/eli/sd/(YYYY)/(#)</pre>
+<p>Find legislative texts by text query:</p>
+<pre>http://data.finlex.fi/eli/sd?query={query string}</pre>
 <p>The requests support following parameters:</p>
 <table class="table table-striped">
   <thead>
@@ -66,6 +68,8 @@
 <h2>Case law</h2>
 <p>Find a judgments by court:</p>
 <pre>http://data.finlex.fi/ecli/(kho|kko)</pre>
+<p>Find judgments by text query:</p>
+<pre>http://data.finlex.fi/ecli/(kho|kko)?query={query string}</pre>
 <p>Find a judgments by year:</p>
 <pre>http://data.finlex.fi/ecli/(kho|kko)/(YYYY)</pre>
 <p>Find a judgments by year and court:</p>
@@ -91,6 +95,11 @@
       <td><em>format</em></td>
       <td>txt, html</td>
       <td>format of the content</td>
+    </tr>
+    <tr>
+      <td><em>query</em></td>
+      <td>query string</td>
+      <td>text search</td>
     </tr>
   </tbody>
 </table>
