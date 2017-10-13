@@ -6,5 +6,5 @@ block content
     ul
       each value in files
         li
-          a(href='/data/xml/#{dataset}/#{value.name }')= value.name
-          span= ' (päivitetty '+value.mtime+')'
+          a(href='#{value.link}')= value.name
+          span= ' (updated '+value.mtime+')'

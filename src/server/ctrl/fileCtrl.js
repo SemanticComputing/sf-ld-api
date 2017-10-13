@@ -10,12 +10,12 @@ const self = {
         _.each(files, function(file) {
           var stats = fs.statSync('dist/data/xml/'+req.param('dataset')+'/'+file);
           if (stats) {
-            files_.push({name: file, mtime: moment(stats.mtime).format("DD.MM.YYYY")});
+            files_.push({link: '/data/xml/'+req.param('dataset')+'/'+file, name: file, mtime: moment(stats.mtime).format("DD.MM.YYYY")});
           }
           else
             return res.send(404);
         });
-        res.render('file-list', {dataset: req.param('dataset'), title: self.getDatasetName(req.param('dataset'))+' (XML)', files: files_});
+        res.render('file-list', {title: self.getDatasetName(req.param('dataset'))+' (XML)', files: files_});
       } else {
         return res.send(404);
       }

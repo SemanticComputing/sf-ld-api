@@ -1,17 +1,17 @@
 <h1>Case law</h1>
 <h2>RDF data model</h2>
-<p>To model the judgments ECLI standard (European Case Law Identifier) has been used along with SFCL ontology (Semantic Finlex Case Law), a custom metadata model developed as part of the project. SFCL applies FRBR model in a similar manner as ELI/SFL in the case of legislation. However, judgments do not have different temporal versions and therefore the ontology contains only the following three levels:</p>
+<p>To model the judgments, the ECLI (European Case Law Identifier) metadata schema has been used along with SFCL ontology (Semantic Finlex Case Law), a custom metadata model developed as part of the Semantic Finlex project. SFCL applies FRBR model in a similar manner as ELI and SFL in the case of legislation. However, only one temporal version of each judgment exists and therefore the FRBR model of the SFCL ontology comprises of only the following three classes:</p>
 <ul>
-    <li><em>sfcl:Judgment</em> (work): judgment at an conceptual level</li>
+    <li><em>sfcl:Judgment</em> (work): judgment as such</li>
     <li><em>sfcl:Expression</em> (language version): language version of a judgment</li>
     <li><em>sfcl:Format</em> (content format): judgment in a specific content format</li>
 </ul>
 <hr/>
 <h2>URIs</h2>
-<p>The instructions on how to build URIs for the documents can be found on a <a href="#/fen/uris">separate page</a>.</p>
+<p>The instructions on how to build URIs for the documents can be found on a <a href="#/en/uris">separate page</a>.</p>
 <hr/>
 <h2>Class properties</h2>
-<p>The metadata model conforms to Dublin Core definitions of the ECLI standard.</p>
+<p>The metadata model comprises the Dublin Core properties included in the ECLI standard.</p>
 <h3><em>sfcl:Judgment</em>  (judgment)</h3>
 <table class="table table-striped">
   <thead>
@@ -81,7 +81,7 @@
       <td>type of the decision</td>
     </tr>
     <tr>
-      <td><em>sfcl:isRealizedBy<em></td>
+      <td><em>sfcl:isRealizedBy</em></td>
       <td><em>sfcl:Expression</em></td>
       <td>[0,n]</td>
       <td>URI</td>
@@ -146,8 +146,6 @@
 </table>
 <hr/>
 <h3><em>sfcl:Format</em> (content format)</h3>
-<h5>Yläluokka: frbr:Manifestation</h5>
-<table>
 <table class="table table-striped">
   <thead>
     <tr>

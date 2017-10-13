@@ -26,9 +26,9 @@ As part of the ELI ontology, metadata fields are defined for each level. These w
 <!-- SFL -->
 <h2>SFL ontology</h2>
 <p>
-SFL ontology (Semantic Finlex Legislation) is an extension to ELI ontology used in the Semantic Finlex service. In addition to different language and content format versions SFL defines classes for different temporal versions of statutes and sections of law. Therefore, SFL divides <em>eli:LegalResource</em> class to four subclasses that are as follows</p>
+SFL ontology (Semantic Finlex Legislation) is an extension to ELI ontology used in the Semantic Finlex service. In addition to different language and content format versions SFL defines classes for different temporal versions of statutes and sections of law. Therefore, SFL divides <em>eli:LegalResource</em> class to four subclasses as follows:</p>
 <ul>
-  <li><em>sfl:Statute</em> (statute). Statute at a conceptual level eg. Criminal Code 39/1889</li>
+  <li><em>sfl:Statute</em> (statute). Statute at a conceptual level eg. Criminal Code (39/1889)</li>
   <li><em>sfl:SectionOfALaw</em> (section of a law). Section of law at conceptual level eg. Criminal Code 39/1889 Chapter 1 Section 2</li>
   <li><em>sfl:StatuteVersion</em> (statute version). Statute at a specific point in time, eg. Criminal Code 39/1889 as it was on 1.1.2016</li>
   <li><em>sfl:SectionOfALawVersion</em> (section of a law version). Section of law at a specific point in time, eg. Criminal Code 39/1889 Chapter 1 Section 2 as it was on 1.1.2016</li>
@@ -40,11 +40,11 @@ The relationship between a statute and a statute version is expressed with prope
 <h2>Structure of the document</h2>
 <img class="schema" src="/sf-docs/images/data_model/statute_parts.png"/>
 <p>Fig. 4: <i>Structure of the document</i></p>
-<p>The structure of the document is modeled at the time level because the structure of a document may vary between different temporal versions. For example new subsections may be added to sections or a chapter might be relocated from a part of the statute to another part. The hierarchical structure of a statute is presented in figure 4.</p>
+<p>The structure of a document varies between its temporal versions. For example individual parts might be added, removed, changed or relocated. The hierarchical structure of a statute is presented in figure 4.</p>
 <hr/>
 
 <h2>URIs</h2>
-<p>The instructions on how to build URIs for the documents can be found on a <a href="#/en/uris">separate page</a>.</p>
+<p>Documentation of the URIs are formed can be found on a <a href="#/en/uris">separate page</a>.</p>
 <hr/>
 
 <h2>Class properties</h2>
@@ -109,7 +109,7 @@ The relationship between a statute and a statute version is expressed with prope
       </td>
       <td>[0,1]</td>
       <td>URI</td>
-      <td>is / is not in force</td>
+      <td>is not in force</td>
     </tr>
   </tbody>
 </table>
@@ -400,7 +400,7 @@ The relationship between a statute and a statute version is expressed with prope
   <tr>
     <td><em>eli:is_embodied_by</em></td>
     <td><em>eli:Format</em></td>
-    <td>1</td>
+    <td>[2,3]</td>
     <td>URI</td>
     <td>content format</td>
   </tr>
