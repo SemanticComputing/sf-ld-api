@@ -96,7 +96,6 @@ const statuteQuery = {
       ?format eli:format ${format} .
       OPTIONAL { ?expression eli:title ?title . }
       OPTIONAL {
-        FILTER NOT EXISTS { ?statute a sfl:Statute . }
         ?format ${contentProperty} ?content .
       }
       OPTIONAL { ?statute eli:id_local ?idLocal . }

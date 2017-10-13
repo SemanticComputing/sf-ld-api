@@ -83,6 +83,8 @@ export default class LegislationJsonLd {
         '@id': prefix.shorten(binding.expression.value),
         '@type': prefix.shorten(binding.expressionType.value)
       };
+      if (binding.content)
+        expression.content = binding.content.value;
       addProp(statuteVersion, 'languageVersion', expression);
       if (binding.title)
         addProp(expression, 'title_' + this.lang, binding.title.value);
