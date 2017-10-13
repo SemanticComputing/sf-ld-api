@@ -15,28 +15,34 @@ const judgmentQuery = {
     const limit = params.limit ? 'LIMIT ' + params.limit : (params.year) ? '' : 'LIMIT 100';
     const contentProperty = sfcl.getPropertyByFormat(params.format || 'text');
     const query = params.query ? getQueryQuery(params.query, sfcl.getPropertyByFormat('text')) : '';
-    let judgment = '';
-    if (params.court) {
-      judgment += `?judgment dcterms:creator ${common.getCourtByName(params.court)} . `;
-    }
-    if (params.year) {
-      judgment += `?judgment sfcl:year ?year . FILTER(YEAR(?year) = ${parseInt(params.year)})`;
-    }
+    const judgment = params.court ? `?judgment dcterms:creator ${common.getCourtByName(params.court)} .` : '';
+    const yearFilter =  params.year ? `FILTER(?year = "${params.year}"^^xsd:gYear)` : '';
 
     return `SELECT DISTINCT * WHERE {
-      ${query}
-      ${judgment}
+      {
+        SELECT DISTINCT ?judgment {
+          ${query}
+          ${judgment}
+          ?judgment sfcl:year ?year .
+          ${yearFilter}
+          ?judgment dcterms:issued ?issued .
+        } ORDER BY ?year ?issued ${limit}
+      }
+      FILTER(BOUND(?judgment))
+      ?judgment sfcl:year ?year .
       ?judgment dcterms:isVersionOf ?ecli .
       ?judgment sfcl:isRealizedBy ?expression .
       ?expression dcterms:language "${lang}" .
       ?expression dcterms:title ?title .
       ?expression a ?expressionType .
-      ?expression sfcl:isEmbodiedBy ?format .
-      ?format a sfcl:Format .
       # Judgment might not have content
-      OPTIONAL { ?format ${contentProperty} ?content . }
+      OPTIONAL {
+        ?expression sfcl:isEmbodiedBy ?format .
+        ?format a sfcl:Format .
+        ?format ${contentProperty} ?content .
+      }
       ?judgment a ?judgmentType .
-    } ${limit}`;
+    }`;
   },
 
   findOne: (params) => {
@@ -53,7 +59,7 @@ const judgmentQuery = {
         ?expression a ?expressionType .
         ?expression sfcl:isEmbodiedBy ?format .
         ?format a sfcl:Format .
-        ?format ${contentProperty} ?content .
+        OPTIONAL { ?format ${contentProperty} ?content . }
       }
       UNION {
        BIND(${judgmentUri} AS ?judgment)

@@ -17,25 +17,43 @@ export default class CaseLawJsonLd {
     };
   }
 
-  convertJudgmentListBindings(results, pretty=true) {
+  convertJudgmentListBindings(results, pretty = true) {
     let context = Object.assign({}, this.context);
     let judgments = {};
     // Add property utility function
-    let addProp = (subj, prop, value) => {
-      if (!subj[prop]) subj[prop]= [];
-      // Object value
-      if (value['@id'] && !_.some(subj[prop], {'@id': value['@id']})) subj[prop].push(value);
-      // String value
-      if (!value['@id'] && !_.includes(subj[prop], value)) subj[prop].push(value);
+    const addProp = (subj, prop, value) => {
+      subj[prop] = subj[prop] || [];
+      if (value['@id'] && !_.some(subj[prop], {'@id': value['@id']})) {
+        // Object value
+        subj[prop].push(value);
+      } else if (!value['@id'] && !_.includes(subj[prop], value)) {
+        // String value
+        subj[prop].push(value);
+      }
     };
     // Collect values
     _.each(results.results.bindings, (binding) => {
-      if (!judgments[binding.judgment.value]) judgments[binding.judgment.value] = {'@id':prefix.shorten(binding.judgment.value), '@type':prefix.shorten(binding.judgmentType.value)};
-      const judgment = judgments[binding.judgment.value];
+      if (!judgments[binding.judgment.value]) {
+        judgments[binding.judgment.value] = {
+          '@id': prefix.shorten(binding.judgment.value),
+          '@type': prefix.shorten(binding.judgmentType.value)
+        };
+      }
+      let judgment = judgments[binding.judgment.value];
       addProp(judgment, 'ecliIdentifier', binding.ecli.value);
-      const expression = {'@id':prefix.shorten(binding.expression.value), '@type':prefix.shorten(binding.expressionType.value)};
+      let expression = {
+        '@id': prefix.shorten(binding.expression.value),
+        '@type': prefix.shorten(binding.expressionType.value)
+      };
+      addProp(expression, 'title_' + this.lang, binding.title.value);
+      if (binding.format) {
+        let format = {
+          '@id': prefix.shorten(binding.format.value)
+        };
+        format['content_' + this.lang] = binding.content.value;
+        addProp(expression, 'hasFormat', format);
+      }
       addProp(judgment, 'languageVersion', expression);
-      addProp(expression, 'title_'+this.lang, binding.title.value);
     });
     // Sort response by judgment year and id
     const response = {
