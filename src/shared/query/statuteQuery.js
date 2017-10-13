@@ -108,10 +108,11 @@ function getFindManyResultset(params) {
     ?statute sfl:year ?year .
     ${params.yearFilter}
     ${params.original}
-    ?statute sfl:statuteNumber ?number .
+    ?statute sfl:statuteNumber ?num .
+    BIND(xsd:integer(REPLACE(?num, "[^0-9]", "")) AS ?number)
     ?statute a sfl:Statute .
     FILTER EXISTS { ?statute eli:has_member/eli:is_realized_by/eli:language ${params.lang} . }
-  } ORDER BY ?year ?number ${params.limit} ${params.offset}`;
+  } ORDER BY ?year ?number ?statute ${params.limit} ${params.offset}`;
 }
 
 function getFindManyByQueryResultset(params) {
@@ -146,12 +147,13 @@ function getFindManyByQueryResultset(params) {
     ?statuteVersion a ?statuteVersionType .
     ?statuteVersion eli:is_part_of*/eli:is_member_of [
       sfl:year ?year ;
-      sfl:statuteNumber ?number
+      sfl:statuteNumber ?num
     ] .
     ${params.yearFilter}
+    BIND(xsd:integer(REPLACE(?num, "[^0-9]", "")) AS ?number)
   }
   GROUP BY ?statute
-  ORDER BY DESC(?score) ?year ?number
+  ORDER BY DESC(?score) ?year ?number ?statute
   ${params.limit} ${params.offset}
   `;
 }
