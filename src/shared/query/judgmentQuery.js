@@ -34,6 +34,7 @@ const judgmentQuery = {
       ?judgment sfcl:isRealizedBy ?expression .
       ?expression dcterms:language "${lang}" .
       ?expression dcterms:title ?title .
+      ?expression dcterms:abstract ?abstract .
       ?expression a ?expressionType .
       # Judgment might not have content
       OPTIONAL {
@@ -56,10 +57,13 @@ const judgmentQuery = {
         ?judgment sfcl:isRealizedBy ?expression .
         ?expression dcterms:language "${lang}" .
         ?expression dcterms:title ?title .
+        ?expression dcterms:abstract ?abstract .
         ?expression a ?expressionType .
-        ?expression sfcl:isEmbodiedBy ?format .
-        ?format a sfcl:Format .
-        OPTIONAL { ?format ${contentProperty} ?content . }
+        OPTIONAL {
+          ?expression sfcl:isEmbodiedBy ?format .
+          ?format a sfcl:Format .
+          ?format ${contentProperty} ?content .
+        }
       }
       UNION {
        BIND(${judgmentUri} AS ?judgment)

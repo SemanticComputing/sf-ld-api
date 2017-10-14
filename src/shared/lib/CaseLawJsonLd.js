@@ -5,15 +5,17 @@ export default class CaseLawJsonLd {
 
   constructor(params = {}) {
     this.lang = (params.lang) ? params.lang : 'fi';
-    this.format = (params.format=='text'||!params.format) ? 'text' : params.format;
+    this.format = (params.format === 'text' || !params.format) ? 'text' : params.format;
     this.context = {
       'languageVersion': { '@id': 'sfcl:isRealizedBy', '@type':'@id'},
       'hasFormat': { '@id': 'sfcl:isEmbodiedBy', '@type':'@id'},
       'ecli': 'dcterms:isVersionOf',
       'title_fi': {'@id': 'dcterms:title', '@language': 'fi'},
       'title_sv': {'@id': 'dcterms:title', '@language': 'sv'},
-      'content_fi': {'@id': 'sfcl:'+this.format, '@language': 'fi'},
-      'content_sv': {'@id': 'sfcl:'+this.format, '@language': 'sv'}
+      'abstract_fi': {'@id': 'dcterms:abstract', '@language': 'fi'},
+      'abstract_sv': {'@id': 'dcterms:abstract', '@language': 'sv'},
+      'content_fi': {'@id': 'sfcl:' + this.format, '@language': 'fi'},
+      'content_sv': {'@id': 'sfcl:' + this.format, '@language': 'sv'}
     };
   }
 
@@ -46,6 +48,7 @@ export default class CaseLawJsonLd {
         '@type': prefix.shorten(binding.expressionType.value)
       };
       addProp(expression, 'title_' + this.lang, binding.title.value);
+      addProp(expression, 'abstract_' + this.lang, binding.abstract.value);
       if (binding.format) {
         let format = {
           '@id': prefix.shorten(binding.format.value)
@@ -73,34 +76,43 @@ export default class CaseLawJsonLd {
       if (!workLevel['@id']) workLevel['@id'] = prefix.shorten(binding.judgment.value);
       let currentSubject = workLevel;
       if (binding.p) {
-        var prop = binding.p.value.replace(/.*[\/#]/,'').replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); }) + (binding.o['xml:lang'] ? '_'+binding.o['xml:lang'] : '');
+        var prop = binding.p.value.replace(/.*[\/#]/,'').replace(/_([a-z])/g, function (g) { return g[1].toUpperCase(); }) + (binding.o['xml:lang'] ? '_' + binding.o['xml:lang'] : '');
         var pprop = prefix.shorten(binding.p.value);
-        if (prop=='type') prop='@type';
+        if (prop == 'type') prop = '@type';
         if (!currentSubject[prop]) currentSubject[prop] = [];
         currentSubject[prop].push(binding.o.value);
         if (!context[prop]) {
-          if (binding.o.type=='uri')
-            context[prop]= { '@id': pprop, '@type': '@id' };
+          if (binding.o.type == 'uri')
+            context[prop] = { '@id': pprop, '@type': '@id' };
           else if (binding.o['xml:lang'])
-            context[prop]= { '@id': pprop, '@language': binding.o['xml:lang'] };
+            context[prop] = { '@id': pprop, '@language': binding.o['xml:lang'] };
           else if (binding.o['datatype'])
-            context[prop]= { '@id': pprop, '@type': prefix.shorten(binding.o['datatype']) };
+            context[prop] = { '@id': pprop, '@type': prefix.shorten(binding.o['datatype']) };
         }
       }
       if (binding.title) {
         currentSubject['languageVersion'] = [binding.expression.value];
-        context['title_'+binding.title['xml:lang']]= { '@id': 'dcterms:title', '@language': binding.title['xml:lang'] };
-        if (!itemMap[binding.expression.value]) itemMap[binding.expression.value]={'@id':prefix.shorten(binding.expression.value)};
-        itemMap[binding.expression.value]['title_'+binding.title['xml:lang']]=[binding.title.value];
+        context['title_' + binding.title['xml:lang']] = { '@id': 'dcterms:title', '@language': binding.title['xml:lang'] };
+        if (!itemMap[binding.expression.value])
+          itemMap[binding.expression.value] = {'@id':prefix.shorten(binding.expression.value)};
+        itemMap[binding.expression.value]['title_' + binding.title['xml:lang']] = [binding.title.value];
+      }
+      if (binding.abstract) {
+        currentSubject['languageVersion'] = [binding.expression.value];
+        context['abstract_' + binding.abstract['xml:lang']] = { '@id': 'dcterms:abstract', '@language': binding.abstract['xml:lang'] };
+        if (!itemMap[binding.expression.value])
+          itemMap[binding.expression.value] = {'@id':prefix.shorten(binding.expression.value)};
+        itemMap[binding.expression.value]['abstract_' + binding.abstract['xml:lang']] = [binding.abstract.value];
       }
       if (binding.content) {
         currentSubject['languageVersion'] = [binding.expression.value];
-        var formatProp = (binding.format.value.substring(binding.format.value.length-4, binding.format.value.length) == 'html') ? 'html' : 'text';
-        context['content_'+binding.content['xml:lang']]= { '@id': 'sfcl:'+formatProp, '@language': binding.content['xml:lang'] };
-        if (!itemMap[binding.expression.value]) itemMap[binding.expression.value]={'@id':prefix.shorten(binding.expression.value)};
-        itemMap[binding.expression.value]['hasFormat']=[binding.format.value];
-        itemMap[binding.format.value]={'@id':prefix.shorten(binding.format.value)};
-        itemMap[binding.format.value]['content_'+binding.content['xml:lang']]=[binding.content.value];
+        var formatProp = (binding.format.value.substring(binding.format.value.length - 4, binding.format.value.length) == 'html') ? 'html' : 'text';
+        context['content_' + binding.content['xml:lang']] = { '@id': 'sfcl:' + formatProp, '@language': binding.content['xml:lang'] };
+        if (!itemMap[binding.expression.value])
+          itemMap[binding.expression.value] = {'@id':prefix.shorten(binding.expression.value)};
+        itemMap[binding.expression.value]['hasFormat'] = [binding.format.value];
+        itemMap[binding.format.value] = {'@id':prefix.shorten(binding.format.value)};
+        itemMap[binding.format.value]['content_' + binding.content['xml:lang']] = [binding.content.value];
       }
     });
     delete context['@type'];
@@ -111,7 +123,7 @@ export default class CaseLawJsonLd {
     workLevel.languageVersion[idx]['hasFormat'] = itemMap[results.results.bindings[0].format.value];
 
     var response = workLevel;
-    response['@context']=context;
+    response['@context'] = context;
     response = (pretty) ? JSON.stringify(response, null, 2) : response;
     return response;
   }
