@@ -121,11 +121,13 @@ export default class CaseLawJsonLd {
     delete context['@type'];
     for (var ns in prefix.prefixes)
       context[prefix.prefixes[ns]] = ns;
-    const idx = workLevel.languageVersion.indexOf(results.results.bindings[0].expression.value);
-    workLevel.languageVersion[idx] = itemMap[results.results.bindings[0].expression.value];
-    const format = results.results.bindings[0].format;
-    if (format)
-      workLevel.languageVersion[idx]['hasFormat'] = itemMap[format.value];
+    if (workLevel.languageVersion) {
+      const idx = workLevel.languageVersion.indexOf(results.results.bindings[0].expression.value);
+      workLevel.languageVersion[idx] = itemMap[results.results.bindings[0].expression.value];
+      const format = results.results.bindings[0].format;
+      if (format)
+        workLevel.languageVersion[idx]['hasFormat'] = itemMap[format.value];
+    }
 
     var response = workLevel;
     response['@context'] = context;
@@ -147,7 +149,8 @@ export default class CaseLawJsonLd {
     return '';
   }
 
-  getJudgmentContent(judgment, lang = 'fi') {
+  getJudgmentContent(judgment, lang) {
+    lang = lang || _.get(judgment, 'languageVersion[0].title_fi') ? 'fi' : 'sv';
     return _.get(judgment, `languageVersion[0].hasFormat.content_${lang}[0]`, '');
   }
 

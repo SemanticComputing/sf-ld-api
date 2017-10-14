@@ -1,5 +1,6 @@
 import React from 'react';
 import CaseLawJsonLd from '../lib/CaseLawJsonLd';
+import _ from 'lodash';
 
 export default class Judgment extends React.Component {
 
