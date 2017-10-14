@@ -120,7 +120,9 @@ export default class CaseLawJsonLd {
       context[prefix.prefixes[ns]] = ns;
     const idx = workLevel.languageVersion.indexOf(results.results.bindings[0].expression.value);
     workLevel.languageVersion[idx] = itemMap[results.results.bindings[0].expression.value];
-    workLevel.languageVersion[idx]['hasFormat'] = itemMap[results.results.bindings[0].format.value];
+    const format = results.results.bindings[0].format;
+    if (format)
+      workLevel.languageVersion[idx]['hasFormat'] = itemMap[format.value];
 
     var response = workLevel;
     response['@context'] = context;
