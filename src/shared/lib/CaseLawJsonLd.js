@@ -106,13 +106,16 @@ export default class CaseLawJsonLd {
       }
       if (binding.content) {
         currentSubject['languageVersion'] = [binding.expression.value];
-        var formatProp = (binding.format.value.substring(binding.format.value.length - 4, binding.format.value.length) == 'html') ? 'html' : 'text';
-        context['content_' + binding.content['xml:lang']] = { '@id': 'sfcl:' + formatProp, '@language': binding.content['xml:lang'] };
+        // All judgments have titles, but not all contents have a language code, so use the title language code
+        const lang = binding.title['xml:lang'];
+        const langProp = 'content_' + lang;
+        const formatProp = (binding.format.value.substring(binding.format.value.length - 4, binding.format.value.length) == 'html') ? 'html' : 'text';
+        context[langProp] = { '@id': 'sfcl:' + formatProp, '@language': lang };
         if (!itemMap[binding.expression.value])
           itemMap[binding.expression.value] = {'@id':prefix.shorten(binding.expression.value)};
         itemMap[binding.expression.value]['hasFormat'] = [binding.format.value];
         itemMap[binding.format.value] = {'@id':prefix.shorten(binding.format.value)};
-        itemMap[binding.format.value]['content_' + binding.content['xml:lang']] = [binding.content.value];
+        itemMap[binding.format.value][langProp] = [binding.content.value];
       }
     });
     delete context['@type'];
