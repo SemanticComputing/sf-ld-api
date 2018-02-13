@@ -218,14 +218,14 @@ export default class LegislationJsonLd {
   }
 
   getStatuteContent(statute, lang = 'fi') {
-    return statute.temporalVersion.languageVersion ? statute.temporalVersion.languageVersion.hasFormat['content_' + lang] : '';
+    try { return statute.temporalVersion.languageVersion.hasFormat['content_' + lang] }
+    catch(e) { return ''; }
   }
 
   getStatuteTitle(statute, lang = 'fi') {
-    if (statute.temporalVersion && statute.temporalVersion.languageVersion && statute.temporalVersion.languageVersion[0] && statute.temporalVersion.languageVersion[0].title_fi) {
-      return (lang == 'fi') ? statute.temporalVersion.languageVersion[0].title_fi[0] : statute.temporalVersion.languageVersion[0].title_sv[0];
-    }
-    return '';
+    const prop = (lang == 'fi') ? 'title_fi' : 'title_sv';
+    try { return statute.temporalVersion.languageVersion[0][prop][0]; }
+    catch(e) { return ''; }
   }
 
 }

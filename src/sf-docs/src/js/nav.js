@@ -8,75 +8,75 @@ angular.module('SemanticFinlex')
     $scope.tabs['fi'] = [
       {
         title: 'Etusivu',
-        url: '#/fi',
+        url: '/fi',
         level: 0
       }, {
         title: 'Dokumentaatio',
         level: 0,
         tabs: [{
             title: 'Tietomallinnus',
-            url: '#/fi/tietomallinnus',
+            url: '/fi/tietomallinnus',
             level: 1
           }, {
             title: 'URI-tunnisteet',
-            url: '#/fi/urit',
+            url: '/fi/urit',
             level: 1
           }, {
             title: 'REST API',
-            url: '#/fi/rest-api',
+            url: '/fi/rest-api',
             level: 1
           }, {
             title: 'SPARQL-palvelupiste',
-            url: '#/fi/sparql',
+            url: '/fi/sparql',
             level: 1
           }, {
         		title: 'Aineistojen lataaminen',
-        		url: '#/fi/aineistojenlataus',
+        		url: '/fi/aineistojenlataus',
         		level: 1
           },{
             title: 'RDF-tietomallit',
-            url: '#/fi/rdf',
+            url: '/fi/rdf',
             level: 1,
             tabs: [{
               title: 'Lainsäädäntö',
-              url: '#/fi/lainsaadanto',
+              url: '/fi/lainsaadanto',
               level: 2
             }, {
               title: 'Oikeuskäytäntö',
-              url: '#/fi/oikeuskaytanto',
+              url: '/fi/oikeuskaytanto',
               level: 1
             }]
           }, {
             title: 'Asiasanoitus',
-            url: '#/fi/asiasanoitus',
+            url: '/fi/asiasanoitus',
             level: 1
           }, {
           title: 'Kehitystarpeita',
-          url: '#/fi/kehitystarpeita',
+          url: '/fi/kehitystarpeita',
           level: 0
         }]
       }, {
         title: 'Hankkeen kuvaus',
-        url: '#/fi/projekti',
+        url: '/fi/projekti',
         level: 0
       }, {
         title: 'Käyttöehdot',
-        url: '#/fi/kayttoehdot',
+        url: '/fi/kayttoehdot',
         level: 0
       }, {
         title: 'Palaute ja tiedotuslista',
-        url: '#/fi/palaute',
+        url: '/fi/palaute',
         level: 0
       }, {
         title: 'Rekisteriseloste',
-        url: '#/fi/rekisteriseloste',
+        url: '/fi/rekisteriseloste',
         level: 0
       }
     ];
     $scope.tabs['en'] = [
       {
         title: 'Home',
-        url: '#/en',
+        url: '/en',
         level: 0
       },
       {
@@ -84,58 +84,58 @@ angular.module('SemanticFinlex')
         level: 0,
         tabs: [{
             title: 'Data modeling',
-            url: '#/en/datamodeling',
+            url: '/en/datamodeling',
             level: 1
           }, {
             title: 'URIs',
-            url: '#/en/uris',
+            url: '/en/uris',
             level: 1
           }, {
             title: 'REST API',
-            url: '#/en/rest-api',
+            url: '/en/rest-api',
             level: 1
           }, {
             title: 'SPARQL endpoint',
-            url: '#/en/sparql',
+            url: '/en/sparql',
             level: 1
           }, {
         		title: 'Downloading of datasets',
-        		url: '#/en/download',
+        		url: '/en/download',
         		level: 1
           },{
             title: 'RDF data models',
-            url: '#/en/rdf',
+            url: '/en/rdf',
             level: 1,
             tabs: [{
               title: 'Legislation',
-              url: '#/en/legislation',
+              url: '/en/legislation',
               level: 2
             }, {
               title: 'Case law',
-              url: '#/en/caselaw',
+              url: '/en/caselaw',
               level: 1
             }]
           }, {
             title: 'Subject indexing',
-            url: '#/en/subjectindexing',
+            url: '/en/subjectindexing',
             level: 1
           }, {
             title: 'Future work',
-            url: '#/en/futurework',
+            url: '/en/futurework',
             level: 0
         }]
       },
       {
         title: 'Semantic Finlex project',
-        url: '#/en/project',
+        url: '/en/project',
         level: 0
       }, {
         title: 'Terms of use',
-        url: '#/en/termsofuse',
+        url: '/en/termsofuse',
         level: 0
       }, {
         title: 'Description of the file',
-        url: '#/en/descriptionofthefile',
+        url: '/en/descriptionofthefile',
         level: 0
       }
     ];

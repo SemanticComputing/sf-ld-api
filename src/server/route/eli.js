@@ -14,7 +14,6 @@ let findData = (req, res, next, urlComponents = {}) => {
       return next();
     })
     .catch((err) => {
-      console.error(err);
       return next();
     });
 };

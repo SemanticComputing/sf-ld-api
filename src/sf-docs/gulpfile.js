@@ -14,9 +14,16 @@ var dist = {
   js:'dist/js',
 };
 
-
-// Copy bower files to dist
-gulp.task('bower-js', function() {
+// Build app.js and app.css
+gulp.task('build-css', function() {
+  return gulp.src([
+      'bower_components/bootstrap/dist/css/bootstrap.min.css',
+    ].concat(src.css))
+    .pipe(concat('app.css'))
+    .pipe(cssmin())
+    .pipe(gulp.dest(dist.css))
+});
+gulp.task('build-js', function() {
   return gulp.src([
       'bower_components/jquery/dist/jquery.min.js',
       'bower_components/angular/angular.min.js',
@@ -26,36 +33,21 @@ gulp.task('bower-js', function() {
       'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
       'bower_components/angular-ui-router/release/angular-ui-router.min.js',
       'bower_components/lodash/dist/lodash.min.js',
-    ])
+    ].concat(src.js))
+    .pipe(concat('app.js'))
     .pipe(gulp.dest(dist.js))
 });
-
-gulp.task('bower-css', function() {
-  return gulp.src([
-      'bower_components/bootstrap/dist/css/bootstrap.min.css'
-    ])
-    .pipe(gulp.dest(dist.css))
-});
-
-
-
-// Build app.js and app.css
-gulp.task('build-css', function() {
-  return gulp.src(src.css)
-    .pipe(concat('app.css'))
-    .pipe(cssmin())
-    .pipe(gulp.dest(dist.css))
-});
-gulp.task('build-js', function() {
+/*
+gulp.task('minify-js', function() {
   return gulp.src(src.js)
     .pipe(concat('app.js'))
     .pipe(ngmin({dynamic: true}))
     .pipe(gulp.dest(dist.js))
 });
-
+*/
 
 // Build project
-gulp.task('build', ['bower-js', 'bower-css', 'build-js', 'build-css']);
+gulp.task('build', ['build-js', 'build-css']);
 
 
 // Start server

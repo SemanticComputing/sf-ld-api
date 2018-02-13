@@ -94,10 +94,14 @@
       'ui.bootstrap',
       'ui.bootstrap.tpls'
     ])
-    .config(function($stateProvider) {
+    .config(function($stateProvider, $locationProvider) {
+
+      // use the HTML5 History API
+      $locationProvider.html5Mode(true);
+
       $stateProvider
         .state('sfdocs', {
-          url: '',
+          url: '/',
           onEnter: function($location) {return $location.url('fi');}
         })
         .state('lang', {
@@ -174,7 +178,7 @@
               template: selectLangTemplate,
             },
             'page': {
-              templateUrl: function(stateParams) {console.log(stateParams); return '/sf-docs/partials/'+stateParams.lang+'/doc/'+stateParams.page+'.html'; },
+              templateUrl: function(stateParams) {return '/sf-docs/partials/'+stateParams.lang+'/doc/'+stateParams.page+'.html'; },
             }
           }
         })
@@ -287,4 +291,5 @@
         }
       });
   }]);
+
 })();

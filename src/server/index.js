@@ -44,6 +44,8 @@ app.use('/void', voidDesc);
 
 app.get('/data/xml/:dataset\.html', fileCtrl.findZipFilesByDataset);
 app.get('/', (req, res) => {return res.sendFile(path.resolve(__dirname+'/../sf-docs/index.html'));});
+app.get('/en*', (req, res) => {return res.sendFile(path.resolve(__dirname+'/../sf-docs/index.html'));});
+app.get('/fi*', (req, res) => {return res.sendFile(path.resolve(__dirname+'/../sf-docs/index.html'));});
 
 // internal middleware
 //app.use('/search', );
@@ -61,8 +63,6 @@ app.use('/legacy/bower_components', express.static(path.join(__dirname, '../lega
 app.use('/legacy/stylesheets', express.static(path.join(__dirname, '../legacy/public/stylesheets')));
 app.use('/images', express.static(path.join(__dirname, '../shared/images')));
 app.use('/public', express.static(__dirname+'/../../dist/public'));
-app.use('/sf-docs/partials', express.static(__dirname+'/../sf-docs/partials'));
-app.use('/sf-docs/images', express.static(__dirname+'/../sf-docs/images'));
 app.use('/sf-docs', express.static(__dirname+'/../sf-docs/dist'));
 app.use('/tagclouds', express.static(__dirname+'/../../tagclouds'));
 app.use('/data/rdf', express.static(__dirname+'/../data/rdf'));
